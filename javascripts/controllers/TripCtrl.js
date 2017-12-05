@@ -43,7 +43,7 @@ app.controller('TripCtrl', function ($http, $q, $log, $scope, MapsService, Mount
     //grab search query and update map marker
     $scope.geocode = (address) => {
         MapsService.getMapByAddressQuery(address).then((results) => {
-            console.log(results);
+            
             let lat = results.data.results[0].geometry.location.lat;
             let lng = results.data.results[0].geometry.location.lng;
 
