@@ -1,0 +1,26 @@
+<nav class="navbar navbar-default navbar-static-top" ng-controller="NavCtrl">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Weekend Send Train</a>
+          </div>    
+
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">                                        
+            
+            <!-- add ng-show'!uid' for just auth and ng-show='uid' for main nav-->
+              
+            <ul class="nav navbar-nav navbar-right">                
+                <li><a ng-href="#!/auth">Authentication</a></li>        
+                <li><a ng-href="#!/profile">Profile</a></li>
+                <li><a ng-href="#!/trips">Trips</a></li>
+                <li><a ng-href="#!/chat">Chat</a></li>
+                <!-- add logout here -->
+              </ul>
+          </div>
+        </div>
+      </nav>            
