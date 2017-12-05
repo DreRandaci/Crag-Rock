@@ -43,7 +43,7 @@ app.controller('TripCtrl', function ($http, $q, $log, $scope, MapsService, Mount
     //grab search query and update map marker
     $scope.geocode = (address) => {
         MapsService.getMapByAddressQuery(address).then((results) => {
-
+            console.log(results);
             let lat = results.data.results[0].geometry.location.lat;
             let lng = results.data.results[0].geometry.location.lng;
 
@@ -91,17 +91,16 @@ app.controller('TripCtrl', function ($http, $q, $log, $scope, MapsService, Mount
 
     const getClimbingRoutes = (lat, lng, distance, minDiff, maxDiff) => {
         MountainProjService.getClimbingRoutesByLatLng(lat, lng).then((climbs) => {
-            console.log('climbs:', climbs.data.routes);
-            let routes = climbs.data.routes;
-            routes.forEach((route) => {
-                $scope.items.push(route);
+            let climbingRoutes = climbs.data.routes;
+            climbingRoutes.forEach((route) => {
+                $scope.routes.push(route);
             });
         }).catch((err) => {
             console.log('error in getClimbingRoutesByLatLng:', err);
         });
     };
 
-    $scope.items = [];
+    $scope.routes = [];
 
     $scope.status = {
         isopen: false
@@ -118,5 +117,9 @@ app.controller('TripCtrl', function ($http, $q, $log, $scope, MapsService, Mount
     };
 
     $scope.appendToEl = angular.element(document.querySelector('#dropdown-long-content'));
+
+    $scope.saveRoute = (route) => {
+        //save each climb
+    };
 
 });
