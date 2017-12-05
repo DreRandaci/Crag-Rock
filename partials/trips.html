@@ -1,1 +1,12 @@
-<h1>{{test}}</h1>
+<div class="angular-google-map-container container">
+    <ui-gmap-google-map id="map" center='map.center' zoom='map.zoom' draggable='true'>
+
+        <ui-gmap-marker coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id">
+        </ui-gmap-marker>
+
+    </ui-gmap-google-map>
+    <div class='container'>
+        <input type="text" placeholder="Search" ng-model="addressSearch">
+        <button class='btn btn-default' ng-click="geocode(addressSearch)">Search</button>
+    </div>
+</div>
