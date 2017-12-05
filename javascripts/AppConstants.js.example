@@ -1,0 +1,10 @@
+app.constant("FIREBASE_CONFIG", {
+    apiKey: "your_key",
+    authDomain: "",
+    databaseURL: "",
+    projectId: "",
+    storageBucket: "",
+    messagingSenderId: ""
+  });
+
+app.constant( "GOOGLEMAPS_CONFIG", "your_key" );
