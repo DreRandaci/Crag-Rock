@@ -41,7 +41,7 @@
         "uid": "asdfasdfasdfa1223"
       }
     },
-    "friends": {
+    "relationship": {
       "friend0": {
         "friendUid": "asdfasdfasd",
         "userUid" : "asdfasdf"
@@ -64,11 +64,26 @@
       }
     },
     "attendees" : {
-      "friend0Uid": "asdfasasdfadsfdf",
-      "friend1Uid": "asdfasasdfadsfdf",
-      "friend2Uid": "asdfasasdfadsfdf",
-      "friend3Uid": "asdfasasdfadsfdf",
-      "trip_id": "tripName0"
+      "firebase_generated_id0": {
+        "uid": "asdfasdfasdfa1223",
+        "trip_id": "tripName0"
+      },
+      "firebase_generated_id1": {
+        "uid": "asdfasdfasdfa1223",
+        "trip_id": "tripName1"
+      },
+      "firebase_generated_id2": {
+        "uid": "asdfasdfasdfa1223",
+        "trip_id": "tripName2"
+      },
+      "firebase_generated_id3": {
+        "uid": "asdfasdfasdfa1223",
+        "trip_id": "tripName3"
+      },
+      "firebase_generated_id4": {
+        "uid": "asdfasdfasdfa1223",
+        "trip_id": "tripName4"
+      }
     },
     "profileInfo": {
         "name": "Tanner McSendy",
