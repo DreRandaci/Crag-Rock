@@ -2,4 +2,4 @@
 
 'use strict';
 
-const app = angular.module('SendTrainApp', ['ngAnimate', 'ngRoute', 'ngSanitize', 'uiGmapgoogle-maps']);
+const app = angular.module('SendTrainApp', ['ngAnimate', 'ngRoute', 'ngSanitize']);
