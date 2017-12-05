@@ -1,0 +1,77 @@
+{
+    "trips": {
+      "tripName0": {
+        "description": "The red this weekend",
+        "date": "Jan 29th, 2018",
+        "googleMapsAddress": "The red river gorge, ky",
+        "lat": 37.6523, 
+        "lng": -83.7082,
+        "uid": "asdfasdfasdfa1223"
+      },
+      "tripName1": {
+        "description": "The obed saturday",
+        "date": "Jan 12th, 2018",
+        "googleMapsAddress": "The obed, tn",
+        "lat": 36.0266818, 
+        "lng": -84.8564098,        
+        "uid": "asdfasdfasdfa1223"
+      },
+      "tripName2": {
+        "description": "LRC all weekend",
+        "date": "Jan 3rd, 2018",
+        "googleMapsAddress": "Little Rock City, chattanooga",
+        "lat": 35.2477488, 
+        "lng": -85.2201949,
+        "uid": "asdfasdfasdfa1223"
+      },
+      "tripName3": {
+        "description": "Rocktown all weekend",
+        "date": "Jan 13th, 2018",
+        "googleMapsAddress": "Rocktown, ga",
+        "lat": 34.658668, 
+        "lng": -85.38973899999999,
+        "uid": "asdfasdfasdfa1223"
+      },
+      "tripName4": {
+        "description": "Foster Falls all week",
+        "date": "Jan 13th, 2018",
+        "googleMapsAddress": "foster falls, tn",
+        "lat": 35.1818913, 
+        "lng": -85.676007,
+        "uid": "asdfasdfasdfa1223"
+      }
+    },
+    "friends": {
+      "friend0": {
+        "friendUid": "asdfasdfasd",
+        "userUid" : "asdfasdf"
+      },
+      "friend1": {
+        "friendUid": "asdfasdfasd",
+        "userUid" : "asdfasdf"
+      },
+      "friend2": {
+        "friendUid": "asdfasdfasd",
+        "userUid" : "asdfasdf"
+      },
+      "friend3": {
+        "friendUid": "asdfasdfasd",
+        "userUid" : "asdfasdf"
+      },
+      "friend4": {
+        "friendUid": "asdfasdfasd",
+        "userUid" : "asdfasdf"
+      }
+    },
+    "attendees" : {
+      "friend0Uid": "asdfasasdfadsfdf",
+      "friend1Uid": "asdfasasdfadsfdf",
+      "friend2Uid": "asdfasasdfadsfdf",
+      "friend3Uid": "asdfasasdfadsfdf",
+      "trip_id": "tripName0"
+    },
+    "profileInfo": {
+        "name": "Tanner McSendy",
+        "email": "senditbebe@sendtrain.com"
+    }
+  }
