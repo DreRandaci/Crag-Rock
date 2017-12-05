@@ -1,12 +1,27 @@
-<div class="angular-google-map-container container">
-    <ui-gmap-google-map id="map" center='map.center' zoom='map.zoom' draggable='true'>
+<div class="container">
+    <div class="angular-google-map-container col-md-6">
+        <ui-gmap-google-map id="map" center='map.center' zoom='map.zoom' draggable='true'>
 
-        <ui-gmap-marker coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id">
-        </ui-gmap-marker>
+            <ui-gmap-marker coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id">
+            </ui-gmap-marker>
 
-    </ui-gmap-google-map>
-    <div class='container'>
-        <input type="text" placeholder="Search" ng-model="addressSearch">
-        <button class='btn btn-default' ng-click="geocode(addressSearch)">Search</button>
+        </ui-gmap-google-map>
+
+        <div class='container'>
+            <input type="text" placeholder="Search" ng-model="addressSearch">
+            <button class='btn btn-default' ng-click="geocode(addressSearch)">Search</button>
+
+            <div class="btn-group" uib-dropdown is-open="status.isopen">
+                <button id="single-button" type="button" class="btn btn-default" uib-dropdown-toggle ng-disabled="disabled">
+                    Routes
+                    <span class="caret"></span>
+                </button>
+                <ul ng-show="routes.length" class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                    <li ng-repeat="route in routes" role="menuitem">
+                        <a ng-click="saveRoute(route)">{{route.name}} {{route.rating}} {{route.stars}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
 </div>
