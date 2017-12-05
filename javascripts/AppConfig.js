@@ -4,7 +4,13 @@ app.run(function( FIREBASE_CONFIG ){
     firebase.initializeApp(FIREBASE_CONFIG); 
 });
 
-app.config(function( $routeProvider ){    
+app.config(function( $routeProvider, uiGmapGoogleMapApiProvider, GOOGLEMAPS_CONFIG){    
+    uiGmapGoogleMapApiProvider.configure({
+            china: true,
+            key: GOOGLEMAPS_CONFIG,
+            v: '3.30', 
+            libraries: 'weather,geometry,visualization'
+    });    
     $routeProvider
     .when( "/auth", {
         templateUrl: 'partials/auth.html',
