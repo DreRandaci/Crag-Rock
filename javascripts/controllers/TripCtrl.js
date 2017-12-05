@@ -1,10 +1,11 @@
 'use strict';
 
-app.controller('TripCtrl', function ($http, $q, $log, $scope, MapsService) {
-    
+app.controller('TripCtrl', function ($http, $q, $log, $scope, MapsService, MountainProjService) {
+
     //initial map instance on page load
     $scope.map = {
         center: {
+            //Nashville coords
             latitude: 36.1626638, longitude: -86.7816016
         },
         zoom: 8,
@@ -17,6 +18,7 @@ app.controller('TripCtrl', function ($http, $q, $log, $scope, MapsService) {
     $scope.marker = {
         id: 0,
         coords: {
+            //Nashville coords
             latitude: 36.1626638, longitude: -86.7816016
         },
         options: { draggable: true },
@@ -38,55 +40,14 @@ app.controller('TripCtrl', function ($http, $q, $log, $scope, MapsService) {
         }
     };
 
-    //for geolocation later on
-    const getCurrentLocationMap = () => {
-        navigator.geolocation.getCurrentPosition(function (position) {
-            
-            //update map instance on page load with geolcation
-            $scope.map = {
-                center: {
-                    latitude: position.coords.latitude, longitude: position.coords.longitude
-                },
-                zoom: 8,
-                options: {
-                    scrollwheel: true
-                }
-            };
-
-            //update marker instance on page load with geolocation
-            $scope.marker = {
-                id: 0,
-                coords: {
-                    latitude: position.coords.latitude, longitude: position.coords.longitude
-                },
-                options: { draggable: true },
-                events: {
-                    dragend: function (marker, eventName, args) {
-                        $log.log('marker drag-end');
-                        let lat = marker.getPosition().lat();
-                        let lon = marker.getPosition().lng();
-                        $log.log(lat);
-                        $log.log(lon);
-
-                        $scope.marker.options = {
-                            draggable: true,
-                            labelContent: "lat: " + $scope.marker.coords.latitude + ' ' + 'lon: ' + $scope.marker.coords.longitude,
-                            labelAnchor: "100 0",
-                            labelClass: "marker-labels"
-                        };
-                    }
-                }
-            };
-        });
-    };
-
     //grab search query and update map marker
     $scope.geocode = (address) => {
         MapsService.getMapByAddressQuery(address).then((results) => {
-            console.log(results.data.results[0]);
 
             let lat = results.data.results[0].geometry.location.lat;
             let lng = results.data.results[0].geometry.location.lng;
+
+            getClimbingRoutes(lat, lng);
 
             $scope.map = {
                 center: {
@@ -127,5 +88,35 @@ app.controller('TripCtrl', function ($http, $q, $log, $scope, MapsService) {
             console.log("error in getMapByAddressQuery:", err);
         });
     };
+
+    const getClimbingRoutes = (lat, lng, distance, minDiff, maxDiff) => {
+        MountainProjService.getClimbingRoutesByLatLng(lat, lng).then((climbs) => {
+            console.log('climbs:', climbs.data.routes);
+            let routes = climbs.data.routes;
+            routes.forEach((route) => {
+                $scope.items.push(route);
+            });
+        }).catch((err) => {
+            console.log('error in getClimbingRoutesByLatLng:', err);
+        });
+    };
+
+    $scope.items = [];
+
+    $scope.status = {
+        isopen: false
+    };
+
+    $scope.toggled = function (open) {
+        $log.log('Dropdown is now: ', open);
+    };
+
+    $scope.toggleDropdown = function ($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        $scope.status.isopen = !$scope.status.isopen;
+    };
+
+    $scope.appendToEl = angular.element(document.querySelector('#dropdown-long-content'));
 
 });

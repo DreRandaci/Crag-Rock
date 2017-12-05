@@ -24,6 +24,7 @@
     "angular-google-maps": "^2.4.1",
     "angular-route": "^1.6.7",
     "angular-sanitize": "^1.6.7",
+    "angular-ui-bootstrap": "^2.5.6",
     "bootstrap": "^3.3.7",
     "jquery": "^3.2.1",
     "ngmap": "^1.18.4"
