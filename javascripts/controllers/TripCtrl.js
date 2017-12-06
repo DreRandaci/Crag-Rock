@@ -1,10 +1,11 @@
 'use strict';
 
-app.controller('TripCtrl', function ($http, $q, $log, $scope, $window, MapsService, MountainProjService, GOOGLEMAPS_CONFIG) {
+app.controller('TripCtrl', function ($http, $q, $log, $rootScope, $scope, $window, FirebaseService, MapsService, MountainProjService, GOOGLEMAPS_CONFIG) {
     //inject google maps script
     $scope.googleUrl = `http://maps.google.com/maps/api/js?key=${GOOGLEMAPS_CONFIG}`;
 
     $window.navigator.geolocation.getCurrentPosition(function (position) {
+
         //get climbing routes near you for dropdown menu
         getClimbingRoutes(position.coords.latitude, position.coords.longitude);
 
@@ -28,7 +29,7 @@ app.controller('TripCtrl', function ($http, $q, $log, $scope, $window, MapsServi
                     labelContent: "lat: " + $scope.marker.coords.latitude + ' ' + 'lon: ' + $scope.marker.coords.longitude,
                     labelAnchor: "100 0",
                     labelClass: "marker-labels"
-                };                
+                };
             }
         };
         $scope.$apply();
@@ -117,7 +118,7 @@ app.controller('TripCtrl', function ($http, $q, $log, $scope, $window, MapsServi
         }).catch((err) => {
             console.log('error in getClimbingRoutesByLatLng:', err);
         });
-    };    
+    };
 
     $scope.status = {
         isopen: false
