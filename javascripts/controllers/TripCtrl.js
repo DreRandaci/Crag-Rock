@@ -4,6 +4,36 @@ app.controller('TripCtrl', function ($http, $q, $log, $scope, $window, MapsServi
     //inject google maps script
     $scope.googleUrl = `http://maps.google.com/maps/api/js?key=${GOOGLEMAPS_CONFIG}`;
 
+    $window.navigator.geolocation.getCurrentPosition(function (position) {
+        //get climbing routes near you for dropdown menu
+        getClimbingRoutes(position.coords.latitude, position.coords.longitude);
+
+        //update map instance with geolcation
+        $scope.map.center.latitude = position.coords.latitude;
+        $scope.map.center.longitude = position.coords.longitude;
+        $scope.map.zoom = 12;
+        $scope.marker.id = 0;
+        $scope.marker.coords = { latitude: position.coords.latitude, longitude: position.coords.longitude };
+        $scope.marker.options = { draggable: true };
+        $scope.marker.events = {
+            dragend: function (marker, eventName, args) {
+                $log.log('marker drag-end');
+                let lat = marker.getPosition().lat();
+                let lng = marker.getPosition().lng();
+                $log.log(lat);
+                $log.log(lng);
+
+                $scope.marker.options = {
+                    draggable: true,
+                    labelContent: "lat: " + $scope.marker.coords.latitude + ' ' + 'lon: ' + $scope.marker.coords.longitude,
+                    labelAnchor: "100 0",
+                    labelClass: "marker-labels"
+                };                
+            }
+        };
+        $scope.$apply();
+    });
+
     //initial map instance on page load
     $scope.map = {
         center: {
