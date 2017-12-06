@@ -1,5 +1,6 @@
 'use strict';
 
-app.controller("ChatCtrl", function( $scope ) {
+app.controller("ChatCtrl", function( $rootScope, $scope, FirebaseService ) {
     
+
 });

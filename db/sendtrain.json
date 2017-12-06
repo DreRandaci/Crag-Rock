@@ -6,7 +6,7 @@
         "googleMapsAddress": "The red river gorge, ky",
         "lat": 37.6523, 
         "lng": -83.7082,
-        "uid": "asdfasdfasdfa1223"
+        "uid": "BnRMTXsdlFS6Z4e2zcEbkFTsFQD3"
       },
       "tripName1": {
         "description": "The obed saturday",
@@ -14,7 +14,7 @@
         "googleMapsAddress": "The obed, tn",
         "lat": 36.0266818, 
         "lng": -84.8564098,        
-        "uid": "asdfasdfasdfa1223"
+        "uid": "BnRMTXsdlFS6Z4e2zcEbkFTsFQD3"
       },
       "tripName2": {
         "description": "LRC all weekend",
@@ -41,47 +41,47 @@
         "uid": "asdfasdfasdfa1223"
       }
     },
-    "relationship": {
+    "relationships": {
       "friend0": {
-        "friendUid": "asdfasdfasd",
+        "friendUid": "0",
         "userUid" : "asdfasdf"
       },
       "friend1": {
-        "friendUid": "asdfasdfasd",
+        "friendUid": "1",
         "userUid" : "asdfasdf"
       },
       "friend2": {
-        "friendUid": "asdfasdfasd",
+        "friendUid": "2",
         "userUid" : "asdfasdf"
       },
       "friend3": {
-        "friendUid": "asdfasdfasd",
+        "friendUid": "3",
         "userUid" : "asdfasdf"
       },
       "friend4": {
-        "friendUid": "asdfasdfasd",
+        "friendUid": "4",
         "userUid" : "asdfasdf"
       }
     },
     "attendees" : {
       "firebase_generated_id0": {
-        "uid": "asdfasdfasdfa1223",
+        "uid": "BnRMTXsdlFS6Z4e2zcEbkFTsFQD3",
         "trip_id": "tripName0"
       },
       "firebase_generated_id1": {
-        "uid": "asdfasdfasdfa1223",
+        "uid": "BnRMTXsdlFS6Z4e2zcEbkFTsFQD3",
         "trip_id": "tripName1"
       },
       "firebase_generated_id2": {
-        "uid": "asdfasdfasdfa1223",
+        "uid": "2",
         "trip_id": "tripName2"
       },
       "firebase_generated_id3": {
-        "uid": "asdfasdfasdfa1223",
+        "uid": "3",
         "trip_id": "tripName3"
       },
       "firebase_generated_id4": {
-        "uid": "asdfasdfasdfa1223",
+        "uid": "4",
         "trip_id": "tripName4"
       }
     },
