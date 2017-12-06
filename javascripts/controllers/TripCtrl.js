@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('TripCtrl', function ($http, $q, $log, $rootScope, $scope, $window, FirebaseService, MapsService, MountainProjService, GOOGLEMAPS_CONFIG) {
+app.controller('TripCtrl', function ($http, $q, $log, $rootScope, $scope, $window, MapsService, MountainProjService, GOOGLEMAPS_CONFIG) {
     //inject google maps script
     $scope.googleUrl = `http://maps.google.com/maps/api/js?key=${GOOGLEMAPS_CONFIG}`;
 
