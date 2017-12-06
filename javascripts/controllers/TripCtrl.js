@@ -1,26 +1,22 @@
 'use strict';
 
-app.controller('TripCtrl', function ($http, $q, $log, $scope, MapsService, MountainProjService) {
+app.controller('TripCtrl', function ($http, $q, $log, $scope, $window, MapsService, MountainProjService, GOOGLEMAPS_CONFIG) {
+    //inject google maps script
+    $scope.googleUrl = `http://maps.google.com/maps/api/js?key=${GOOGLEMAPS_CONFIG}`;
 
     //initial map instance on page load
     $scope.map = {
         center: {
-            //Nashville coords
-            latitude: 36.1626638, longitude: -86.7816016
+            //default nashville coords
+            latitude: 34.1626638, longitude: -82.7816016
         },
-        zoom: 8,
-        options: {
-            scrollwheel: true
-        }
+        zoom: 4,
+        options: { scrollwheel: true }
     };
 
     // initial marker instance on page load
     $scope.marker = {
         id: 0,
-        coords: {
-            //Nashville coords
-            latitude: 36.1626638, longitude: -86.7816016
-        },
         options: { draggable: true },
         events: {
             dragend: function (marker, eventName, args) {
@@ -43,29 +39,21 @@ app.controller('TripCtrl', function ($http, $q, $log, $scope, MapsService, Mount
     //grab search query and update map marker
     $scope.geocode = (address) => {
         MapsService.getMapByAddressQuery(address).then((results) => {
-            
+
             let lat = results.data.results[0].geometry.location.lat;
             let lng = results.data.results[0].geometry.location.lng;
 
             getClimbingRoutes(lat, lng);
 
             $scope.map = {
-                center: {
-                    latitude: lat,
-                    longitude: lng
-                },
+                center: { latitude: lat, longitude: lng },
                 zoom: 11,
-                options: {
-                    scrollwheel: true
-                }
+                options: { scrollwheel: true }
             };
 
             $scope.marker = {
                 id: 0,
-                coords: {
-                    latitude: lat,
-                    longitude: lng
-                },
+                coords: { latitude: lat, longitude: lng },
                 options: { draggable: true },
                 events: {
                     dragend: function (marker, eventName, args) {
@@ -90,6 +78,7 @@ app.controller('TripCtrl', function ($http, $q, $log, $scope, MapsService, Mount
     };
 
     const getClimbingRoutes = (lat, lng, distance, minDiff, maxDiff) => {
+        $scope.routes = [];
         MountainProjService.getClimbingRoutesByLatLng(lat, lng).then((climbs) => {
             let climbingRoutes = climbs.data.routes;
             climbingRoutes.forEach((route) => {
@@ -98,9 +87,7 @@ app.controller('TripCtrl', function ($http, $q, $log, $scope, MapsService, Mount
         }).catch((err) => {
             console.log('error in getClimbingRoutesByLatLng:', err);
         });
-    };
-
-    $scope.routes = [];
+    };    
 
     $scope.status = {
         isopen: false
