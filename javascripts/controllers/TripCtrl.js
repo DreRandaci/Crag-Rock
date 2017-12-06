@@ -142,19 +142,25 @@ app.controller('TripCtrl', function ($http, $q, $log, $rootScope, $scope, $windo
 
     $scope.routesToSave = [];
 
+    $scope.removeRouteFromSaveList = (index) => {
+        $scope.routesToSave.splice(index, 1);
+    };
 
     //save each climbing route
-    $scope.saveRoute = (route, tripId) => { 
-        $scope.routesToSave.push(route);  
-        console.log("routesToSave:", $scope.routesToSave);     
-        // console.log("route:", route);
-        let newRoute = FirebaseService.createRouteObj(route, tripId);
-        // console.log("newRoute:", newRoute);
-        // FirebaseService.saveRoute(newRoute).then((results) => {
-        //     console.log(results);
-        // }).catch((err) => {
-        //     console.log('error in saveRoute:', err);
-        // });
+    $scope.saveToRouteList = (route, tripId) => {
+        $scope.routesToSave.push(route);
+    };
+
+    $scope.saveTrip = (trip, routes) => {
+        routes.forEach((route) => {
+            let newRoute = FirebaseService.createRouteObj(route, trip.id);
+            console.log(newRoute);
+            FirebaseService.saveTripToFirebase(newRoute).then((results) => {
+                console.log(results);
+            }).catch((err) => {
+                console.log('error in saveRoute:', err);
+            });
+        });
     };
 
 });

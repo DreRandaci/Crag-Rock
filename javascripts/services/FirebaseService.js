@@ -77,11 +77,10 @@ app.service("FirebaseService", function ($http, $q, $rootScope, FIREBASE_CONFIG)
         };
     };
 
-    const saveRoute = (newRoute) => {
-        console.log(newRoute);
+    const saveTripToFirebase = (newRoute) => {
+        return $http.post(`${FIREBASE_CONFIG.databaseURL}/savedRoutesForTrips.json`, JSON.stringify(newRoute));
     };
 
-
-    return { getTrips, getRelationships, getAttendees, getProfileInfo, createRouteObj };
+    return { getTrips, getRelationships, getAttendees, getProfileInfo, createRouteObj, saveTripToFirebase };
 
 });

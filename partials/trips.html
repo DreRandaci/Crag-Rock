@@ -1,5 +1,5 @@
 <div class="container-fluid">
-
+    <h1>Create a Trip</h1>
     <div class="angular-google-map-container col-md-4">
 
         <ui-gmap-google-map id="map" center='map.center' zoom='map.zoom' draggable='true'>
@@ -20,7 +20,7 @@
             </button>
             <ul ng-show="routes.length" class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
                 <li ng-repeat="route in routes" role="menuitem">
-                    <a ng-click="saveRoute(route)">{{route.name}} {{route.rating}}</a>
+                    <a ng-click="saveToRouteList(route)">{{route.name}} {{route.rating}}</a>
                 </li>
             </ul>
         </div>
@@ -29,14 +29,16 @@
         <h1 ng-show="!updateClimbingAreaHeading">{{climbingAreaHeadingPageLoad}}</h1>
         <h1 ng-show="updateClimbingAreaHeading">{{updateClimbingAreaHeading}}</h1>
         <div ng-show="routesToSave.length">
-            <input type="text" placeholder="Trip Name">
+            <input type="text" placeholder="Trip Name" ng-model="trip.id">
             <h4>Your Trip Routes:</h4>
+            <ul>
+                <li ng-repeat="route in routesToSave" ng-model="routes">
+                    <a href="">{{route.name}} {{route.rating}}</a>
+                    <button class='btn btn-danger btn-sm' ng-click="removeRouteFromSaveList($index)">X</button>
+                </li>
+            </ul>
+            <button class="btn btn-success" ng-click="saveTrip(trip, routesToSave)">Save</button>
         </div>
-        <ul>
-            <li ng-repeat="route in routesToSave">
-                <a href="">{{route.name}} {{route.rating}}</a>
-            </li>
-        </ul>
     </div>
 
 </div>
