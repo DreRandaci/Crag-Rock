@@ -1,11 +1,10 @@
 'use strict';
 
-app.controller('TripCtrl', function ($http, $q, $log, $rootScope, $scope, $window, MapsService, MountainProjService, GOOGLEMAPS_CONFIG) {
+app.controller('TripCtrl', function ($http, $q, $log, $rootScope, $scope, $window, GOOGLEMAPS_CONFIG, MapsService, MountainProjService, FirebaseService) {
     //inject google maps script
     $scope.googleUrl = `http://maps.google.com/maps/api/js?key=${GOOGLEMAPS_CONFIG}`;
 
     $window.navigator.geolocation.getCurrentPosition(function (position) {
-
         //get climbing routes near you for dropdown menu
         getClimbingRoutes(position.coords.latitude, position.coords.longitude);
 
@@ -70,7 +69,8 @@ app.controller('TripCtrl', function ($http, $q, $log, $rootScope, $scope, $windo
     //grab search query and update map marker
     $scope.geocode = (address) => {
         MapsService.getMapByAddressQuery(address).then((results) => {
-
+            let climbingHeadings = results.data.results[0].formatted_address.split(',', 1).join();
+            $scope.updateClimbingAreaHeading = climbingHeadings;
             let lat = results.data.results[0].geometry.location.lat;
             let lng = results.data.results[0].geometry.location.lng;
 
@@ -111,6 +111,9 @@ app.controller('TripCtrl', function ($http, $q, $log, $rootScope, $scope, $windo
     const getClimbingRoutes = (lat, lng, distance, minDiff, maxDiff) => {
         $scope.routes = [];
         MountainProjService.getClimbingRoutesByLatLng(lat, lng).then((climbs) => {
+            //update climbing area heading
+            $scope.climbingAreaHeadingPageLoad = `${climbs.data.routes[0].location[1]}, ${climbs.data.routes[0].location[0]}`;
+
             let climbingRoutes = climbs.data.routes;
             climbingRoutes.forEach((route) => {
                 $scope.routes.push(route);
@@ -136,8 +139,22 @@ app.controller('TripCtrl', function ($http, $q, $log, $rootScope, $scope, $windo
 
     $scope.appendToEl = angular.element(document.querySelector('#dropdown-long-content'));
 
-    $scope.saveRoute = (route) => {
-        //save each climb
+
+    $scope.routesToSave = [];
+
+
+    //save each climbing route
+    $scope.saveRoute = (route, tripId) => { 
+        $scope.routesToSave.push(route);  
+        console.log("routesToSave:", $scope.routesToSave);     
+        // console.log("route:", route);
+        let newRoute = FirebaseService.createRouteObj(route, tripId);
+        // console.log("newRoute:", newRoute);
+        // FirebaseService.saveRoute(newRoute).then((results) => {
+        //     console.log(results);
+        // }).catch((err) => {
+        //     console.log('error in saveRoute:', err);
+        // });
     };
 
 });

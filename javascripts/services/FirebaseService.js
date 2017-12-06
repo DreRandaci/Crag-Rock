@@ -66,7 +66,22 @@ app.service("FirebaseService", function ($http, $q, $rootScope, FIREBASE_CONFIG)
         });
     };
 
+    const createRouteObj = (route, tripId) => {
+        return {
+            "routeId": route.id,
+            "name": route.name,
+            "difficulty": route.rating,
+            "stars": route.stars,
+            "wall": route.location[2],
+            "trip_id": tripId
+        };
+    };
 
-    return { getTrips, getRelationships, getAttendees, getProfileInfo };
+    const saveRoute = (newRoute) => {
+        console.log(newRoute);
+    };
+
+
+    return { getTrips, getRelationships, getAttendees, getProfileInfo, createRouteObj };
 
 });

@@ -1,6 +1,9 @@
 .angular-google-map-container {
-  width: 70%;
+  width: 33%;
   height: 400px; }
+
+.angular-google-map {
+  width: 250%; }
 
 .dropdown-menu {
   max-height: 270px;
