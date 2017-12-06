@@ -68,6 +68,7 @@ app.controller('TripCtrl', function ($log, $scope, $window, GOOGLEMAPS_CONFIG, M
 
     //grab search query and update map marker
     $scope.geocode = (address) => {
+        $scope.routesToSave = [];
         MapsService.getMapByAddressQuery(address).then((results) => {
             let lat = results.data.results[0].geometry.location.lat;
             let lng = results.data.results[0].geometry.location.lng;
