@@ -1,7 +1,8 @@
 {
   "trips": {
     "tripName0": {
-      "description": "The red this weekend",
+      "name": "getting sendy at the red",
+      "description": "Going to The Red this weekend",
       "date": "Jan 29th, 2018",
       "googleMapsAddress": "The red river gorge, ky",
       "lat": 37.6523,
@@ -9,6 +10,7 @@
       "uid": "BnRMTXsdlFS6Z4e2zcEbkFTsFQD3"
     },
     "tripName1": {
+      "name": "frisk me, im going to the obed",
       "description": "The obed saturday",
       "date": "Jan 12th, 2018",
       "googleMapsAddress": "The obed, tn",
@@ -17,6 +19,7 @@
       "uid": "BnRMTXsdlFS6Z4e2zcEbkFTsFQD3"
     },
     "tripName2": {
+      "name": "lrc",
       "description": "LRC all weekend",
       "date": "Jan 3rd, 2018",
       "googleMapsAddress": "Little Rock City, chattanooga",
@@ -25,6 +28,7 @@
       "uid": "asdfasdfasdfa1223"
     },
     "tripName3": {
+      "name": "rocktown",
       "description": "Rocktown all weekend",
       "date": "Jan 13th, 2018",
       "googleMapsAddress": "Rocktown, ga",
@@ -33,6 +37,7 @@
       "uid": "asdfasdfasdfa1223"
     },
     "tripName4": {
+      "name": "fosters",
       "description": "Foster Falls all week",
       "date": "Jan 13th, 2018",
       "googleMapsAddress": "foster falls, tn",

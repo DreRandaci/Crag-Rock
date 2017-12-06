@@ -151,15 +151,20 @@ app.controller('TripCtrl', function ($http, $q, $log, $rootScope, $scope, $windo
         $scope.routesToSave.push(route);
     };
 
-    $scope.saveTrip = (trip, routes) => {
+    $scope.saveTrip = (trip, routes, lat, lng) => {
+        let heading = angular.element(document.querySelector('.areaHeading'));
+        let address = heading[0].innerHTML;
+        // console.log(trip);
+        let newTrip = FirebaseService.createTripObj(trip, address, lat, lng);
+        // console.log("newTrip:", newTrip);
         routes.forEach((route) => {
-            let newRoute = FirebaseService.createRouteObj(route, trip.id);
-            console.log(newRoute);
-            FirebaseService.saveTripToFirebase(newRoute).then((results) => {
-                console.log(results);
-            }).catch((err) => {
-                console.log('error in saveRoute:', err);
-            });
+            let newRoute = FirebaseService.createRouteObj(route, trip.id);            
+            // console.log(newRoute);            
+            // FirebaseService.saveTripRoutesToFirebase(newRoute).then((results) => {
+            //     console.log(results);
+            // }).catch((err) => {
+            //     console.log('error in saveRoute:', err);
+            // });
         });
     };
 

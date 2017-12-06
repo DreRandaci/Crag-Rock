@@ -1,5 +1,7 @@
 <div class="container-fluid">
+
     <h1>Create a Trip</h1>
+
     <div class="angular-google-map-container col-md-4">
 
         <ui-gmap-google-map id="map" center='map.center' zoom='map.zoom' draggable='true'>
@@ -9,6 +11,7 @@
 
         </ui-gmap-google-map>
     </div>
+
     <div class='col-md-4'>
         <input type="text" placeholder="Search" ng-model="addressSearch">
         <button class='btn btn-default' ng-click="geocode(addressSearch)">Search</button>
@@ -25,11 +28,14 @@
             </ul>
         </div>
     </div>
+
     <div class="col-md-4">
-        <h1 ng-show="!updateClimbingAreaHeading">{{climbingAreaHeadingPageLoad}}</h1>
-        <h1 ng-show="updateClimbingAreaHeading">{{updateClimbingAreaHeading}}</h1>
+        <h1 class="areaHeading" ng-if="!updateClimbingAreaHeading">{{climbingAreaHeadingPageLoad}}</h1>
+        <h1 class="areaHeading" ng-if="updateClimbingAreaHeading">{{updateClimbingAreaHeading}}</h1>
         <div ng-show="routesToSave.length">
             <input type="text" placeholder="Trip Name" ng-model="trip.id">
+            <input type="text" placeholder="Trip Description" ng-model="trip.description">
+            <input type="text" placeholder="Trip Date" ng-model="trip.date">
             <h4>Your Trip Routes:</h4>
             <ul>
                 <li ng-repeat="route in routesToSave" ng-model="routes">

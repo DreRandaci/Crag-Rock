@@ -77,10 +77,26 @@ app.service("FirebaseService", function ($http, $q, $rootScope, FIREBASE_CONFIG)
         };
     };
 
+    const createTripObj = (trip, address, lat, lng) => {
+        return {
+            "name": trip.id,
+            "description": trip.description,
+            "date": trip.date,
+            "googleMapsAddress": address,
+            "lat": lat,
+            "lng": lat,
+            "uid": $rootScope.uid
+        };
+    };
+
+    const saveTripRoutesToFirebase = (newRoute) => {
+        return $http.post(`${FIREBASE_CONFIG.databaseURL}/savedRoutesForTrips.json`, JSON.stringify(newRoute));
+    };
+
     const saveTripToFirebase = (newRoute) => {
         return $http.post(`${FIREBASE_CONFIG.databaseURL}/savedRoutesForTrips.json`, JSON.stringify(newRoute));
     };
 
-    return { getTrips, getRelationships, getAttendees, getProfileInfo, createRouteObj, saveTripToFirebase };
+    return { getTrips, getRelationships, getAttendees, getProfileInfo, createRouteObj, createTripObj, saveTripToFirebase, saveTripRoutesToFirebase };
 
 });
