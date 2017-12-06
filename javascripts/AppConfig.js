@@ -37,7 +37,7 @@ app.run(function ($rootScope, $location, FIREBASE_CONFIG, AuthService) {
     });
 });
 
-app.config(function ($routeProvider, $qProvider, uiGmapGoogleMapApiProvider, GOOGLEMAPS_CONFIG) {
+app.config(function ($qProvider, $routeProvider, uiGmapGoogleMapApiProvider, GOOGLEMAPS_CONFIG) {
     $qProvider.errorOnUnhandledRejections(false);
     uiGmapGoogleMapApiProvider.configure({
         china: true,
