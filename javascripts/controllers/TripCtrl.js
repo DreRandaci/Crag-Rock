@@ -1,11 +1,10 @@
 'use strict';
 
-app.controller('TripCtrl', function ($http, $q, $log, $rootScope, $scope, $window, MapsService, MountainProjService, GOOGLEMAPS_CONFIG) {
+app.controller('TripCtrl', function ($log, $scope, $window, GOOGLEMAPS_CONFIG, MapsService, MountainProjService, FirebaseService) {
     //inject google maps script
     $scope.googleUrl = `http://maps.google.com/maps/api/js?key=${GOOGLEMAPS_CONFIG}`;
 
     $window.navigator.geolocation.getCurrentPosition(function (position) {
-
         //get climbing routes near you for dropdown menu
         getClimbingRoutes(position.coords.latitude, position.coords.longitude);
 
@@ -69,10 +68,13 @@ app.controller('TripCtrl', function ($http, $q, $log, $rootScope, $scope, $windo
 
     //grab search query and update map marker
     $scope.geocode = (address) => {
+        $scope.routesToSave = [];
         MapsService.getMapByAddressQuery(address).then((results) => {
-
             let lat = results.data.results[0].geometry.location.lat;
             let lng = results.data.results[0].geometry.location.lng;
+
+            let climbingHeadings = results.data.results[0].formatted_address.split(',', 1).join();
+            $scope.updateClimbingAreaHeading = climbingHeadings;
 
             getClimbingRoutes(lat, lng);
 
@@ -111,6 +113,9 @@ app.controller('TripCtrl', function ($http, $q, $log, $rootScope, $scope, $windo
     const getClimbingRoutes = (lat, lng, distance, minDiff, maxDiff) => {
         $scope.routes = [];
         MountainProjService.getClimbingRoutesByLatLng(lat, lng).then((climbs) => {
+            //update climbing area heading
+            $scope.climbingAreaHeadingPageLoad = `${climbs.data.routes[0].location[1]}, ${climbs.data.routes[0].location[0]}`;
+
             let climbingRoutes = climbs.data.routes;
             climbingRoutes.forEach((route) => {
                 $scope.routes.push(route);
@@ -136,8 +141,45 @@ app.controller('TripCtrl', function ($http, $q, $log, $rootScope, $scope, $windo
 
     $scope.appendToEl = angular.element(document.querySelector('#dropdown-long-content'));
 
-    $scope.saveRoute = (route) => {
-        //save each climb
+    $scope.routesToSave = [];
+
+    $scope.removeRouteFromSaveList = (index) => {
+        $scope.routesToSave.splice(index, 1);
     };
+
+    //save each climbing route
+    $scope.saveToRouteList = (route, tripId) => {
+        $scope.routesToSave.push(route);
+    };
+
+    $scope.createTrip = (trip) => {
+        saveRoutes($scope.routesToSave, trip.id);
+        let heading = angular.element(document.querySelector('.areaHeading'));
+        let address = heading[0].innerHTML;
+        MapsService.getMapByAddressQuery(address).then((results) => {
+            let lat = results.data.results[0].geometry.location.lat;
+            let lng = results.data.results[0].geometry.location.lng;
+            let newTrip = FirebaseService.createTripObj(trip, address, lat, lng);
+            saveTrip(newTrip);
+        });                
+    };
+
+    const saveTrip = (newTrip) => {
+        FirebaseService.saveTripToFirebase(newTrip).then((results) => {
+            //then get trips
+        }).catch((err) => {
+            console.log('error in saveTripToFirebase:', err);
+        });
+    };
+
+    const saveRoutes = (routes, tripId) => {
+        routes.forEach((route) => {
+            let newRoute = FirebaseService.createRouteObj(route, tripId);
+            FirebaseService.saveTripRoutesToFirebase(newRoute).then(() => {
+            }).catch((err) => {
+                console.log('error in saveTripRoutesToFirebase:', err);
+            });
+        });
+    };    
 
 });

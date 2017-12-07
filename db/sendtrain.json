@@ -1,92 +1,117 @@
 {
-    "trips": {
-      "tripName0": {
-        "description": "The red this weekend",
-        "date": "Jan 29th, 2018",
-        "googleMapsAddress": "The red river gorge, ky",
-        "lat": 37.6523, 
-        "lng": -83.7082,
-        "uid": "BnRMTXsdlFS6Z4e2zcEbkFTsFQD3"
-      },
-      "tripName1": {
-        "description": "The obed saturday",
-        "date": "Jan 12th, 2018",
-        "googleMapsAddress": "The obed, tn",
-        "lat": 36.0266818, 
-        "lng": -84.8564098,        
-        "uid": "BnRMTXsdlFS6Z4e2zcEbkFTsFQD3"
-      },
-      "tripName2": {
-        "description": "LRC all weekend",
-        "date": "Jan 3rd, 2018",
-        "googleMapsAddress": "Little Rock City, chattanooga",
-        "lat": 35.2477488, 
-        "lng": -85.2201949,
-        "uid": "asdfasdfasdfa1223"
-      },
-      "tripName3": {
-        "description": "Rocktown all weekend",
-        "date": "Jan 13th, 2018",
-        "googleMapsAddress": "Rocktown, ga",
-        "lat": 34.658668, 
-        "lng": -85.38973899999999,
-        "uid": "asdfasdfasdfa1223"
-      },
-      "tripName4": {
-        "description": "Foster Falls all week",
-        "date": "Jan 13th, 2018",
-        "googleMapsAddress": "foster falls, tn",
-        "lat": 35.1818913, 
-        "lng": -85.676007,
-        "uid": "asdfasdfasdfa1223"
-      }
+  "trips": {
+    "tripName0": {
+      "name": "getting sendy at the red",
+      "description": "Going to The Red this weekend",
+      "date": "Jan 29th, 2018",
+      "googleMapsAddress": "The red river gorge, ky",
+      "lat": 37.6523,
+      "lng": -83.7082,
+      "uid": "BnRMTXsdlFS6Z4e2zcEbkFTsFQD3"
     },
-    "relationships": {
-      "friend0": {
-        "friendUid": "0",
-        "userUid" : "asdfasdf"
-      },
-      "friend1": {
-        "friendUid": "1",
-        "userUid" : "asdfasdf"
-      },
-      "friend2": {
-        "friendUid": "2",
-        "userUid" : "asdfasdf"
-      },
-      "friend3": {
-        "friendUid": "3",
-        "userUid" : "asdfasdf"
-      },
-      "friend4": {
-        "friendUid": "4",
-        "userUid" : "asdfasdf"
-      }
+    "tripName1": {
+      "name": "frisk me, im going to the obed",
+      "description": "The obed saturday",
+      "date": "Jan 12th, 2018",
+      "googleMapsAddress": "The obed, tn",
+      "lat": 36.0266818,
+      "lng": -84.8564098,
+      "uid": "BnRMTXsdlFS6Z4e2zcEbkFTsFQD3"
     },
-    "attendees" : {
-      "firebase_generated_id0": {
-        "uid": "BnRMTXsdlFS6Z4e2zcEbkFTsFQD3",
-        "trip_id": "tripName0"
-      },
-      "firebase_generated_id1": {
-        "uid": "BnRMTXsdlFS6Z4e2zcEbkFTsFQD3",
-        "trip_id": "tripName1"
-      },
-      "firebase_generated_id2": {
-        "uid": "2",
-        "trip_id": "tripName2"
-      },
-      "firebase_generated_id3": {
-        "uid": "3",
-        "trip_id": "tripName3"
-      },
-      "firebase_generated_id4": {
-        "uid": "4",
-        "trip_id": "tripName4"
-      }
+    "tripName2": {
+      "name": "lrc",
+      "description": "LRC all weekend",
+      "date": "Jan 3rd, 2018",
+      "googleMapsAddress": "Little Rock City, chattanooga",
+      "lat": 35.2477488,
+      "lng": -85.2201949,
+      "uid": "asdfasdfasdfa1223"
     },
-    "profileInfo": {
-        "name": "Tanner McSendy",
-        "email": "senditbebe@sendtrain.com"
+    "tripName3": {
+      "name": "rocktown",
+      "description": "Rocktown all weekend",
+      "date": "Jan 13th, 2018",
+      "googleMapsAddress": "Rocktown, ga",
+      "lat": 34.658668,
+      "lng": -85.38973899999999,
+      "uid": "asdfasdfasdfa1223"
+    },
+    "tripName4": {
+      "name": "fosters",
+      "description": "Foster Falls all week",
+      "date": "Jan 13th, 2018",
+      "googleMapsAddress": "foster falls, tn",
+      "lat": 35.1818913,
+      "lng": -85.676007,
+      "uid": "asdfasdfasdfa1223"
     }
+  },
+  "savedRoutesForTrips": {
+    "firebase_generated_id0": {
+      "routeId": 106286394,
+      "name": "Amarillo Sunset",
+      "difficulty": "5.11b",
+      "stars": "4.9",
+      "wall": "Pendergrass-Murray Recreational Preserve (PMRP), North 40",
+      "trip_id": "tripName0",
+      "uid": "BnRMTXsdlFS6Z4e2zcEbkFTsFQD3"
+    },
+    "firebase_generated_id1": {
+      "routeId": 106132213,
+      "name": "Twinkie",
+      "difficulty": "5.12a",
+      "stars": "4.9",
+      "wall": "Phantasia",
+      "trip_id": "tripName0",
+      "uid": "BnRMTXsdlFS6Z4e2zcEbkFTsFQD3"
+    }
+  },
+  "relationships": {
+    "friend0": {
+      "friendUid": "0",
+      "userUid": "asdfasdf"
+    },
+    "friend1": {
+      "friendUid": "1",
+      "userUid": "asdfasdf"
+    },
+    "friend2": {
+      "friendUid": "2",
+      "userUid": "asdfasdf"
+    },
+    "friend3": {
+      "friendUid": "3",
+      "userUid": "asdfasdf"
+    },
+    "friend4": {
+      "friendUid": "4",
+      "userUid": "asdfasdf"
+    }
+  },
+  "attendees": {
+    "firebase_generated_id0": {
+      "uid": "BnRMTXsdlFS6Z4e2zcEbkFTsFQD3",
+      "trip_id": "tripName0"
+    },
+    "firebase_generated_id1": {
+      "uid": "BnRMTXsdlFS6Z4e2zcEbkFTsFQD3",
+      "trip_id": "tripName1"
+    },
+    "firebase_generated_id2": {
+      "uid": "2",
+      "trip_id": "tripName2"
+    },
+    "firebase_generated_id3": {
+      "uid": "3",
+      "trip_id": "tripName3"
+    },
+    "firebase_generated_id4": {
+      "uid": "4",
+      "trip_id": "tripName4"
+    }
+  },
+  "profileInfo": {
+    "name": "Tanner McSendy",
+    "email": "senditbebe@sendtrain.com"
   }
+}
