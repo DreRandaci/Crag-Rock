@@ -70,11 +70,14 @@ app.config(function ($qProvider, $routeProvider, uiGmapGoogleMapApiProvider, GOO
             templateUrl: 'partials/trip-detail.html',
             controller: 'TripDetailCtrl',
         })
+        .when("/trip/create", {
+            templateUrl: 'partials/trip-create.html',
+            controller: 'TripCreateCtrl',
+        })
         .when("/trips", {
             templateUrl: 'partials/trips.html',
-            controller: 'TripCtrl',
+            controller: 'TripsViewCtrl',
         })
-
         .otherwise('/auth');
 
 });
