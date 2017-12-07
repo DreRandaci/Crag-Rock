@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('TripCtrl', function ($log, $scope, $window, GOOGLEMAPS_CONFIG, MapsService, MountainProjService, FirebaseService) {
+app.controller('TripCreateCtrl', function ($log, $scope, $window, GOOGLEMAPS_CONFIG, MapsService, MountainProjService, RoutesService, TripsService) {
     //inject google maps script
     $scope.googleUrl = `http://maps.google.com/maps/api/js?key=${GOOGLEMAPS_CONFIG}`;
 
@@ -159,13 +159,13 @@ app.controller('TripCtrl', function ($log, $scope, $window, GOOGLEMAPS_CONFIG, M
         MapsService.getMapByAddressQuery(address).then((results) => {
             let lat = results.data.results[0].geometry.location.lat;
             let lng = results.data.results[0].geometry.location.lng;
-            let newTrip = FirebaseService.createTripObj(trip, address, lat, lng);
+            let newTrip = TripsService.createTripObj(trip, address, lat, lng);
             saveTrip(newTrip);
-        });                
+        });
     };
 
     const saveTrip = (newTrip) => {
-        FirebaseService.saveTripToFirebase(newTrip).then((results) => {
+        TripsService.saveTripToFirebase(newTrip).then((results) => {
             //then get trips
         }).catch((err) => {
             console.log('error in saveTripToFirebase:', err);
@@ -174,12 +174,12 @@ app.controller('TripCtrl', function ($log, $scope, $window, GOOGLEMAPS_CONFIG, M
 
     const saveRoutes = (routes, tripId) => {
         routes.forEach((route) => {
-            let newRoute = FirebaseService.createRouteObj(route, tripId);
-            FirebaseService.saveTripRoutesToFirebase(newRoute).then(() => {
+            let newRoute = RoutesService.createRouteObj(route, tripId);
+            RoutesService.saveTripRoutesToFirebase(newRoute).then(() => {
             }).catch((err) => {
                 console.log('error in saveTripRoutesToFirebase:', err);
             });
         });
-    };    
+    };
 
 });
