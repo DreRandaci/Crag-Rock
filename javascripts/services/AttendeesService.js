@@ -1,6 +1,6 @@
 'use strict';
 
-app.service("AttendeesService", function ($http, $q, $rootScope, FIREBASE_CONFIG) {
+app.service("AttendeesService", function ($http, $q, FIREBASE_CONFIG) {
 
     const getAttendees = (userUid) => {
         let attendees = [];

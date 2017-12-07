@@ -1,6 +1,6 @@
 'use strict';
 
-app.service("TripsService", function ($http, $q, $rootScope, FIREBASE_CONFIG) {
+app.service("TripsService", function ($http, $q, FIREBASE_CONFIG, AuthService) {
 
     const getTrips = (userUid) => {
         let trips = [];
@@ -26,7 +26,7 @@ app.service("TripsService", function ($http, $q, $rootScope, FIREBASE_CONFIG) {
             "googleMapsAddress": address,
             "lat": lat,
             "lng": lat,
-            "uid": $rootScope.uid
+            "uid": AuthService.getCurrentUid()
         };
     };
 
