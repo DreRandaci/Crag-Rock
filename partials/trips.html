@@ -1,1 +1,18 @@
-<button ng-click="routeToCreateTrip()">Create Trip</button>
+<div ng-repeat="trip in trips" class="col-sm-6 col-md-4" ng-click="editTrip(trip.id)">
+    <div class="caption">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h1 class="panel-title">{{trip.name}}</h1>
+            </div>
+            <div class="panel-body">
+                <ul>
+                    <li ng-repeat="route in routes" ng-if="trip.id === route.trip_id">{{route.name}} {{route.difficulty}}</li>
+                </ul>
+                <p>{{trip.description}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="text-center">
+    <button ng-click="routeToCreateTrip()">Create Trip</button>
+</div>
