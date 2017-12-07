@@ -11,13 +11,11 @@
           </div>    
 
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">                                        
-              <ul class="nav navbar-nav navbar-right" ng-show="!uid">
+              <ul class="nav navbar-nav navbar-right" ng-show="!navbar">
                   <li role="presentation"><a ng-href="#!/auth">Login</a></li>        
               </ul>
-            <!-- add ng-show'!uid' for just auth and ng-show='uid' for main nav-->
               
-            <ul ng-show='uid' class="nav navbar-nav navbar-right">                
-                <li><a ng-href="#!/auth">Authentication</a></li>        
+              <ul ng-show='navbar' class="nav navbar-nav navbar-right">                                     
                 <li><a ng-href="#!/profile">Profile</a></li>
                 <li><a ng-href="#!/trips">Trips</a></li>
                 <li><a ng-href="#!/chat">Chat</a></li>                

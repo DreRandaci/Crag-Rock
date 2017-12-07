@@ -1,6 +1,6 @@
 'use strict';
 
-app.service("RoutesService", function ($http, $q, $rootScope, FIREBASE_CONFIG) {
+app.service("RoutesService", function ($http, $q, FIREBASE_CONFIG, AuthService) {
 
     const createRouteObj = (route, tripId) => {
         return {
@@ -10,7 +10,7 @@ app.service("RoutesService", function ($http, $q, $rootScope, FIREBASE_CONFIG) {
             "stars": route.stars,
             "wall": route.location[2],
             "trip_id": tripId,
-            "uid": $rootScope.uid
+            "uid": AuthService.getCurrentUid()
         };
     };
 

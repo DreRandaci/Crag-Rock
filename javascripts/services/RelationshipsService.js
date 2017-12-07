@@ -1,6 +1,6 @@
 'use strict';
 
-app.service("RelationshipsService", function ($http, $q, $rootScope, FIREBASE_CONFIG) {
+app.service("RelationshipsService", function ($http, $q, FIREBASE_CONFIG) {
     
     const getRelationships = (userUid) => {
         let relationships = [];

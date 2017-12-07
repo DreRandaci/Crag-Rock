@@ -1,6 +1,6 @@
 'use strict';
 
-app.service("ProfileService", function ($http, $q, $rootScope, FIREBASE_CONFIG) {
+app.service("ProfileService", function ($http, $q, FIREBASE_CONFIG) {
 
     const getProfileInfo = (userUid) => {
         let info = [];
