@@ -48,7 +48,7 @@
   },
   "savedRoutesForTrips": {
     "firebase_generated_id0": {
-      "routeId": 106286394,
+      "routeId": 1,
       "name": "Amarillo Sunset",
       "difficulty": "5.11b",
       "stars": "4.9",
@@ -57,12 +57,30 @@
       "uid": "BnRMTXsdlFS6Z4e2zcEbkFTsFQD3"
     },
     "firebase_generated_id1": {
-      "routeId": 106132213,
+      "routeId": 1,
       "name": "Twinkie",
       "difficulty": "5.12a",
       "stars": "4.9",
       "wall": "Phantasia",
       "trip_id": "tripName0",
+      "uid": "BnRMTXsdlFS6Z4e2zcEbkFTsFQD3"
+    },
+    "firebase_generated_id2": {
+      "routeId": 1,
+      "name": "Solstice",
+      "difficulty": "5.12a",
+      "stars": "4.9",
+      "wall": "North Clear",
+      "trip_id": "tripName1",
+      "uid": "BnRMTXsdlFS6Z4e2zcEbkFTsFQD3"
+    },
+    "firebase_generated_id3": {
+      "routeId": 1,
+      "name": "Heresy",
+      "difficulty": "5.11c",
+      "stars": "4.5",
+      "wall": "Lilly Bluff",
+      "trip_id": "tripName1",
       "uid": "BnRMTXsdlFS6Z4e2zcEbkFTsFQD3"
     }
   },

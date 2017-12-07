@@ -152,8 +152,7 @@ app.controller('TripCreateCtrl', function ($log, $scope, $window, GOOGLEMAPS_CON
         $scope.routesToSave.push(route);
     };
 
-    $scope.createTrip = (trip) => {
-        saveRoutes($scope.routesToSave, trip.id);
+    $scope.createTrip = (trip) => {        
         let heading = angular.element(document.querySelector('.areaHeading'));
         let address = heading[0].innerHTML;
         MapsService.getMapByAddressQuery(address).then((results) => {
@@ -165,7 +164,8 @@ app.controller('TripCreateCtrl', function ($log, $scope, $window, GOOGLEMAPS_CON
     };
 
     const saveTrip = (newTrip) => {
-        TripsService.saveTripToFirebase(newTrip).then((results) => {
+        TripsService.saveTripToFirebase(newTrip).then((tripId) => {
+            saveRoutes($scope.routesToSave, tripId.data.name);
             //then get trips
         }).catch((err) => {
             console.log('error in saveTripToFirebase:', err);
