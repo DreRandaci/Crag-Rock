@@ -34,5 +34,9 @@ app.service("RoutesService", function ($http, $q, FIREBASE_CONFIG, AuthService) 
         return $http.post(`${FIREBASE_CONFIG.databaseURL}/savedRoutesForTrips.json`, JSON.stringify(newRoute));
     };
 
-    return { saveTripRoutesToFirebase, createRouteObj, getRoutes };
+    const deleteSingleRouteFromFirebase = (routeId) => {
+        return $http.delete(`${FIREBASE_CONFIG.databaseURL}/savedRoutesForTrips/${routeId}.json`);
+    };
+
+    return { deleteSingleRouteFromFirebase, saveTripRoutesToFirebase, createRouteObj, getRoutes };
 });

@@ -1,38 +1,9 @@
 'use strict';
 
-app.controller('TripCreateCtrl', function ($log, $scope, $window, GOOGLEMAPS_CONFIG, MapsService, MountainProjService, RoutesService, TripsService) {
+app.controller('TripCreateCtrl', function ($location, $log, $scope, $window, GOOGLEMAPS_CONFIG, MapsService, MountainProjService, RoutesService, TripsService) {
+
     //inject google maps script
     $scope.googleUrl = `http://maps.google.com/maps/api/js?key=${GOOGLEMAPS_CONFIG}`;
-
-    $window.navigator.geolocation.getCurrentPosition(function (position) {
-        //get climbing routes near you for dropdown menu
-        getClimbingRoutes(position.coords.latitude, position.coords.longitude);
-
-        //update map instance with geolcation
-        $scope.map.center.latitude = position.coords.latitude;
-        $scope.map.center.longitude = position.coords.longitude;
-        $scope.map.zoom = 12;
-        $scope.marker.id = 0;
-        $scope.marker.coords = { latitude: position.coords.latitude, longitude: position.coords.longitude };
-        $scope.marker.options = { draggable: true };
-        $scope.marker.events = {
-            dragend: function (marker, eventName, args) {
-                $log.log('marker drag-end');
-                let lat = marker.getPosition().lat();
-                let lng = marker.getPosition().lng();
-                $log.log(lat);
-                $log.log(lng);
-
-                $scope.marker.options = {
-                    draggable: true,
-                    labelContent: "lat: " + $scope.marker.coords.latitude + ' ' + 'lon: ' + $scope.marker.coords.longitude,
-                    labelAnchor: "100 0",
-                    labelClass: "marker-labels"
-                };
-            }
-        };
-        $scope.$apply();
-    });
 
     //initial map instance on page load
     $scope.map = {
@@ -41,6 +12,16 @@ app.controller('TripCreateCtrl', function ($log, $scope, $window, GOOGLEMAPS_CON
             latitude: 34.1626638, longitude: -82.7816016
         },
         zoom: 4,
+        bounds: {
+            northeast: {
+                latitude: 45.1451,
+                longitude: -80.6680
+            },
+            southwest: {
+                latitude: 30.000,
+                longitude: -120.6680
+            }
+        },
         options: { scrollwheel: true }
     };
 
@@ -66,6 +47,43 @@ app.controller('TripCreateCtrl', function ($log, $scope, $window, GOOGLEMAPS_CON
         }
     };
 
+    //geolocation to update marker on map
+    $window.navigator.geolocation.getCurrentPosition(function (position) {
+        let lat = position.coords.latitude;
+        let lng = position.coords.longitude;
+
+        //get climbing routes near you for dropdown menu
+        MountainProjService.getClimbingRoutesByLatLng(lat, lng).then((climbs) => {
+            let nearestAreaLat = climbs.data.routes[0].latitude;
+            let nearestAreaLng = climbs.data.routes[0].longitude;
+            getClimbingRoutes(position.coords.latitude, position.coords.longitude);
+
+            //update map instance with geolcation
+            $scope.map.center.latitude = lat;
+            $scope.map.center.longitude = lng;
+            $scope.map.zoom = 10;
+            $scope.marker.id = 0;
+            $scope.marker.coords = { latitude: nearestAreaLat, longitude: nearestAreaLng };
+            $scope.marker.options = { draggable: true };
+            $scope.marker.events = {
+                dragend: function (marker, eventName, args) {
+                    $log.log('marker drag-end');
+                    let lat = marker.getPosition().lat();
+                    let lng = marker.getPosition().lng();
+                    $log.log(lat);
+                    $log.log(lng);
+
+                    $scope.marker.options = {
+                        draggable: true,
+                        labelContent: "lat: " + $scope.marker.coords.latitude + ' ' + 'lon: ' + $scope.marker.coords.longitude,
+                        labelAnchor: "100 0",
+                        labelClass: "marker-labels"
+                    };
+                }
+            };
+        });
+    });
+
     //grab search query and update map marker
     $scope.geocode = (address) => {
         $scope.routesToSave = [];
@@ -73,9 +91,8 @@ app.controller('TripCreateCtrl', function ($log, $scope, $window, GOOGLEMAPS_CON
             let lat = results.data.results[0].geometry.location.lat;
             let lng = results.data.results[0].geometry.location.lng;
 
-            let climbingHeadings = results.data.results[0].formatted_address.split(',', 1).join();
-            $scope.updateClimbingAreaHeading = climbingHeadings;
-
+            let climbingHeading = results.data.results[0].formatted_address.split(',', 1).join();
+            $scope.climbingAreaHeading = climbingHeading;
             getClimbingRoutes(lat, lng);
 
             $scope.map = {
@@ -113,13 +130,9 @@ app.controller('TripCreateCtrl', function ($log, $scope, $window, GOOGLEMAPS_CON
     const getClimbingRoutes = (lat, lng, distance, minDiff, maxDiff) => {
         $scope.routes = [];
         MountainProjService.getClimbingRoutesByLatLng(lat, lng).then((climbs) => {
-            //update climbing area heading
-            $scope.climbingAreaHeadingPageLoad = `${climbs.data.routes[0].location[1]}, ${climbs.data.routes[0].location[0]}`;
-
-            let climbingRoutes = climbs.data.routes;
-            climbingRoutes.forEach((route) => {
-                $scope.routes.push(route);
-            });
+            let climbingHeading = climbs.data.routes[0].location[1] + ', ' + climbs.data.routes[0].location[0];
+            $scope.routes = climbs.data.routes;
+            $scope.climbingAreaHeading = climbingHeading;
         }).catch((err) => {
             console.log('error in getClimbingRoutesByLatLng:', err);
         });
@@ -141,21 +154,30 @@ app.controller('TripCreateCtrl', function ($log, $scope, $window, GOOGLEMAPS_CON
 
     $scope.appendToEl = angular.element(document.querySelector('#dropdown-long-content'));
 
-    $scope.routesToSave = [];
+    $scope.savedRoutes = [];
 
-    $scope.removeRouteFromSaveList = (index) => {
-        $scope.routesToSave.splice(index, 1);
+    $scope.removeRouteFromSavedRoutes = (index, route) => {
+        $scope.savedRoutes.splice(index, 1);
     };
 
     //save each climbing route
-    $scope.saveToRouteList = (route, tripId) => {
-        $scope.routesToSave.push(route);
+    $scope.saveToRouteList = (route) => {
+        $scope.savedRoutes.push(route);
     };
 
-    $scope.createTrip = (trip) => {        
+    $scope.createTrip = (trip) => {
         let heading = angular.element(document.querySelector('.areaHeading'));
         let address = heading[0].innerHTML;
-        MapsService.getMapByAddressQuery(address).then((results) => {
+        MapsService.getMapByAddressQuery(address).then((results) => {    
+            if (results.data.results.length === 0) {
+                address = 'nashville, tn';
+                MapsService.getMapByAddressQuery(address).then((results) => {
+                    let lat = results.data.results[0].geometry.location.lat;
+                    let lng = results.data.results[0].geometry.location.lng;
+                    let newTrip = TripsService.createTripObj(trip, address, lat, lng);
+                    saveTrip(newTrip);
+                });
+            }
             let lat = results.data.results[0].geometry.location.lat;
             let lng = results.data.results[0].geometry.location.lng;
             let newTrip = TripsService.createTripObj(trip, address, lat, lng);
@@ -165,8 +187,8 @@ app.controller('TripCreateCtrl', function ($log, $scope, $window, GOOGLEMAPS_CON
 
     const saveTrip = (newTrip) => {
         TripsService.saveTripToFirebase(newTrip).then((tripId) => {
-            saveRoutes($scope.routesToSave, tripId.data.name);
-            //then get trips
+            saveRoutes($scope.savedRoutes, tripId.data.name);
+            $location.path("/trips");
         }).catch((err) => {
             console.log('error in saveTripToFirebase:', err);
         });
