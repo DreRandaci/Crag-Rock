@@ -80,8 +80,8 @@ app.config(function ($qProvider, $routeProvider, uiGmapGoogleMapApiProvider, GOO
             controller: 'ProfileCtrl',
         })
         .when("/trip/detail/:id", {
-            templateUrl: 'partials/trip-detail.html',
-            controller: 'TripDetailCtrl',
+            templateUrl: 'partials/trip-create.html',
+            controller: 'TripEditCtrl',
         })
         .when("/trip/create", {
             templateUrl: 'partials/trip-create.html',

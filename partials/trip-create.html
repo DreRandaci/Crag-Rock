@@ -19,8 +19,8 @@
         </div>
     
         <div class="col-md-4">
-            <h1 class="areaHeading" ng-if="!updateClimbingAreaHeading">{{climbingAreaHeadingPageLoad}}</h1>
-            <h1 class="areaHeading" ng-if="updateClimbingAreaHeading">{{updateClimbingAreaHeading}}</h1>
+            <h1 class="areaHeading">{{climbingAreaHeading}}</h1>
+            <!-- <h1 class="areaHeading" ng-if="updateClimbingAreaHeading">{{updateClimbingAreaHeading}}</h1> -->
             <div ng-show="routesToSave.length">
                 <input type="text" placeholder="Trip Name" ng-model="trip.id">
                 <input type="text" placeholder="Trip Description" ng-model="trip.description">
