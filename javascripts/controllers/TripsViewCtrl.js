@@ -21,7 +21,6 @@ app.controller('TripsViewCtrl', function ($location, $scope, AuthService, Routes
     getTrips();
 
     $scope.editTrip = (tripId) => {
-        console.log(tripId);
         $location.path(`/trip/detail/${tripId}`);
     };
 

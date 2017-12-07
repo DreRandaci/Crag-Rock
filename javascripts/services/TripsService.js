@@ -38,6 +38,10 @@ app.service("TripsService", function ($http, $q, FIREBASE_CONFIG, AuthService) {
         return $http.post(`${FIREBASE_CONFIG.databaseURL}/trips.json`, JSON.stringify(newTrip));
     };
 
-    return { getTrips, getSingleTrip, createTripObj, saveTripToFirebase };
+    const updateTripInFirebase = (updatedTrip, tripId) => {
+        return $http.put(`${FIREBASE_CONFIG.databaseURL}/trips/${tripId}.json`, JSON.stringify(updatedTrip));
+    };
+
+    return { getTrips, getSingleTrip, createTripObj, saveTripToFirebase, updateTripInFirebase };
 
 });
