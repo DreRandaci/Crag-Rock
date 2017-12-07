@@ -18,6 +18,10 @@ app.service("TripsService", function ($http, $q, FIREBASE_CONFIG, AuthService) {
         });
     };
 
+    const getSingleTrip = (id) => {
+        return $http.get(`${FIREBASE_CONFIG.databaseURL}/trips/${id}.json`);
+    };
+
     const createTripObj = (trip, address, lat, lng) => {
         return {
             "name": trip.id,
@@ -34,6 +38,6 @@ app.service("TripsService", function ($http, $q, FIREBASE_CONFIG, AuthService) {
         return $http.post(`${FIREBASE_CONFIG.databaseURL}/trips.json`, JSON.stringify(newTrip));
     };
 
-    return { getTrips, createTripObj, saveTripToFirebase };
+    return { getTrips, getSingleTrip, createTripObj, saveTripToFirebase };
 
 });

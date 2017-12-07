@@ -1,6 +1,40 @@
 'use strict';
 
-app.controller('TripEditCtrl', function ( $log, $scope ) {
+app.controller('TripEditCtrl', function ($log, $routeParams, $scope, AuthService, RoutesService, TripsService) {
+
+    $scope.trip = {};
+
+    const getSingleTrip = (tripId) => {
+        TripsService.getSingleTrip(tripId).then((trip) => {
+            $scope.trip = trip.data;
+            $scope.addressSearch = trip.data.googleMapsAddress;
+            RoutesService.getRoutes(AuthService.getCurrentUid()).then((savedRoutes) => {
+                savedRoutes.forEach((route) => {
+                    if (route.trip_id === tripId) {
+                        $scope.routesToSave.push(route);
+                    }
+                });
+                console.log($scope.routesToSave);
+            }).catch((err) => {
+                console.log('err in getRoutes:', err);
+            });
+        }).catch((err) => {
+            console.log('err in getSingleTrip:', err);
+        });
+    };
+    getSingleTrip($routeParams.id);
+
+    $scope.routesToSave = [];
+
+    $scope.removeRouteFromSaveList = (index) => {
+        $scope.routesToSave.splice(index, 1);
+    };
+
+    //save each climbing route
+    $scope.saveToRouteList = (route, tripId) => {
+        $scope.routesToSave.push(route);
+    };
+
     $scope.map = {
         center: {
             //default nashville coords
@@ -31,4 +65,5 @@ app.controller('TripEditCtrl', function ( $log, $scope ) {
             }
         }
     };
+
 });
