@@ -20,5 +20,9 @@ app.controller('TripsViewCtrl', function ($location, $rootScope, $scope, TripsSe
     };
     getTrips();
 
+    $scope.editTrip = (tripId) => {
+        console.log(tripId);
+        $location.path(`/trip/detail/${tripId}`);
+    };
 
 });
