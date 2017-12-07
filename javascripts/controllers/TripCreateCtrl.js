@@ -168,8 +168,7 @@ app.controller('TripCreateCtrl', function ($location, $log, $scope, $window, GOO
     $scope.createTrip = (trip) => {
         let heading = angular.element(document.querySelector('.areaHeading'));
         let address = heading[0].innerHTML;
-        MapsService.getMapByAddressQuery(address).then((results) => {
-            console.log(results.data.results.length);
+        MapsService.getMapByAddressQuery(address).then((results) => {    
             if (results.data.results.length === 0) {
                 address = 'nashville, tn';
                 MapsService.getMapByAddressQuery(address).then((results) => {
