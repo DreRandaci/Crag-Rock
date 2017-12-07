@@ -1,6 +1,6 @@
 'use strict';
 
-app.service("RoutesService", function ($http, $q, AuthService, FIREBASE_CONFIG) {
+app.service("RoutesService", function ($http, $q, FIREBASE_CONFIG, AuthService) {
 
     const createRouteObj = (route, tripId) => {
         return {

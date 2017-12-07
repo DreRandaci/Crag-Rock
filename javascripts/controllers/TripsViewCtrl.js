@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('TripsViewCtrl', function ($location, $scope, AuthService, TripsService, RoutesService) {
+app.controller('TripsViewCtrl', function ($location, $scope, AuthService, RoutesService, TripsService) {
 
     $scope.routeToCreateTrip = () => {
         $location.path("/trip/create");
