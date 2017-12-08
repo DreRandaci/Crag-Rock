@@ -19,23 +19,6 @@ app.controller('TripEditCtrl', function ($location, $log, $routeParams, $scope, 
     // initial marker instance on page load
     $scope.marker = {
         id: 0,
-        options: { draggable: true },
-        events: {
-            dragend: function (marker, eventName, args) {
-                $log.log('marker drag-end');
-                let lat = marker.getPosition().lat();
-                let lon = marker.getPosition().lng();
-                $log.log(lat);
-                $log.log(lon);
-
-                $scope.marker.options = {
-                    draggable: true,
-                    labelContent: "lat: " + $scope.marker.coords.latitude + ' ' + 'lon: ' + $scope.marker.coords.longitude,
-                    labelAnchor: "100 0",
-                    labelClass: "marker-labels"
-                };
-            }
-        }
     };
 
     $scope.trip = {};
@@ -88,23 +71,6 @@ app.controller('TripEditCtrl', function ($location, $log, $routeParams, $scope, 
         $scope.marker = {
             id: 0,
             coords: { latitude: lat, longitude: lng },
-            options: { draggable: true },
-            events: {
-                dragend: function (marker, eventName, args) {
-                    $log.log('marker drag-end');
-                    let lat = marker.getPosition().lat();
-                    let lon = marker.getPosition().lng();
-                    $log.log(lat);
-                    $log.log(lon);
-
-                    $scope.marker.options = {
-                        draggable: true,
-                        labelContent: "lat: " + $scope.marker.coords.latitude + ' ' + 'lon: ' + $scope.marker.coords.longitude,
-                        labelAnchor: "100 0",
-                        labelClass: "marker-labels"
-                    };
-                }
-            }
         };
     };
 

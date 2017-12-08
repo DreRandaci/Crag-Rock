@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('TripCreateCtrl', function ($location, $log, $scope, $window, GOOGLEMAPS_CONFIG, MapsService, MountainProjService, RoutesService, TripsService) {
+app.controller('TripCreateCtrl', function ($location, $scope, $window, GOOGLEMAPS_CONFIG, MapsService, MountainProjService, RoutesService, TripsService) {
 
     //inject google maps script
     $scope.googleUrl = `http://maps.google.com/maps/api/js?key=${GOOGLEMAPS_CONFIG}`;
@@ -169,10 +169,6 @@ app.controller('TripCreateCtrl', function ($location, $log, $scope, $window, GOO
     //////DROPDOWN MENU
     $scope.status = {
         isopen: false
-    };
-
-    $scope.toggled = function (open) {
-        $log.log('Dropdown is now: ', open);
     };
 
     $scope.toggleDropdown = function ($event) {
