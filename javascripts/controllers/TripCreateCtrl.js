@@ -15,38 +15,14 @@ app.controller('TripCreateCtrl', function ($location, $log, $scope, $window, GOO
         },
         zoom: 4,
         bounds: {
-            northeast: {
-                latitude: 45.1451,
-                longitude: -80.6680
-            },
-            southwest: {
-                latitude: 30.000,
-                longitude: -120.6680
-            }
-        },
+            northeast: {latitude: 45.1451,longitude: -80.6680},
+            southwest: {latitude: 30.000,longitude: -120.6680}},
         options: { scrollwheel: true }
     };
 
     // initial marker instance on page load
     $scope.marker = {
         id: 0,
-        options: { draggable: true },
-        events: {
-            dragend: function (marker, eventName, args) {
-                $log.log('marker drag-end');
-                let lat = marker.getPosition().lat();
-                let lon = marker.getPosition().lng();
-                $log.log(lat);
-                $log.log(lon);
-
-                $scope.marker.options = {
-                    draggable: true,
-                    labelContent: "lat: " + $scope.marker.coords.latitude + ' ' + 'lon: ' + $scope.marker.coords.longitude,
-                    labelAnchor: "100 0",
-                    labelClass: "marker-labels"
-                };
-            }
-        }
     };
 
     //geolocation to update marker on map
@@ -66,23 +42,6 @@ app.controller('TripCreateCtrl', function ($location, $log, $scope, $window, GOO
             $scope.map.zoom = 10;
             $scope.marker.id = 0;
             $scope.marker.coords = { latitude: $scope.nearestAreaLat, longitude: $scope.nearestAreaLng };
-            $scope.marker.options = { draggable: true };
-            $scope.marker.events = {
-                dragend: function (marker, eventName, args) {
-                    $log.log('marker drag-end');
-                    let lat = marker.getPosition().lat();
-                    let lng = marker.getPosition().lng();
-                    $log.log(lat);
-                    $log.log(lng);
-
-                    $scope.marker.options = {
-                        draggable: true,
-                        labelContent: "lat: " + $scope.marker.coords.latitude + ' ' + 'lon: ' + $scope.marker.coords.longitude,
-                        labelAnchor: "100 0",
-                        labelClass: "marker-labels"
-                    };
-                }
-            };
         });
     });
 
@@ -107,24 +66,7 @@ app.controller('TripCreateCtrl', function ($location, $log, $scope, $window, GOO
 
             $scope.marker = {
                 id: 0,
-                coords: { latitude: lat, longitude: lng },
-                options: { draggable: true },
-                events: {
-                    dragend: function (marker, eventName, args) {
-                        $log.log('marker drag-end');
-                        let lat = marker.getPosition().lat();
-                        let lon = marker.getPosition().lng();
-                        $log.log(lat);
-                        $log.log(lon);
-
-                        $scope.marker.options = {
-                            draggable: true,
-                            labelContent: "lat: " + $scope.marker.coords.latitude + ' ' + 'lon: ' + $scope.marker.coords.longitude,
-                            labelAnchor: "100 0",
-                            labelClass: "marker-labels"
-                        };
-                    }
-                }
+                coords: { latitude: lat, longitude: lng },                
             };
         }).catch((err) => {
             console.log("error in getMapByAddressQuery:", err);
@@ -264,7 +206,10 @@ app.controller('TripCreateCtrl', function ($location, $log, $scope, $window, GOO
             heading = angular.element(document.querySelector('.areaHeading2'));
         }
         let address = heading[0].innerHTML;
+        
         MapsService.getMapByAddressQuery(address).then((results) => {
+            
+            //if the address passed in above returns no results
             if (results.data.results.length === 0) {
                 let lat = $scope.nearestAreaLat;
                 let lng = $scope.nearestAreaLng;
