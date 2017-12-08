@@ -24,7 +24,7 @@ app.service("TripsService", function ($http, $q, FIREBASE_CONFIG, AuthService) {
 
     const createTripObj = (trip, address, lat, lng, dt) => {
         return {
-            "name": trip.id,
+            "name": trip.name,
             "description": trip.description,
             "date": dt,
             "googleMapsAddress": address,

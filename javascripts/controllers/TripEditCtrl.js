@@ -39,12 +39,19 @@ app.controller('TripEditCtrl', function ($location, $log, $routeParams, $scope, 
 
     $scope.trip = {};
 
-    const getSingleTrip = (tripId) => {
-        TripsService.getSingleTrip(tripId).then((trip) => {
-            $scope.trip = trip.data;
-            $scope.addressSearch = trip.data.googleMapsAddress;
+    const getSingleTrip = (routeParams) => {
+        TripsService.getSingleTrip(routeParams).then((trip) => {
+            $scope.trip = trip.data;               
+            
+            //FOR DATEPICKER
+            $scope.tripDate = function () {  
+                let date = $scope.trip.date.toString();                      
+                $scope.dt = new Date (date);
+            };
+            $scope.tripDate();                 
+            
             updateRoutesList(trip.data.googleMapsAddress);
-            getRoutes(AuthService.getCurrentUid(), tripId);
+            getRoutes(AuthService.getCurrentUid(), routeParams);
         }).catch((err) => {
             console.log('err in getSingleTrip:', err);
         });
@@ -129,13 +136,15 @@ app.controller('TripEditCtrl', function ($location, $log, $routeParams, $scope, 
         $scope.savedRoutes.push(route);
     };
 
-    $scope.createTrip = (trip) => {
+    $scope.createTrip = (trip, savedRoutes, dt) => {
+        trip.date = dt.toString();          
         postUpdatedTrip(trip);
     };
 
+
     const postUpdatedTrip = (updatedTrip) => {
         TripsService.updateTripInFirebase(updatedTrip, $routeParams.id).then((tripId) => {
-            saveUpdatedRoutes($scope.routesToSave, tripId.data.name);
+            saveUpdatedRoutes($scope.savedRoutes, tripId.data.name);
             $location.path("/trips");
         }).catch((err) => {
             console.log('error in updateTripInFirebase:', err);

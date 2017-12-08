@@ -255,7 +255,8 @@ app.controller('TripCreateCtrl', function ($location, $log, $scope, $window, GOO
         $scope.savedRoutes.push(route);
     };
 
-    $scope.createTrip = (trip, routes, dt) => {
+    $scope.createTrip = (trip, routes, dt) => {                
+        let date = dt.toString();        
         let heading = angular.element(document.querySelector('.areaHeading'));
         let address = heading[0].innerHTML;
         MapsService.getMapByAddressQuery(address).then((results) => {
@@ -264,16 +265,17 @@ app.controller('TripCreateCtrl', function ($location, $log, $scope, $window, GOO
                 MapsService.getMapByAddressQuery(address).then((results) => {
                     let lat = results.data.results[0].geometry.location.lat;
                     let lng = results.data.results[0].geometry.location.lng;
-                    let newTrip = TripsService.createTripObj(trip, address, lat, lng, dt);
+                    let newTrip = TripsService.createTripObj(trip, address, lat, lng, date);
                     saveTrip(newTrip);
                 });
             }
             let lat = results.data.results[0].geometry.location.lat;
             let lng = results.data.results[0].geometry.location.lng;
-            let newTrip = TripsService.createTripObj(trip, address, lat, lng);
+            let newTrip = TripsService.createTripObj(trip, address, lat, lng, date);
             saveTrip(newTrip);
         });
     };
+
 
     const saveTrip = (newTrip) => {
         TripsService.saveTripToFirebase(newTrip).then((tripId) => {
