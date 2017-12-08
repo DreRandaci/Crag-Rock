@@ -4,6 +4,7 @@ app.controller('TripEditCtrl', function ($location, $log, $routeParams, $scope, 
 
     //changes h1 txt from "create" to "edit" depending on partial
     $scope.changePageHeading = true;
+    $scope.removeHeading = () => { return true; };
 
     // initial map instance on page load
     $scope.map = {
@@ -41,16 +42,15 @@ app.controller('TripEditCtrl', function ($location, $log, $routeParams, $scope, 
 
     const getSingleTrip = (routeParams) => {
         TripsService.getSingleTrip(routeParams).then((trip) => {
-            $scope.trip = trip.data;               
-            
+            $scope.trip = trip.data;
+
             //FOR DATEPICKER
-            $scope.tripDate = function () {  
-                let date = $scope.trip.date.toString();                      
-                $scope.dt = new Date (date);
+            $scope.tripDate = function () {
+                let date = $scope.trip.date.toString();
+                $scope.dt = new Date(date);
             };
-            $scope.tripDate();                 
-            
-            // updateRoutesList(trip.data.googleMapsAddress);
+            $scope.tripDate();
+
             updateRoutesList(trip.data);
             getRoutes(AuthService.getCurrentUid(), routeParams);
         }).catch((err) => {
@@ -72,54 +72,47 @@ app.controller('TripEditCtrl', function ($location, $log, $routeParams, $scope, 
     };
 
     const updateRoutesList = (trip) => {
-        // MapsService.getMapByAddressQuery(trip).then((results) => {
-            // let lat = results.data.results[0].geometry.location.lat;
-            // let lng = results.data.results[0].geometry.location.lng;
-            let lat = trip.lat;
-            let lng = trip.lng;
+        let lat = trip.lat;
+        let lng = trip.lng;
 
-            let climbingHeadings = trip.name;
-            $scope.climbingAreaHeading = climbingHeadings;
-            getClimbingRoutes(lat, lng);
+        let climbingHeadings = trip.name;
+        $scope.climbingAreaHeading = climbingHeadings;
+        getClimbingRoutes(lat, lng);
 
-            $scope.map = {
-                center: { latitude: lat, longitude: lng },
-                zoom: 11,
-                options: { scrollwheel: true }
-            };
+        $scope.map = {
+            center: { latitude: lat, longitude: lng },
+            zoom: 11,
+            options: { scrollwheel: true }
+        };
 
-            $scope.marker = {
-                id: 0,
-                coords: { latitude: lat, longitude: lng },
-                options: { draggable: true },
-                events: {
-                    dragend: function (marker, eventName, args) {
-                        $log.log('marker drag-end');
-                        let lat = marker.getPosition().lat();
-                        let lon = marker.getPosition().lng();
-                        $log.log(lat);
-                        $log.log(lon);
+        $scope.marker = {
+            id: 0,
+            coords: { latitude: lat, longitude: lng },
+            options: { draggable: true },
+            events: {
+                dragend: function (marker, eventName, args) {
+                    $log.log('marker drag-end');
+                    let lat = marker.getPosition().lat();
+                    let lon = marker.getPosition().lng();
+                    $log.log(lat);
+                    $log.log(lon);
 
-                        $scope.marker.options = {
-                            draggable: true,
-                            labelContent: "lat: " + $scope.marker.coords.latitude + ' ' + 'lon: ' + $scope.marker.coords.longitude,
-                            labelAnchor: "100 0",
-                            labelClass: "marker-labels"
-                        };
-                    }
+                    $scope.marker.options = {
+                        draggable: true,
+                        labelContent: "lat: " + $scope.marker.coords.latitude + ' ' + 'lon: ' + $scope.marker.coords.longitude,
+                        labelAnchor: "100 0",
+                        labelClass: "marker-labels"
+                    };
                 }
-            };
-        // }).catch((err) => {
-        //     console.log("error in getMapByAddressQuery:", err);
-        // });
+            }
+        };
     };
 
-    const getClimbingRoutes = (lat, lng) => {        
+    const getClimbingRoutes = (lat, lng) => {
         $scope.routes = [];
         MountainProjService.getClimbingRoutesByLatLng(lat, lng).then((climbs) => {
-            console.log(climbs);
             let areaName = climbs.data.routes[0].location[1] + ', ' + climbs.data.routes[0].location[0];
-            $scope.routes = climbs.data.routes;            
+            $scope.routes = climbs.data.routes;
         }).catch((err) => {
             console.log('error in getClimbingRoutesByLatLng:', err);
         });
@@ -127,7 +120,7 @@ app.controller('TripEditCtrl', function ($location, $log, $routeParams, $scope, 
 
     $scope.savedRoutes = [];
 
-    $scope.removeRouteFromSaveList = (index, route) => {        
+    $scope.removeRouteFromSavedRoutes = (index, route) => {
         $scope.savedRoutes.splice(index, 1);
         RoutesService.deleteRoutes(route.id).then(() => {
         }).catch((err) => {
@@ -141,7 +134,7 @@ app.controller('TripEditCtrl', function ($location, $log, $routeParams, $scope, 
     };
 
     $scope.createTrip = (trip, savedRoutes, dt) => {
-        trip.date = dt.toString();          
+        trip.date = dt.toString();
         postUpdatedTrip(trip);
     };
 

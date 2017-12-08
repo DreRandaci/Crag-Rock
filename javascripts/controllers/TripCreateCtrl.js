@@ -246,7 +246,7 @@ app.controller('TripCreateCtrl', function ($location, $log, $scope, $window, GOO
 
     $scope.savedRoutes = [];
 
-    $scope.removeRouteFromSavedRoutes = (index, route) => {
+    $scope.removeRouteFromSavedRoutes = (index, route) => {        
         $scope.savedRoutes.splice(index, 1);
     };
 
@@ -256,8 +256,13 @@ app.controller('TripCreateCtrl', function ($location, $log, $scope, $window, GOO
     };
 
     $scope.createTrip = (trip, routes, dt) => {
+        let heading;
         let date = dt.toString();
-        let heading = angular.element(document.querySelector('.areaHeading'));
+        if (!$scope.removeHeading()) {
+            heading = angular.element(document.querySelector('.areaHeading1'));
+        } else {
+            heading = angular.element(document.querySelector('.areaHeading2'));
+        }
         let address = heading[0].innerHTML;
         MapsService.getMapByAddressQuery(address).then((results) => {
             if (results.data.results.length === 0) {
@@ -273,7 +278,7 @@ app.controller('TripCreateCtrl', function ($location, $log, $scope, $window, GOO
                 let lng = results.data.results[0].geometry.location.lng;
                 let newTrip = TripsService.createTripObj(trip, address, lat, lng, date);
                 saveTrip(newTrip);
-            }            
+            }
         });
     };
 
