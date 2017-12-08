@@ -26,7 +26,6 @@ app.controller('TripsViewCtrl', function ($location, $scope, AuthService, Routes
 
     const deleteRoutesFromTrip = (tripId) => {
         RoutesService.getRoutesForSingleTrip(tripId).then((routes) => {
-            // console.log(routes);
             routes.forEach((route) => {
                 deleteRoutes(route.id);
             });
