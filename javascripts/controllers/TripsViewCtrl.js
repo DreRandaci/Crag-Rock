@@ -24,4 +24,31 @@ app.controller('TripsViewCtrl', function ($location, $scope, AuthService, Routes
         $location.path(`/trip/detail/${tripId}`);
     };
 
+    const deleteRoutesFromTrip = (tripId) => {
+        RoutesService.getRoutesForSingleTrip(tripId).then((routes) => {
+            // console.log(routes);
+            routes.forEach((route) => {
+                deleteRoutes(route.id);
+            });
+        }).catch((err) => {
+            console.log("err in getRoutes:", err);
+        });
+    };
+
+    const deleteRoutes = (routeId) => {
+        RoutesService.deleteRoutes(routeId).then(() => {
+        }).catch((err) => {
+            console.log("error in deleteRoute:", err);
+        });
+    };
+
+    $scope.deleteTrip = (tripId) => {
+        deleteRoutesFromTrip(tripId);
+        TripsService.deleteTrip(tripId).then((results) => {
+            getTrips();
+        }).catch((err) => {
+            console.log("err in deleteTrip:", err);
+        });
+    };
+
 });

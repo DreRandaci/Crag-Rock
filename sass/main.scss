@@ -9,3 +9,11 @@
     max-height: 270px;
     overflow-y: auto; 
 }
+.trip {
+    position: relative;
+}
+.delete_btn {
+    position: absolute;
+    right: 30px;
+    top: 5px;
+}

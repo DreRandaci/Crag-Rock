@@ -42,6 +42,10 @@ app.service("TripsService", function ($http, $q, FIREBASE_CONFIG, AuthService) {
         return $http.put(`${FIREBASE_CONFIG.databaseURL}/trips/${tripId}.json`, JSON.stringify(updatedTrip));
     };
 
-    return { getTrips, getSingleTrip, createTripObj, saveTripToFirebase, updateTripInFirebase };
+    const deleteTrip = (tripId) => {
+        return $http.delete(`${FIREBASE_CONFIG.databaseURL}/trips/${tripId}.json`);
+    };
+
+    return { createTripObj, deleteTrip, getTrips, getSingleTrip, saveTripToFirebase, updateTripInFirebase };
 
 });
