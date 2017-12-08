@@ -5,6 +5,8 @@ app.controller('TripCreateCtrl', function ($location, $log, $scope, $window, GOO
     //inject google maps script
     $scope.googleUrl = `http://maps.google.com/maps/api/js?key=${GOOGLEMAPS_CONFIG}`;
 
+    $scope.removeHeading = () => {return false;};
+
     //initial map instance on page load
     $scope.map = {
         center: {
@@ -91,6 +93,8 @@ app.controller('TripCreateCtrl', function ($location, $log, $scope, $window, GOO
             let lat = results.data.results[0].geometry.location.lat;
             let lng = results.data.results[0].geometry.location.lng;
 
+            $scope.removeHeading = () => {return true;};
+
             let climbingHeading = results.data.results[0].formatted_address.split(',', 1).join();
             $scope.climbingAreaHeading = climbingHeading;
             getClimbingRoutes(lat, lng);
@@ -129,15 +133,98 @@ app.controller('TripCreateCtrl', function ($location, $log, $scope, $window, GOO
 
     const getClimbingRoutes = (lat, lng, distance, minDiff, maxDiff) => {
         $scope.routes = [];
+        $scope.count = 0;
         MountainProjService.getClimbingRoutesByLatLng(lat, lng).then((climbs) => {
+            $scope.count++;
             let climbingHeading = climbs.data.routes[0].location[1] + ', ' + climbs.data.routes[0].location[0];
             $scope.routes = climbs.data.routes;
-            $scope.climbingAreaHeading = climbingHeading;
+            $scope.climbingAreaHeadingPageLoad = climbingHeading;
         }).catch((err) => {
             console.log('error in getClimbingRoutesByLatLng:', err);
         });
     };
 
+    /////DATEPICKER
+    $scope.today = function () {
+        $scope.dt = new Date();
+    };
+    $scope.today();
+
+    $scope.clear = function () {
+        $scope.dt = null;
+    };
+
+    $scope.inlineOptions = {
+        customClass: getDayClass,
+        minDate: new Date(),
+        showWeeks: true
+    };
+
+    $scope.dateOptions = {
+        formatYear: 'yy',
+        maxDate: new Date(2020, 5, 22),
+        minDate: new Date(),
+        startingDay: 1
+    };
+
+    $scope.toggleMin = function () {
+        $scope.inlineOptions.minDate = $scope.inlineOptions.minDate ? null : new Date();
+        $scope.dateOptions.minDate = $scope.inlineOptions.minDate;
+    };
+
+    $scope.toggleMin();
+
+    $scope.open1 = function () {
+        $scope.popup1.opened = true;
+    };
+
+    $scope.setDate = function (year, month, day) {
+        $scope.dt = new Date(year, month, day);
+    };
+
+    $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+    $scope.format = $scope.formats[0];
+    $scope.altInputFormats = ['M!/d!/yyyy'];
+
+    $scope.popup1 = {
+        opened: false
+    };
+
+    var tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    var afterTomorrow = new Date();
+    afterTomorrow.setDate(tomorrow.getDate() + 1);
+    $scope.events = [
+        {
+            date: tomorrow,
+            status: 'full'
+        },
+        {
+            date: afterTomorrow,
+            status: 'partially'
+        }
+    ];
+
+    function getDayClass(data) {
+        var date = data.date,
+            mode = data.mode;
+        if (mode === 'day') {
+            var dayToCheck = new Date(date).setHours(0, 0, 0, 0);
+
+            for (var i = 0; i < $scope.events.length; i++) {
+                var currentDay = new Date($scope.events[i].date).setHours(0, 0, 0, 0);
+
+                if (dayToCheck === currentDay) {
+                    return $scope.events[i].status;
+                }
+            }
+        }
+
+        return '';
+    }
+
+
+    //////DROPDOWN MENU
     $scope.status = {
         isopen: false
     };
@@ -154,6 +241,9 @@ app.controller('TripCreateCtrl', function ($location, $log, $scope, $window, GOO
 
     $scope.appendToEl = angular.element(document.querySelector('#dropdown-long-content'));
 
+////////////////////
+
+
     $scope.savedRoutes = [];
 
     $scope.removeRouteFromSavedRoutes = (index, route) => {
@@ -165,16 +255,16 @@ app.controller('TripCreateCtrl', function ($location, $log, $scope, $window, GOO
         $scope.savedRoutes.push(route);
     };
 
-    $scope.createTrip = (trip) => {
+    $scope.createTrip = (trip, routes, dt) => {
         let heading = angular.element(document.querySelector('.areaHeading'));
         let address = heading[0].innerHTML;
-        MapsService.getMapByAddressQuery(address).then((results) => {    
+        MapsService.getMapByAddressQuery(address).then((results) => {
             if (results.data.results.length === 0) {
                 address = 'nashville, tn';
                 MapsService.getMapByAddressQuery(address).then((results) => {
                     let lat = results.data.results[0].geometry.location.lat;
                     let lng = results.data.results[0].geometry.location.lng;
-                    let newTrip = TripsService.createTripObj(trip, address, lat, lng);
+                    let newTrip = TripsService.createTripObj(trip, address, lat, lng, dt);
                     saveTrip(newTrip);
                 });
             }
