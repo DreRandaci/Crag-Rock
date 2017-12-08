@@ -190,9 +190,9 @@ app.controller('TripCreateCtrl', function ($location, $log, $scope, $window, GOO
         opened: false
     };
 
-    var tomorrow = new Date();
+    let tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
-    var afterTomorrow = new Date();
+    let afterTomorrow = new Date();
     afterTomorrow.setDate(tomorrow.getDate() + 1);
     $scope.events = [
         {
@@ -206,13 +206,13 @@ app.controller('TripCreateCtrl', function ($location, $log, $scope, $window, GOO
     ];
 
     function getDayClass(data) {
-        var date = data.date,
+        let date = data.date,
             mode = data.mode;
         if (mode === 'day') {
-            var dayToCheck = new Date(date).setHours(0, 0, 0, 0);
+            let dayToCheck = new Date(date).setHours(0, 0, 0, 0);
 
             for (var i = 0; i < $scope.events.length; i++) {
-                var currentDay = new Date($scope.events[i].date).setHours(0, 0, 0, 0);
+                let currentDay = new Date($scope.events[i].date).setHours(0, 0, 0, 0);
 
                 if (dayToCheck === currentDay) {
                     return $scope.events[i].status;
