@@ -56,8 +56,8 @@ app.controller('TripCreateCtrl', function ($location, $log, $scope, $window, GOO
 
         //get climbing routes near you for dropdown menu
         MountainProjService.getClimbingRoutesByLatLng(lat, lng).then((climbs) => {
-            let nearestAreaLat = climbs.data.routes[0].latitude;
-            let nearestAreaLng = climbs.data.routes[0].longitude;
+            $scope.nearestAreaLat = climbs.data.routes[0].latitude;
+            $scope.nearestAreaLng = climbs.data.routes[0].longitude;
             getClimbingRoutes(position.coords.latitude, position.coords.longitude);
 
             //update map instance with geolcation
@@ -65,7 +65,7 @@ app.controller('TripCreateCtrl', function ($location, $log, $scope, $window, GOO
             $scope.map.center.longitude = lng;
             $scope.map.zoom = 10;
             $scope.marker.id = 0;
-            $scope.marker.coords = { latitude: nearestAreaLat, longitude: nearestAreaLng };
+            $scope.marker.coords = { latitude: $scope.nearestAreaLat, longitude: $scope.nearestAreaLng };
             $scope.marker.options = { draggable: true };
             $scope.marker.events = {
                 dragend: function (marker, eventName, args) {
@@ -246,7 +246,7 @@ app.controller('TripCreateCtrl', function ($location, $log, $scope, $window, GOO
 
     $scope.savedRoutes = [];
 
-    $scope.removeRouteFromSavedRoutes = (index, route) => {        
+    $scope.removeRouteFromSavedRoutes = (index, route) => {
         $scope.savedRoutes.splice(index, 1);
     };
 
@@ -266,13 +266,11 @@ app.controller('TripCreateCtrl', function ($location, $log, $scope, $window, GOO
         let address = heading[0].innerHTML;
         MapsService.getMapByAddressQuery(address).then((results) => {
             if (results.data.results.length === 0) {
-                address = 'nashville, tn';
-                MapsService.getMapByAddressQuery(address).then((results) => {
-                    let lat = results.data.results[0].geometry.location.lat;
-                    let lng = results.data.results[0].geometry.location.lng;
-                    let newTrip = TripsService.createTripObj(trip, address, lat, lng, date);
-                    saveTrip(newTrip);
-                });
+                let lat = $scope.nearestAreaLat;
+                let lng = $scope.nearestAreaLng;
+
+                let newTrip = TripsService.createTripObj(trip, address, lat, lng, date);
+                saveTrip(newTrip);
             } else {
                 let lat = results.data.results[0].geometry.location.lat;
                 let lng = results.data.results[0].geometry.location.lng;
