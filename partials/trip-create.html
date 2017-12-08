@@ -22,13 +22,17 @@
     </div>
 
     <div class="col-md-4">
-        <h1 class="areaHeading" ng-show="!removeHeading()">{{climbingAreaHeadingPageLoad}}</h1>
-        <h1 class="areaHeading" ng-show="removeHeading()">{{climbingAreaHeading}}</h1>
+        <h1 class="areaHeading1" ng-show="!removeHeading()">{{climbingAreaHeadingPageLoad}}</h1>
+        <h1 class="areaHeading2" ng-show="removeHeading()">{{climbingAreaHeading}}</h1>        
         <div ng-show="savedRoutes.length">
-            <input type="text" placeholder="Trip Name" ng-model="trip.name">
-            <input type="text" placeholder="Trip Description" ng-model="trip.description">
-            <!-- <input type="text" placeholder="Trip Date" ng-model="trip.date"> -->
+            <div class="form-group">
+                <input type="text" placeholder="Trip Name" ng-model="trip.name">
+            </div>
+            <div class="form-group">
+                <input type="text" placeholder="Trip Description" ng-model="trip.description">
+            </div>
 
+            <!-- DATEPICKER -->
             <p class="input-group">
                 <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" datepicker-options="dateOptions"
                     ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
@@ -42,8 +46,8 @@
             <h4>Your Trip Routes:</h4>
             <ul>
                 <li ng-repeat="route in savedRoutes" ng-model="routes">
-                    <a href="">{{route.name}} {{route.rating}}</a>
-                    <button class='btn btn-danger btn-sm' ng-click="removeRouteFromSaveList($index, route)">X</button>
+                    <a>{{route.name}} {{route.rating}}</a>
+                    <button class='btn btn-danger btn-sm' ng-click="removeRouteFromSavedRoutes($index, route)">X</button>
                 </li>
             </ul>
             <button class="btn btn-success" ng-click="createTrip(trip, savedRoutes, dt)">Save</button>

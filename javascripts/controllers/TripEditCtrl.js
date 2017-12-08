@@ -4,6 +4,7 @@ app.controller('TripEditCtrl', function ($location, $log, $routeParams, $scope, 
 
     //changes h1 txt from "create" to "edit" depending on partial
     $scope.changePageHeading = true;
+    $scope.removeHeading = () => { return true; };
 
     // initial map instance on page load
     $scope.map = {
@@ -18,33 +19,23 @@ app.controller('TripEditCtrl', function ($location, $log, $routeParams, $scope, 
     // initial marker instance on page load
     $scope.marker = {
         id: 0,
-        options: { draggable: true },
-        events: {
-            dragend: function (marker, eventName, args) {
-                $log.log('marker drag-end');
-                let lat = marker.getPosition().lat();
-                let lon = marker.getPosition().lng();
-                $log.log(lat);
-                $log.log(lon);
-
-                $scope.marker.options = {
-                    draggable: true,
-                    labelContent: "lat: " + $scope.marker.coords.latitude + ' ' + 'lon: ' + $scope.marker.coords.longitude,
-                    labelAnchor: "100 0",
-                    labelClass: "marker-labels"
-                };
-            }
-        }
     };
 
     $scope.trip = {};
 
-    const getSingleTrip = (tripId) => {
-        TripsService.getSingleTrip(tripId).then((trip) => {
+    const getSingleTrip = (routeParams) => {
+        TripsService.getSingleTrip(routeParams).then((trip) => {
             $scope.trip = trip.data;
-            $scope.addressSearch = trip.data.googleMapsAddress;
-            updateRoutesList(trip.data.googleMapsAddress);
-            getRoutes(AuthService.getCurrentUid(), tripId);
+
+            //FOR DATEPICKER
+            $scope.tripDate = function () {
+                let date = $scope.trip.date.toString();
+                $scope.dt = new Date(date);
+            };
+            $scope.tripDate();
+
+            updateRoutesList(trip.data);
+            getRoutes(AuthService.getCurrentUid(), routeParams);
         }).catch((err) => {
             console.log('err in getSingleTrip:', err);
         });
@@ -63,52 +54,31 @@ app.controller('TripEditCtrl', function ($location, $log, $routeParams, $scope, 
         });
     };
 
-    const updateRoutesList = (address) => {
-        MapsService.getMapByAddressQuery(address).then((results) => {
-            let lat = results.data.results[0].geometry.location.lat;
-            let lng = results.data.results[0].geometry.location.lng;
+    const updateRoutesList = (trip) => {
+        let lat = trip.lat;
+        let lng = trip.lng;
 
-            let climbingHeadings = results.data.results[0].formatted_address.split(',', 1).join();
-            $scope.climbingAreaHeading = climbingHeadings;
-            getClimbingRoutes(lat, lng);
+        let climbingHeadings = trip.name;
+        $scope.climbingAreaHeading = climbingHeadings;
+        getClimbingRoutes(lat, lng);
 
-            $scope.map = {
-                center: { latitude: lat, longitude: lng },
-                zoom: 11,
-                options: { scrollwheel: true }
-            };
+        $scope.map = {
+            center: { latitude: lat, longitude: lng },
+            zoom: 11,
+            options: { scrollwheel: true }
+        };
 
-            $scope.marker = {
-                id: 0,
-                coords: { latitude: lat, longitude: lng },
-                options: { draggable: true },
-                events: {
-                    dragend: function (marker, eventName, args) {
-                        $log.log('marker drag-end');
-                        let lat = marker.getPosition().lat();
-                        let lon = marker.getPosition().lng();
-                        $log.log(lat);
-                        $log.log(lon);
-
-                        $scope.marker.options = {
-                            draggable: true,
-                            labelContent: "lat: " + $scope.marker.coords.latitude + ' ' + 'lon: ' + $scope.marker.coords.longitude,
-                            labelAnchor: "100 0",
-                            labelClass: "marker-labels"
-                        };
-                    }
-                }
-            };
-        }).catch((err) => {
-            console.log("error in getMapByAddressQuery:", err);
-        });
+        $scope.marker = {
+            id: 0,
+            coords: { latitude: lat, longitude: lng },
+        };
     };
 
-    const getClimbingRoutes = (lat, lng, distance, minDiff, maxDiff) => {
+    const getClimbingRoutes = (lat, lng) => {
         $scope.routes = [];
         MountainProjService.getClimbingRoutesByLatLng(lat, lng).then((climbs) => {
             let areaName = climbs.data.routes[0].location[1] + ', ' + climbs.data.routes[0].location[0];
-            $scope.routes = climbs.data.routes;            
+            $scope.routes = climbs.data.routes;
         }).catch((err) => {
             console.log('error in getClimbingRoutesByLatLng:', err);
         });
@@ -116,40 +86,116 @@ app.controller('TripEditCtrl', function ($location, $log, $routeParams, $scope, 
 
     $scope.savedRoutes = [];
 
-    $scope.removeRouteFromSaveList = (index, route) => {        
+    $scope.removeRouteFromSavedRoutes = (index, route) => {
         $scope.savedRoutes.splice(index, 1);
-        RoutesService.deleteSingleRouteFromFirebase(route.id).then(() => {
+        RoutesService.deleteRoutes(route.id).then(() => {
         }).catch((err) => {
             console.log('error in deleteSingleRouteFromFirebase:', err);
         });
     };
 
     //save each climbing route
-    $scope.saveToRouteList = (route, tripId) => {
-        $scope.savedRoutes.push(route);
+    $scope.saveToRouteList = (route) => {
+        saveUpdatedRoutes(route, $routeParams.id);
     };
 
-    $scope.createTrip = (trip) => {
+    $scope.createTrip = (trip, savedRoutes, dt) => {
+        trip.date = dt.toString();
         postUpdatedTrip(trip);
     };
 
+
     const postUpdatedTrip = (updatedTrip) => {
         TripsService.updateTripInFirebase(updatedTrip, $routeParams.id).then((tripId) => {
-            saveUpdatedRoutes($scope.routesToSave, tripId.data.name);
             $location.path("/trips");
         }).catch((err) => {
             console.log('error in updateTripInFirebase:', err);
         });
     };
 
-    const saveUpdatedRoutes = (routes, tripId) => {
-        routes.forEach((route) => {
-            let newRoute = RoutesService.createRouteObj(route, tripId);
-            RoutesService.saveTripRoutesToFirebase(newRoute).then(() => {
-            }).catch((err) => {
-                console.log('error in saveTripRoutesToFirebase:', err);
-            });
+    const saveUpdatedRoutes = (route, tripId) => {
+        let newRoute = RoutesService.createRouteObj(route, tripId);
+        RoutesService.saveTripRoutesToFirebase(newRoute).then((results) => {
+            newRoute.id = results.data.name;
+            $scope.savedRoutes.push(newRoute);
+        }).catch((err) => {
+            console.log('error in saveTripRoutesToFirebase:', err);
         });
     };
+
+    //DATEPICKER
+    $scope.clear = function () {
+        $scope.dt = null;
+    };
+
+    $scope.inlineOptions = {
+        customClass: getDayClass,
+        minDate: new Date(),
+        showWeeks: true
+    };
+
+    $scope.dateOptions = {
+        formatYear: 'yy',
+        maxDate: new Date(2020, 5, 22),
+        minDate: new Date(),
+        startingDay: 1
+    };
+
+    $scope.toggleMin = function () {
+        $scope.inlineOptions.minDate = $scope.inlineOptions.minDate ? null : new Date();
+        $scope.dateOptions.minDate = $scope.inlineOptions.minDate;
+    };
+
+    $scope.toggleMin();
+
+    $scope.open1 = function () {
+        $scope.popup1.opened = true;
+    };
+
+    $scope.setDate = function (year, month, day) {
+        $scope.dt = new Date(year, month, day);
+    };
+
+    $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+    $scope.format = $scope.formats[0];
+    $scope.altInputFormats = ['M!/d!/yyyy'];
+
+    $scope.popup1 = {
+        opened: false
+    };
+
+    let tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    let afterTomorrow = new Date();
+    afterTomorrow.setDate(tomorrow.getDate() + 1);
+    $scope.events = [
+        {
+            date: tomorrow,
+            status: 'full'
+        },
+        {
+            date: afterTomorrow,
+            status: 'partially'
+        }
+    ];
+
+    function getDayClass(data) {
+        let date = data.date,
+            mode = data.mode;
+        if (mode === 'day') {
+            let dayToCheck = new Date(date).setHours(0, 0, 0, 0);
+
+            for (var i = 0; i < $scope.events.length; i++) {
+                let currentDay = new Date($scope.events[i].date).setHours(0, 0, 0, 0);
+
+                if (dayToCheck === currentDay) {
+                    return $scope.events[i].status;
+                }
+            }
+        }
+
+        return '';
+    }
+
 
 });

@@ -6,9 +6,9 @@ app.service("RoutesService", function ($http, $q, FIREBASE_CONFIG, AuthService) 
         return {
             "routeId": route.id,
             "name": route.name,
-            "difficulty": route.rating,
+            "rating": route.rating,
             "stars": route.stars,
-            "wall": route.location[2],
+            // "wall": route.wall ? route.wall : route.location[2], 
             "trip_id": tripId,
             "uid": AuthService.getCurrentUid()
         };
