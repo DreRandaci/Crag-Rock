@@ -29,7 +29,7 @@ app.service("TripsService", function ($http, $q, FIREBASE_CONFIG, AuthService) {
             "date": dt,
             "googleMapsAddress": address,
             "lat": lat,
-            "lng": lat,
+            "lng": lng,
             "uid": AuthService.getCurrentUid()
         };
     };

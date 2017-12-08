@@ -50,7 +50,8 @@ app.controller('TripEditCtrl', function ($location, $log, $routeParams, $scope, 
             };
             $scope.tripDate();                 
             
-            updateRoutesList(trip.data.googleMapsAddress);
+            // updateRoutesList(trip.data.googleMapsAddress);
+            updateRoutesList(trip.data);
             getRoutes(AuthService.getCurrentUid(), routeParams);
         }).catch((err) => {
             console.log('err in getSingleTrip:', err);
@@ -70,12 +71,14 @@ app.controller('TripEditCtrl', function ($location, $log, $routeParams, $scope, 
         });
     };
 
-    const updateRoutesList = (address) => {
-        MapsService.getMapByAddressQuery(address).then((results) => {
-            let lat = results.data.results[0].geometry.location.lat;
-            let lng = results.data.results[0].geometry.location.lng;
+    const updateRoutesList = (trip) => {
+        // MapsService.getMapByAddressQuery(trip).then((results) => {
+            // let lat = results.data.results[0].geometry.location.lat;
+            // let lng = results.data.results[0].geometry.location.lng;
+            let lat = trip.lat;
+            let lng = trip.lng;
 
-            let climbingHeadings = results.data.results[0].formatted_address.split(',', 1).join();
+            let climbingHeadings = trip.name;
             $scope.climbingAreaHeading = climbingHeadings;
             getClimbingRoutes(lat, lng);
 
@@ -106,14 +109,15 @@ app.controller('TripEditCtrl', function ($location, $log, $routeParams, $scope, 
                     }
                 }
             };
-        }).catch((err) => {
-            console.log("error in getMapByAddressQuery:", err);
-        });
+        // }).catch((err) => {
+        //     console.log("error in getMapByAddressQuery:", err);
+        // });
     };
 
-    const getClimbingRoutes = (lat, lng, distance, minDiff, maxDiff) => {
+    const getClimbingRoutes = (lat, lng) => {        
         $scope.routes = [];
         MountainProjService.getClimbingRoutesByLatLng(lat, lng).then((climbs) => {
+            console.log(climbs);
             let areaName = climbs.data.routes[0].location[1] + ', ' + climbs.data.routes[0].location[0];
             $scope.routes = climbs.data.routes;            
         }).catch((err) => {
@@ -125,7 +129,7 @@ app.controller('TripEditCtrl', function ($location, $log, $routeParams, $scope, 
 
     $scope.removeRouteFromSaveList = (index, route) => {        
         $scope.savedRoutes.splice(index, 1);
-        RoutesService.deleteSingleRouteFromFirebase(route.id).then(() => {
+        RoutesService.deleteRoutes(route.id).then(() => {
         }).catch((err) => {
             console.log('error in deleteSingleRouteFromFirebase:', err);
         });

@@ -5,7 +5,7 @@ app.controller('TripCreateCtrl', function ($location, $log, $scope, $window, GOO
     //inject google maps script
     $scope.googleUrl = `http://maps.google.com/maps/api/js?key=${GOOGLEMAPS_CONFIG}`;
 
-    $scope.removeHeading = () => {return false;};
+    $scope.removeHeading = () => { return false; };
 
     //initial map instance on page load
     $scope.map = {
@@ -93,7 +93,7 @@ app.controller('TripCreateCtrl', function ($location, $log, $scope, $window, GOO
             let lat = results.data.results[0].geometry.location.lat;
             let lng = results.data.results[0].geometry.location.lng;
 
-            $scope.removeHeading = () => {return true;};
+            $scope.removeHeading = () => { return true; };
 
             let climbingHeading = results.data.results[0].formatted_address.split(',', 1).join();
             $scope.climbingAreaHeading = climbingHeading;
@@ -241,7 +241,7 @@ app.controller('TripCreateCtrl', function ($location, $log, $scope, $window, GOO
 
     $scope.appendToEl = angular.element(document.querySelector('#dropdown-long-content'));
 
-////////////////////
+    ////////////////////
 
 
     $scope.savedRoutes = [];
@@ -255,8 +255,8 @@ app.controller('TripCreateCtrl', function ($location, $log, $scope, $window, GOO
         $scope.savedRoutes.push(route);
     };
 
-    $scope.createTrip = (trip, routes, dt) => {                
-        let date = dt.toString();        
+    $scope.createTrip = (trip, routes, dt) => {
+        let date = dt.toString();
         let heading = angular.element(document.querySelector('.areaHeading'));
         let address = heading[0].innerHTML;
         MapsService.getMapByAddressQuery(address).then((results) => {
@@ -268,11 +268,12 @@ app.controller('TripCreateCtrl', function ($location, $log, $scope, $window, GOO
                     let newTrip = TripsService.createTripObj(trip, address, lat, lng, date);
                     saveTrip(newTrip);
                 });
-            }
-            let lat = results.data.results[0].geometry.location.lat;
-            let lng = results.data.results[0].geometry.location.lng;
-            let newTrip = TripsService.createTripObj(trip, address, lat, lng, date);
-            saveTrip(newTrip);
+            } else {
+                let lat = results.data.results[0].geometry.location.lat;
+                let lng = results.data.results[0].geometry.location.lng;
+                let newTrip = TripsService.createTripObj(trip, address, lat, lng, date);
+                saveTrip(newTrip);
+            }            
         });
     };
 
