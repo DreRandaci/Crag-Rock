@@ -30,13 +30,32 @@ app.service("RoutesService", function ($http, $q, FIREBASE_CONFIG, AuthService) 
         });
     };
 
+    const getRoutesForSingleTrip = (tripId) => {
+        let routes = [];
+        let fbRoutes = [];
+        return $q((resolve, reject) => {
+          $http.get(`${FIREBASE_CONFIG.databaseURL}/savedRoutesForTrips.json`).then((results) => {
+            fbRoutes = results.data;
+            Object.keys(fbRoutes).forEach((key) => {
+              if (fbRoutes[key].trip_id === tripId) {
+                fbRoutes[key].id = key;
+                routes.push(fbRoutes[key]);
+              }
+            });
+            resolve(routes);
+          }).catch((error) => {
+            reject(error);
+          });
+        });
+      };
+
     const saveTripRoutesToFirebase = (newRoute) => {
         return $http.post(`${FIREBASE_CONFIG.databaseURL}/savedRoutesForTrips.json`, JSON.stringify(newRoute));
     };
 
-    const deleteSingleRouteFromFirebase = (routeId) => {
+    const deleteRoutes = (routeId) => {
         return $http.delete(`${FIREBASE_CONFIG.databaseURL}/savedRoutesForTrips/${routeId}.json`);
     };
 
-    return { deleteSingleRouteFromFirebase, saveTripRoutesToFirebase, createRouteObj, getRoutes };
+    return { createRouteObj, deleteRoutes, getRoutesForSingleTrip, getRoutes, saveTripRoutesToFirebase };
 });

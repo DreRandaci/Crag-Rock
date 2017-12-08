@@ -1,10 +1,11 @@
-<div ng-repeat="trip in trips" class="col-sm-6 col-md-4" ng-click="editTrip(trip.id)">
+<div ng-repeat="trip in trips" class="col-sm-6 col-md-4 trip">
     <div class="caption">
         <div class="panel panel-default">
             <div class="panel-heading">
+                <button ng-click="deleteTrip(trip.id)" class="btn btn-danger btn-sm delete_btn">X</button>
                 <h1 class="panel-title">{{trip.name}}</h1>
             </div>
-            <div class="panel-body">
+            <div class="panel-body" ng-click="editTrip(trip.id)">
                 <p>{{trip.description}}</p>
                 <ul>
                     <li ng-repeat="route in routes" ng-if="trip.id === route.trip_id">{{route.name}} {{route.difficulty}}</li>
