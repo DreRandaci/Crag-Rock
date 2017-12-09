@@ -1,22 +1,13 @@
 <div class="container-fluid">
-    <h1>Create a Trip</h1>
-
+    <h1>Edit Trip</h1>
+    <h4>Routes</h4>
     <div class='col-md-4'>
-        <div ng-show="!changePageHeading">
-            <input type="text" placeholder="Search for Climbing Areas" ng-model="addressSearch">
-            <button class='btn btn-default' ng-click="geocode(addressSearch)">Search</button>
-        </div>
-
-        <h4>Routes</h4>
         <div id="routes_list" ng-show="routes.length" class="list-group">
             <a ng-repeat="route in routes" class="list-group-item" ng-click="saveToRouteList(route)">{{route.name}} {{route.rating}}</a>
         </div>
     </div>
-
-
     <div class="col-md-4">
-        <h1 ng-show="routes.length">{{routes[0].crag}}, {{routes[0].state}}</h1>
-        <h4 class="">{{address}}</h4>
+        <h1 class="areaHeading2">{{climbingAreaHeading}}</h1>
         <div ng-show="savedRoutes.length">
             <div class="form-group">
                 <input type="text" placeholder="Trip Name" ng-model="trip.name">
@@ -35,15 +26,14 @@
                     </button>
                 </span>
             </p>
-
             <h4>Your Trip Routes:</h4>
             <ul>
                 <li ng-repeat="route in savedRoutes" ng-model="routes">
-                    <a>{{route.name}} {{route.rating}}</a>
+                    <a>{{route.name}} {{route.rating}}, {{route.wall}}</a>
                     <button class='btn btn-danger btn-sm' ng-click="removeRouteFromSavedRoutes($index, route)">X</button>
                 </li>
             </ul>
-            <button class="btn btn-success" ng-click="createTrip(trip, savedRoutes, dt)">Save</button>
+            <button class="btn btn-success" ng-click="createTrip(trip, savedRoutes, dt)">Update</button>
         </div>
     </div>
 
@@ -51,8 +41,8 @@
 
         <ui-gmap-google-map id="map" center='map.center' zoom='map.zoom' draggable='true'>
 
-            <ui-gmap-markers events="markersEvents" coords="'self'" options="'options'" models="markers" icon="'icon'">
-            </ui-gmap-markers>
+            <ui-gmap-marker coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id">
+            </ui-gmap-marker>
 
         </ui-gmap-google-map>
     </div>

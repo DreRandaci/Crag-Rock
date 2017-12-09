@@ -195,6 +195,6 @@ app.controller('TripEditCtrl', function ($location, $log, $routeParams, $scope, 
 
         return '';
     }
-
+    /////////////
 
 });

@@ -38,8 +38,7 @@ app.controller('TripCreateCtrl', function ($location, $scope, $window, GOOGLEMAP
             $scope.map.center = { latitude: lat, longitude: lng };
             model.show = !model.show;
             MapsService.getMapByLatLngQuery(lat, lng).then((results) => {
-                console.log("results:", results);
-                $scope.climbingAreaHeading = results.data.results[0].formatted_address;
+                $scope.address = results.data.results[0].formatted_address;
             });
             getClimbingRoutes(lat, lng);
         }
@@ -66,12 +65,10 @@ app.controller('TripCreateCtrl', function ($location, $scope, $window, GOOGLEMAP
         $scope.routesToSave = [];
         MapsService.getMapByAddressQuery(address).then((results) => {
             let lat = results.data.results[0].geometry.location.lat;
-            let lng = results.data.results[0].geometry.location.lng;
+            let lng = results.data.results[0].geometry.location.lng;            
 
-            $scope.removeHeading = () => { return true; };
-
-            let climbingHeading = results.data.results[0].formatted_address.split(',', 1).join();
-            $scope.climbingAreaHeading = climbingHeading;
+            let address = results.data.results[0].formatted_address.split(',', 1).join();
+            $scope.address = address;
             getClimbingRoutes(lat, lng);
 
             $scope.map = {
@@ -91,10 +88,13 @@ app.controller('TripCreateCtrl', function ($location, $scope, $window, GOOGLEMAP
 
     const getClimbingRoutes = (lat, lng) => {
         $scope.routes = [];
-        MountainProjService.getClimbingRoutesByLatLng(lat, lng).then((climbs) => {
-            console.log(climbs);
-            let climbingHeading = climbs.data.routes[0].location[1] + ', ' + climbs.data.routes[0].location[0];
-            $scope.routes = climbs.data.routes;
+        MountainProjService.getClimbingRoutesByLatLng(lat, lng).then((climbs) => {            
+            let routes = climbs.data.routes.map((route) => {
+                route.state = route.location[0];
+                route.crag = route.location[1];                
+                return route;
+            });
+            $scope.routes = routes;
         }).catch((err) => {
             console.log('error in getClimbingRoutesByLatLng:', err);
         });
@@ -193,31 +193,32 @@ app.controller('TripCreateCtrl', function ($location, $scope, $window, GOOGLEMAP
     };
 
     $scope.createTrip = (trip, routes, dt) => {
-        let heading;
-        let date = dt.toString();
-        if (!$scope.removeHeading()) {
-            heading = angular.element(document.querySelector('.areaHeading1'));
-        } else {
-            heading = angular.element(document.querySelector('.areaHeading2'));
-        }
-        let address = heading[0].innerHTML;
+        console.log(trip, routes, dt);
+        // let heading;
+        // let date = dt.toString();
+        // if (!$scope.removeHeading()) {
+        //     heading = angular.element(document.querySelector('.areaHeading1'));
+        // } else {
+        //     heading = angular.element(document.querySelector('.areaHeading2'));
+        // }
+        // let address = heading[0].innerHTML;
 
-        MapsService.getMapByAddressQuery(address).then((results) => {
+        // MapsService.getMapByAddressQuery(address).then((results) => {
 
-            //if the address passed in above returns no results
-            if (results.data.results.length === 0) {
-                let lat = $scope.nearestAreaLat;
-                let lng = $scope.nearestAreaLng;
+        //     //if the address passed in above returns no results
+        //     if (results.data.results.length === 0) {
+        //         let lat = $scope.nearestAreaLat;
+        //         let lng = $scope.nearestAreaLng;
 
-                let newTrip = TripsService.createTripObj(trip, address, lat, lng, date);
-                saveTrip(newTrip);
-            } else {
-                let lat = results.data.results[0].geometry.location.lat;
-                let lng = results.data.results[0].geometry.location.lng;
-                let newTrip = TripsService.createTripObj(trip, address, lat, lng, date);
-                saveTrip(newTrip);
-            }
-        });
+        //         let newTrip = TripsService.createTripObj(trip, address, lat, lng, date);
+        //         saveTrip(newTrip);
+        //     } else {
+        //         let lat = results.data.results[0].geometry.location.lat;
+        //         let lng = results.data.results[0].geometry.location.lng;
+        //         let newTrip = TripsService.createTripObj(trip, address, lat, lng, date);
+        //         saveTrip(newTrip);
+        //     }
+        // });
     };
 
 
