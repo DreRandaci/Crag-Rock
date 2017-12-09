@@ -5,10 +5,11 @@ app.service("RoutesService", function ($http, $q, FIREBASE_CONFIG, AuthService) 
     const createRouteObj = (route, tripId) => {
         return {
             "routeId": route.id,
+            "type": route.type,
             "name": route.name,
             "rating": route.rating,
             "stars": route.stars,
-            // "wall": route.wall ? route.wall : route.location[2], 
+            "area": route.area, 
             "trip_id": tripId,
             "uid": AuthService.getCurrentUid()
         };

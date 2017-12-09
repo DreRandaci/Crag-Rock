@@ -16,3 +16,7 @@
   position: absolute;
   right: 30px;
   top: 5px; }
+
+#routes_list {
+  overflow: scroll;
+  height: 400px; }
