@@ -5,6 +5,8 @@ app.controller('TripCreateCtrl', function ($location, $scope, $window, GOOGLEMAP
     //inject google maps script
     $scope.googleUrl = `http://maps.google.com/maps/api/js?key=${GOOGLEMAPS_CONFIG}`;
 
+    $scope.updateHeadingBeforeUserClicksMarker = true;
+
     $window.navigator.geolocation.getCurrentPosition(function (position) {
         let lat = position.coords.latitude;
         let lng = position.coords.longitude;
@@ -30,7 +32,7 @@ app.controller('TripCreateCtrl', function ($location, $scope, $window, GOOGLEMAP
 
     $scope.markersEvents = {
         click: function (marker, eventName, model) {
-
+            $scope.updateHeadingBeforeUserClicksMarker = false;
             let lat = model.latitude;
             let lng = model.longitude;
 
