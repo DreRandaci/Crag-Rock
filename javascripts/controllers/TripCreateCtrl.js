@@ -80,7 +80,7 @@ app.controller('TripCreateCtrl', function ($location, $scope, $window, GOOGLEMAP
             let routes = climbs.map((route) => {
                 route.area = route.location[1] + ', ' + route.location[0];
                 return route;
-            });
+            });            
             $scope.routes = routes;
         }).catch((err) => {
             console.log('error in getClimbingRoutesByLatLng:', err);
@@ -206,6 +206,7 @@ app.controller('TripCreateCtrl', function ($location, $scope, $window, GOOGLEMAP
     const saveRoutes = (routes, tripId) => {
         routes.forEach((route) => {
             let newRoute = RoutesService.createRouteObj(route, tripId);
+            console.log(newRoute);
             RoutesService.saveTripRoutesToFirebase(newRoute).then(() => {
             }).catch((err) => {
                 console.log('error in saveTripRoutesToFirebase:', err);
