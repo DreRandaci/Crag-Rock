@@ -1,12 +1,7 @@
 <div class="container-fluid">
     <h1>Create a Trip</h1>
 
-    <div class='col-md-4'>
-        <div ng-show="!changePageHeading">
-            <input type="text" placeholder="Search for Climbing Areas" ng-model="addressSearch">
-            <button class='btn btn-default' ng-click="geocode(addressSearch)">Search</button>
-        </div>
-
+    <div class='col-md-4'>        
         <h4>Routes</h4>
         <div id="routes_list" ng-show="routes.length" class="list-group">
             <a ng-repeat="route in routes" class="list-group-item" ng-click="saveToRouteList(route)">{{route.name}} {{route.rating}}</a>
@@ -16,7 +11,7 @@
 
     <div class="col-md-4">
         <h1 ng-show="routes.length">{{routes[0].crag}}, {{routes[0].state}}</h1>
-        <h4 class="">{{address}}</h4>
+        <h4>{{address}}</h4>
         <div ng-show="savedRoutes.length">
             <div class="form-group">
                 <input type="text" placeholder="Trip Name" ng-model="trip.name">

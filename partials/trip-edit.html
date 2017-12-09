@@ -7,13 +7,16 @@
         </div>
     </div>
     <div class="col-md-4">
-        <h1 class="areaHeading2">{{climbingAreaHeading}}</h1>
+        <h1>{{trip.crag}}, {{trip.state}}</h1>
+        <h4>{{climbingAreaHeading}}</h4>
         <div ng-show="savedRoutes.length">
             <div class="form-group">
-                <input type="text" placeholder="Trip Name" ng-model="trip.name">
+                <label for="trip-name">Edit Trip Name:</label>
+                <input name="trip-name" type="text" placeholder="Trip Name" ng-model="trip.name">
             </div>
             <div class="form-group">
-                <input type="text" placeholder="Trip Description" ng-model="trip.description">
+                <label for="trip-description">Edit Description:</label>
+                <input name="trip-description" type="text" placeholder="Trip Description" ng-model="trip.description">
             </div>
 
             <!-- DATEPICKER -->

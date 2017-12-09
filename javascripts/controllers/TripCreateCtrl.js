@@ -60,32 +60,6 @@ app.controller('TripCreateCtrl', function ($location, $scope, $window, GOOGLEMAP
         latitude: 34.1626638, longitude: -82.7816016
     }];
 
-    //grab search query and update map marker
-    $scope.geocode = (address) => {
-        $scope.routesToSave = [];
-        MapsService.getMapByAddressQuery(address).then((results) => {
-            let lat = results.data.results[0].geometry.location.lat;
-            let lng = results.data.results[0].geometry.location.lng;
-
-            let address = results.data.results[0].formatted_address.split(',', 1).join();
-            $scope.address = address;
-            getClimbingRoutes(lat, lng);
-
-            $scope.map = {
-                center: { latitude: lat, longitude: lng },
-                zoom: 11,
-                options: { scrollwheel: true }
-            };
-
-            $scope.marker = {
-                id: 0,
-                coords: { latitude: lat, longitude: lng },
-            };
-        }).catch((err) => {
-            console.log("error in getMapByAddressQuery:", err);
-        });
-    };
-
     const getClimbingRoutes = (lat, lng) => {
         $scope.routes = [];
         MountainProjService.getClimbingRoutesByLatLng(lat, lng).then((climbs) => {
@@ -199,7 +173,7 @@ app.controller('TripCreateCtrl', function ($location, $scope, $window, GOOGLEMAP
         let lat = $scope.map.center.latitude;
         let lng = $scope.map.center.longitude;
         let location = $scope.address;
-        
+
         let newTrip = TripsService.createTripObj(trip, location, lat, lng, date, crag, state);
         saveTrip(newTrip);
     };
