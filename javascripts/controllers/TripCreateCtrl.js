@@ -44,7 +44,7 @@ app.controller('TripCreateCtrl', function ($location, $scope, $window, GOOGLEMAP
         }
     };
 
-    //initial map instance on page load
+    //initial map instance on page load purely for the map to rendar 
     $scope.map = {
         center: {
             //default nashville coords
@@ -63,12 +63,24 @@ app.controller('TripCreateCtrl', function ($location, $scope, $window, GOOGLEMAP
     const getClimbingRoutes = (lat, lng) => {
         $scope.routes = [];
         MountainProjService.getClimbingRoutesByLatLng(lat, lng).then((climbs) => {
-            let routes = climbs.data.routes.map((route) => {
-                route.state = route.location[0];
-                route.crag = route.location[1];
-                return route;
+            climbs = climbs.data.routes;
+            let area = climbs.filter(function (route) {
+                if (route.latitude === $scope.map.center.latitude && route.longitude === $scope.map.center.longitude) {
+                    // return route.location[1].indexOf() + ', ' + route.location[0];                    
+                    return route.location[1].indexOf($scope.map.center.latitude);
+                }
             });
-            $scope.routes = routes;
+
+            area = area[0].location[1] + ', ' + area[0].location[0];
+            console.log("area:", area);
+            // let state = area[0].location[0];
+            // console.log("lat/lng", $scope.map.center);
+            // let routes = climbs.data.routes.map((route) => {
+            //     route.state = route.location[0];
+            //     route.crag = route.location[1];
+            //     return route;
+            // });
+            // $scope.routes = routes;
         }).catch((err) => {
             console.log('error in getClimbingRoutesByLatLng:', err);
         });

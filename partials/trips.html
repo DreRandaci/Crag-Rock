@@ -8,6 +8,7 @@
             <div class="panel-body" ng-click="editTrip(trip.id)">
                 <h4>{{trip.crag}}, {{trip.state}}</h4>
                 <p>{{trip.description}}</p>
+                <h4>Routes to Try</h4>
                 <ul>
                     <li ng-repeat="route in routes" ng-if="trip.id === route.trip_id">{{route.name}} {{route.rating}}</li>
                 </ul>
