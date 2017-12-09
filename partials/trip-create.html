@@ -23,7 +23,7 @@
 
     <div class="col-md-4">
         <h1 class="areaHeading1" ng-show="!removeHeading()">{{climbingAreaHeadingPageLoad}}</h1>
-        <h1 class="areaHeading2" ng-show="removeHeading()">{{climbingAreaHeading}}</h1>        
+        <h1 class="areaHeading2" ng-show="removeHeading()">{{climbingAreaHeading}}</h1>
         <div ng-show="savedRoutes.length">
             <div class="form-group">
                 <input type="text" placeholder="Trip Name" ng-model="trip.name">
@@ -56,10 +56,13 @@
 
     <div class="angular-google-map-container col-md-4">
 
-        <ui-gmap-google-map id="map" center='map.center' zoom='map.zoom' draggable='true'>
+        <ui-gmap-google-map id="map" center='map.center' zoom='map.zoom' draggable='true'>            
 
-            <ui-gmap-marker coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id">
-            </ui-gmap-marker>
+            <ui-gmap-markers events="markersEvents" coords="'self'" options="'options'" models="markers" icon="'icon'">            
+                <!-- <ui-gmap-windows show="show">
+                    <div ng-non-bindable>{{marker}}</div>
+                </ui-gmap-windows> -->
+            </ui-gmap-markers>
 
         </ui-gmap-google-map>
     </div>
