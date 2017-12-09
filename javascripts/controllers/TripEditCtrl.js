@@ -4,7 +4,6 @@ app.controller('TripEditCtrl', function ($location, $log, $routeParams, $scope, 
 
     //changes h1 txt from "create" to "edit" depending on partial
     $scope.changePageHeading = true;
-    $scope.removeHeading = () => { return true; };
 
     // initial map instance on page load
     $scope.map = {

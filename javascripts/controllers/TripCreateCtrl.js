@@ -5,14 +5,11 @@ app.controller('TripCreateCtrl', function ($location, $scope, $window, GOOGLEMAP
     //inject google maps script
     $scope.googleUrl = `http://maps.google.com/maps/api/js?key=${GOOGLEMAPS_CONFIG}`;
 
-    $scope.removeHeading = () => { return false; };
-
     $window.navigator.geolocation.getCurrentPosition(function (position) {
         let lat = position.coords.latitude;
         let lng = position.coords.longitude;
         $scope.map = {
             center: {
-                //default nashville coords
                 latitude: lat, longitude: lng
             },
             zoom: 6,
@@ -32,17 +29,18 @@ app.controller('TripCreateCtrl', function ($location, $scope, $window, GOOGLEMAP
 
 
     $scope.markersEvents = {
-        click: function (marker, eventName, model) {
-            console.log("marker", marker);
-            console.log("model", model);
+        click: function (marker, eventName, model) {            
 
             let lat = model.latitude;
             let lng = model.longitude;
-            
+
             $scope.map.zoom = 14;
-            $scope.map.center = {latitude: lat, longitude: lng};
+            $scope.map.center = { latitude: lat, longitude: lng };
             model.show = !model.show;
-            
+            MapsService.getMapByLatLngQuery(lat, lng).then((results) => {
+                console.log("results:", results);
+                $scope.climbingAreaHeading = results.data.results[0].formatted_address;
+            });
             getClimbingRoutes(lat, lng);
         }
     };
@@ -62,26 +60,6 @@ app.controller('TripCreateCtrl', function ($location, $scope, $window, GOOGLEMAP
         id: 0,
         latitude: 34.1626638, longitude: -82.7816016
     }];
-
-    //geolocation to update marker on map
-    // $window.navigator.geolocation.getCurrentPosition(function (position) {
-    //     let lat = position.coords.latitude;
-    //     let lng = position.coords.longitude;
-
-    //     //get climbing routes near you for dropdown menu
-    //     MountainProjService.getClimbingRoutesByLatLng(lat, lng).then((climbs) => {
-    //         $scope.nearestAreaLat = climbs.data.routes[0].latitude;
-    //         $scope.nearestAreaLng = climbs.data.routes[0].longitude;
-    //         getClimbingRoutes(position.coords.latitude, position.coords.longitude);
-
-    //         //update map instance with geolcation
-    //         $scope.map.center.latitude = lat;
-    //         $scope.map.center.longitude = lng;
-    //         $scope.map.zoom = 10;
-    //         $scope.marker.id = 0;
-    //         $scope.marker.coords = { latitude: $scope.nearestAreaLat, longitude: $scope.nearestAreaLng };
-    //     });
-    // });
 
     //grab search query and update map marker
     $scope.geocode = (address) => {
@@ -113,12 +91,10 @@ app.controller('TripCreateCtrl', function ($location, $scope, $window, GOOGLEMAP
 
     const getClimbingRoutes = (lat, lng) => {
         $scope.routes = [];
-        // $scope.count = 0;
         MountainProjService.getClimbingRoutesByLatLng(lat, lng).then((climbs) => {
-            // $scope.count++;
+            console.log(climbs);
             let climbingHeading = climbs.data.routes[0].location[1] + ', ' + climbs.data.routes[0].location[0];
             $scope.routes = climbs.data.routes;
-            $scope.climbingAreaHeadingPageLoad = climbingHeading;
         }).catch((err) => {
             console.log('error in getClimbingRoutesByLatLng:', err);
         });
@@ -203,22 +179,7 @@ app.controller('TripCreateCtrl', function ($location, $scope, $window, GOOGLEMAP
         return '';
     }
 
-
-    //////DROPDOWN MENU
-    $scope.status = {
-        isopen: false
-    };
-
-    $scope.toggleDropdown = function ($event) {
-        $event.preventDefault();
-        $event.stopPropagation();
-        $scope.status.isopen = !$scope.status.isopen;
-    };
-
-    $scope.appendToEl = angular.element(document.querySelector('#dropdown-long-content'));
-
-    ////////////////////
-
+    ////////////////
 
     $scope.savedRoutes = [];
 
