@@ -29,7 +29,7 @@ app.controller('TripCreateCtrl', function ($location, $scope, $window, GOOGLEMAP
 
 
     $scope.markersEvents = {
-        click: function (marker, eventName, model) {            
+        click: function (marker, eventName, model) {
 
             let lat = model.latitude;
             let lng = model.longitude;
@@ -65,7 +65,7 @@ app.controller('TripCreateCtrl', function ($location, $scope, $window, GOOGLEMAP
         $scope.routesToSave = [];
         MapsService.getMapByAddressQuery(address).then((results) => {
             let lat = results.data.results[0].geometry.location.lat;
-            let lng = results.data.results[0].geometry.location.lng;            
+            let lng = results.data.results[0].geometry.location.lng;
 
             let address = results.data.results[0].formatted_address.split(',', 1).join();
             $scope.address = address;
@@ -88,10 +88,10 @@ app.controller('TripCreateCtrl', function ($location, $scope, $window, GOOGLEMAP
 
     const getClimbingRoutes = (lat, lng) => {
         $scope.routes = [];
-        MountainProjService.getClimbingRoutesByLatLng(lat, lng).then((climbs) => {            
+        MountainProjService.getClimbingRoutesByLatLng(lat, lng).then((climbs) => {
             let routes = climbs.data.routes.map((route) => {
                 route.state = route.location[0];
-                route.crag = route.location[1];                
+                route.crag = route.location[1];
                 return route;
             });
             $scope.routes = routes;
@@ -100,7 +100,7 @@ app.controller('TripCreateCtrl', function ($location, $scope, $window, GOOGLEMAP
         });
     };
 
-    /////DATEPICKER
+    ////////////////////////////////////////DATEPICKER
     $scope.today = function () {
         $scope.dt = new Date();
     };
@@ -179,7 +179,7 @@ app.controller('TripCreateCtrl', function ($location, $scope, $window, GOOGLEMAP
         return '';
     }
 
-    ////////////////
+    //////////////////////////////////////////////////
 
     $scope.savedRoutes = [];
 
@@ -193,38 +193,22 @@ app.controller('TripCreateCtrl', function ($location, $scope, $window, GOOGLEMAP
     };
 
     $scope.createTrip = (trip, routes, dt) => {
-        console.log(trip, routes, dt);
-        // let heading;
-        // let date = dt.toString();
-        // if (!$scope.removeHeading()) {
-        //     heading = angular.element(document.querySelector('.areaHeading1'));
-        // } else {
-        //     heading = angular.element(document.querySelector('.areaHeading2'));
-        // }
-        // let address = heading[0].innerHTML;
-
-        // MapsService.getMapByAddressQuery(address).then((results) => {
-
-        //     //if the address passed in above returns no results
-        //     if (results.data.results.length === 0) {
-        //         let lat = $scope.nearestAreaLat;
-        //         let lng = $scope.nearestAreaLng;
-
-        //         let newTrip = TripsService.createTripObj(trip, address, lat, lng, date);
-        //         saveTrip(newTrip);
-        //     } else {
-        //         let lat = results.data.results[0].geometry.location.lat;
-        //         let lng = results.data.results[0].geometry.location.lng;
-        //         let newTrip = TripsService.createTripObj(trip, address, lat, lng, date);
-        //         saveTrip(newTrip);
-        //     }
-        // });
+        let date = dt.toString();
+        let crag = routes[0].crag;
+        let state = routes[0].state;
+        let lat = $scope.map.center.latitude;
+        let lng = $scope.map.center.longitude;
+        let location = $scope.address;
+        
+        let newTrip = TripsService.createTripObj(trip, location, lat, lng, date, crag, state);
+        saveTrip(newTrip);
     };
 
 
     const saveTrip = (newTrip) => {
-        TripsService.saveTripToFirebase(newTrip).then((tripId) => {
-            saveRoutes($scope.savedRoutes, tripId.data.name);
+        TripsService.saveTripToFirebase(newTrip).then((results) => {
+            let tripId = results.data.name;
+            saveRoutes($scope.savedRoutes, tripId);
             $location.path("/trips");
         }).catch((err) => {
             console.log('error in saveTripToFirebase:', err);
