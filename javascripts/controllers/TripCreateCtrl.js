@@ -66,27 +66,28 @@ app.controller('TripCreateCtrl', function ($location, $scope, $window, GOOGLEMAP
             climbs = climbs.data.routes;
             let area = climbs.filter(function (route) {
                 if (route.latitude === $scope.map.center.latitude && route.longitude === $scope.map.center.longitude) {
-                    // return route.location[1].indexOf() + ', ' + route.location[0];                    
-                    return route.location[1].indexOf($scope.map.center.latitude);
+                    return route.location[1].indexOf($scope.map.center.latitude) + ', ' + route.location[0].indexOf($scope.map.center.latitude);
+                } else {
+                    return "Unnamed Area";
                 }
             });
 
-            area = area[0].location[1] + ', ' + area[0].location[0];
-            console.log("area:", area);
-            // let state = area[0].location[0];
-            // console.log("lat/lng", $scope.map.center);
-            // let routes = climbs.data.routes.map((route) => {
-            //     route.state = route.location[0];
-            //     route.crag = route.location[1];
-            //     return route;
-            // });
-            // $scope.routes = routes;
+            /////ClIMBING AREA HEADING
+            $scope.area = area[0].location[1] + ', ' + area[0].location[0];  
+
+            let routes = climbs.map((route) => {
+                route.area = route.location[1] + ', ' + route.location[0];
+                return route;
+            });
+            $scope.routes = routes;
         }).catch((err) => {
             console.log('error in getClimbingRoutesByLatLng:', err);
         });
     };
 
-    ////////////////////////////////////////DATEPICKER
+    // ////////////////////////////////////////
+    // DATEPICKER
+    // ////////////////////////////////////////
     $scope.today = function () {
         $scope.dt = new Date();
     };
@@ -178,15 +179,14 @@ app.controller('TripCreateCtrl', function ($location, $scope, $window, GOOGLEMAP
         $scope.savedRoutes.push(route);
     };
 
-    $scope.createTrip = (trip, routes, dt) => {
+    $scope.createTrip = (trip, dt) => {
         let date = dt.toString();
-        let crag = routes[0].crag;
-        let state = routes[0].state;
+        let area = $scope.area;
         let lat = $scope.map.center.latitude;
         let lng = $scope.map.center.longitude;
-        let location = $scope.address;
+        let mapsAddress = $scope.address;
 
-        let newTrip = TripsService.createTripObj(trip, location, lat, lng, date, crag, state);
+        let newTrip = TripsService.createTripObj(trip, mapsAddress, lat, lng, date, area);
         saveTrip(newTrip);
     };
 

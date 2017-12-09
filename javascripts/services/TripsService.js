@@ -22,14 +22,13 @@ app.service("TripsService", function ($http, $q, FIREBASE_CONFIG, AuthService) {
         return $http.get(`${FIREBASE_CONFIG.databaseURL}/trips/${id}.json`);
     };
 
-    const createTripObj = (trip, location, lat, lng, dt, crag, state) => {
+    const createTripObj = (trip, mapAddress, lat, lng, date, area) => {
         return {
             "name": trip.name,
-            "crag": crag,
-            "state": state,
+            "area": area,
             "description": trip.description,
-            "date": dt,
-            "googleMapsAddress": location,
+            "date": date,
+            "googleMapsAddress": mapAddress,
             "lat": lat,
             "lng": lng,
             "uid": AuthService.getCurrentUid()
