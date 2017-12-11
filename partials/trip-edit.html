@@ -1,5 +1,16 @@
-<div class="container-fluid">
+<div class="container">
     <h1>Edit Trip</h1>
+
+    <div class="angular-google-map-container col-md-12">
+
+        <ui-gmap-google-map id="map" center='map.center' zoom='map.zoom' draggable='true'>
+
+            <ui-gmap-marker coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id">
+            </ui-gmap-marker>
+
+        </ui-gmap-google-map>
+    </div>
+
     <h4>Routes</h4>
     <div class='col-md-4'>
         <div id="routes_list" ng-show="routes.length" class="list-group">
@@ -38,16 +49,6 @@
             </ul>
             <button class="btn btn-success" ng-click="createTrip(trip, savedRoutes, dt)">Update</button>
         </div>
-    </div>
-
-    <div class="angular-google-map-container col-md-4">
-
-        <ui-gmap-google-map id="map" center='map.center' zoom='map.zoom' draggable='true'>
-
-            <ui-gmap-marker coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id">
-            </ui-gmap-marker>
-
-        </ui-gmap-google-map>
     </div>
 
 </div>

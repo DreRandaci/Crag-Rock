@@ -50,7 +50,7 @@ app.controller('TripCreateCtrl', function ($location, $scope, $window, GOOGLEMAP
     $scope.map = {
         center: {
             //default nashville coords
-            latitude: 34.1626638, longitude: -82.7816016
+            latitude: 36.174465, longitude: -86.767960
         },
         zoom: 4,
         options: { scrollwheel: false }
@@ -59,7 +59,7 @@ app.controller('TripCreateCtrl', function ($location, $scope, $window, GOOGLEMAP
     // initial marker instance on page load
     $scope.markers = [{
         id: 0,
-        latitude: 34.1626638, longitude: -82.7816016
+        latitude: 36.174465, longitude: -86.767960
     }];
 
     const getClimbingRoutes = (lat, lng) => {
