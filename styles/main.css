@@ -20,3 +20,9 @@
 #routes_list {
   overflow: scroll;
   height: 400px; }
+
+#train_icon {
+  width: 3%;
+  position: absolute;
+  top: 3px;
+  left: 188px; }
