@@ -6,6 +6,10 @@ app.controller('TripsViewCtrl', function ($location, $scope, AuthService, Routes
         $location.path("/trip/create");
     };
 
+    $scope.addPlaces = (tripId) => {
+        $location.path(`/trip/add-places/${tripId}`);
+    };
+
     const getTrips = () => {
         TripsService.getTrips(AuthService.getCurrentUid()).then((trips) => {
             $scope.trips = trips;

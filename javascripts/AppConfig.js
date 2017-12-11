@@ -91,6 +91,10 @@ app.config(function ($qProvider, $routeProvider, uiGmapGoogleMapApiProvider, GOO
             templateUrl: 'partials/trips.html',
             controller: 'TripsViewCtrl',
         })
+        .when("/trip/add-places/:id", {
+            templateUrl: 'partials/trip-places.html',
+            controller: 'TripPlacesCtrl',
+        })
         .otherwise('/auth');
 
 });

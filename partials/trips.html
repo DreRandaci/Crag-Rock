@@ -5,18 +5,21 @@
                 <button ng-click="deleteTrip(trip.id)" class="btn btn-danger btn-sm delete_btn">X</button>
                 <h1 class="panel-title">{{trip.name}}</h1>
             </div>
-            <div class="panel-body" ng-click="editTrip(trip.id)">
-                <h4>{{trip.area}}</h4>
-                <p>{{trip.description}}</p>
-                <h4>Routes to Try</h4>
-                <ul>
-                    <li ng-repeat="route in routes" ng-if="trip.id === route.trip_id">{{route.name}} {{route.rating}}</li>
-                </ul>
-                <p>{{trip.date}}</p>
+            <div class="panel-body">
+                <div ng-click="editTrip(trip.id)">
+                    <h4>{{trip.area}}</h4>
+                    <p>{{trip.description}}</p>
+                    <h4>Routes to Try</h4>
+                    <ul>
+                        <li ng-repeat="route in routes" ng-if="trip.id === route.trip_id">{{route.name}} {{route.rating}}</li>
+                    </ul>
+                    <p>{{trip.date}}</p>
+                </div>
+                <button class='btn btn-default' ng-click="addPlaces(trip.id)">Add Accomedations</button>
             </div>
         </div>
     </div>
 </div>
 <div class="text-center">
-    <button ng-click="routeToCreateTrip()">Create Trip</button>
+    <button class="btn btn-success btn-lg" ng-click="routeToCreateTrip()">Create Trip</button>
 </div>
