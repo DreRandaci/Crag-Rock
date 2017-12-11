@@ -21,7 +21,11 @@
   overflow: scroll;
   height: 400px; }
 
+<<<<<<< HEAD
 #train_icon {
+=======
+#app_icon {
+>>>>>>> c88d5b00cf0a005a0f8e9c24bb4511c0ffef361f
   width: 3%;
   position: absolute;
   top: 3px;
