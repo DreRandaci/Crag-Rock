@@ -67,6 +67,10 @@ app.config(function ($qProvider, $routeProvider, uiGmapGoogleMapApiProvider, GOO
             templateUrl: 'partials/chat.html',
             controller: 'ChatCtrl',
         })
+        .when("/chat/window/:id", {
+            templateUrl: 'partials/chat-window.html',
+            controller: 'ChatWindowCtrl',
+        })
         .when("/friend/detail/:id", {
             templateUrl: 'partials/friend-detail.html',
             controller: 'FriendDetailCtrl',
