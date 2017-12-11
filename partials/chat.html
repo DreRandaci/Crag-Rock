@@ -1,0 +1,22 @@
+<div class='container-fluid'>
+    <div class='jumbotron'>
+        <h1>Chat</h1>
+    </div>
+
+    <div ng-repeat="trip in trips" class="col-sm-6 col-md-4 trip">
+        <div class="caption">
+            <div class="panel panel-default">
+                <div class="panel-heading">                    
+                    <h1 class="panel-title">{{trip.name}}</h1>
+                </div>
+                <div class="panel-body" ng-click="editTrip(trip.id)">
+                    <h4>{{trip.area}}</h4>
+                    <p>{{trip.description}}</p>
+                    <p>{{trip.date | date : 'fullDate'}}</p>
+                    <button ng-click="routeToChatWindow(trip.id)" class="btn btn-primary btn-sm">Interested</button>
+                </div>
+            </div>
+        </div>        
+    </div>
+
+</div>

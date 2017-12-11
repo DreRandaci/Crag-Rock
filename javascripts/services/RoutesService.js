@@ -9,7 +9,7 @@ app.service("RoutesService", function ($http, $q, FIREBASE_CONFIG, AuthService) 
             "name": route.name,
             "rating": route.rating,
             "stars": route.stars,
-            "area": route.area, 
+            "area": route.area,
             "trip_id": tripId,
             "uid": AuthService.getCurrentUid()
         };
@@ -20,10 +20,12 @@ app.service("RoutesService", function ($http, $q, FIREBASE_CONFIG, AuthService) 
         return $q((resolve, reject) => {
             $http.get(`${FIREBASE_CONFIG.databaseURL}/savedRoutesForTrips.json?orderBy="uid"&equalTo="${userUid}"`).then((results) => {
                 let fbRoutes = results.data;
-                Object.keys(fbRoutes).forEach((key) => {
-                    fbRoutes[key].id = key;
-                    routes.push(fbRoutes[key]);
-                });
+                if (fbRoutes) {
+                    Object.keys(fbRoutes).forEach((key) => {
+                        fbRoutes[key].id = key;
+                        routes.push(fbRoutes[key]);
+                    });
+                } 
                 resolve(routes);
             }).catch((error) => {
                 reject(error);
@@ -35,20 +37,20 @@ app.service("RoutesService", function ($http, $q, FIREBASE_CONFIG, AuthService) 
         let routes = [];
         let fbRoutes = [];
         return $q((resolve, reject) => {
-          $http.get(`${FIREBASE_CONFIG.databaseURL}/savedRoutesForTrips.json`).then((results) => {
-            fbRoutes = results.data;
-            Object.keys(fbRoutes).forEach((key) => {
-              if (fbRoutes[key].trip_id === tripId) {
-                fbRoutes[key].id = key;
-                routes.push(fbRoutes[key]);
-              }
+            $http.get(`${FIREBASE_CONFIG.databaseURL}/savedRoutesForTrips.json`).then((results) => {
+                fbRoutes = results.data;
+                Object.keys(fbRoutes).forEach((key) => {
+                    if (fbRoutes[key].trip_id === tripId) {
+                        fbRoutes[key].id = key;
+                        routes.push(fbRoutes[key]);
+                    }
+                });
+                resolve(routes);
+            }).catch((error) => {
+                reject(error);
             });
-            resolve(routes);
-          }).catch((error) => {
-            reject(error);
-          });
         });
-      };
+    };
 
     const saveTripRoutesToFirebase = (newRoute) => {
         return $http.post(`${FIREBASE_CONFIG.databaseURL}/savedRoutesForTrips.json`, JSON.stringify(newRoute));
