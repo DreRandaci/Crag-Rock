@@ -24,6 +24,25 @@ app.service("PlacesService", function ($http, $q, FIREBASE_CONFIG, GOOGLEPLACES_
         });
     };
 
+    const getPlacesForSingleTrip = (tripId) => {
+        let places = [];
+        let fbPlaces = [];
+        return $q((resolve, reject) => {
+            $http.get(`${FIREBASE_CONFIG.databaseURL}/places.json`).then((results) => {
+                fbPlaces = results.data;
+                Object.keys(fbPlaces).forEach((key) => {
+                    if (fbPlaces[key].trip_id === tripId) {
+                        fbPlaces[key].id = key;
+                        places.push(fbPlaces[key]);
+                    }
+                });
+                resolve(places);
+            }).catch((error) => {
+                reject(error);
+            });
+        });
+    };
+
     const savePlace = (place) => {
         return $http.post(`${FIREBASE_CONFIG.databaseURL}/places.json`, JSON.stringify(place));
     };
@@ -32,5 +51,5 @@ app.service("PlacesService", function ($http, $q, FIREBASE_CONFIG, GOOGLEPLACES_
         return $http.delete(`${FIREBASE_CONFIG.databaseURL}/places/${placeId}.json`);
     };
 
-    return { deletePlace, getGooglePlaces, getPlaces, savePlace };
+    return { deletePlace, getGooglePlaces, getPlaces, getPlacesForSingleTrip, savePlace };
 });

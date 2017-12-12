@@ -59,11 +59,25 @@ app.controller('TripsViewCtrl', function ($location, $scope, AuthService, Routes
 
     $scope.deleteTrip = (tripId) => {
         deleteRoutesFromTrip(tripId);
+        deletePlacesFromTrip(tripId);
         TripsService.deleteTrip(tripId).then((results) => {
             getTrips();
         }).catch((err) => {
             console.log("err in deleteTrip:", err);
         });
+    };
+
+    const deletePlacesFromTrip = (tripId) => {
+        PlacesService.getPlacesForSingleTrip(tripId).then((places) => {
+            places.forEach((place) => {
+                PlacesService.deletePlace(place.id).then(() => {
+                }).catch((err) => {
+                    console.log("error in deletePlace:", err);
+                });
+            });
+        }).catch((err) => {
+            console.log("error in getPlacesForSingelTrip:", err);
+        });        
     };
 
     $scope.deletePlace = (index, placeId) => {
