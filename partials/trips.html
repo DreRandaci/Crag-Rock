@@ -6,20 +6,21 @@
                 <h1 class="panel-title">{{trip.name}}</h1>
             </div>
             <div class="panel-body">
-                <div ng-click="editTrip(trip.id)">
-                    <h4>{{trip.area}}</h4>
-                    <p>{{trip.description}}</p>
-                    <h4>Routes to Try:</h4>
-                    <ul>
-                        <li ng-repeat="route in routes" ng-if="trip.id === route.trip_id">{{route.name}} {{route.rating}}</li>
-                    </ul>
-                    <h4>Places:</h4>
-                    <ul>
-                        <li ng-repeat="place in places" ng-if="trip.id === place.trip_id">{{place.name}}</li>
-                    </ul>
-                    <p>{{trip.date}}</p>
-                </div>
+                <h4>{{trip.area}}</h4>
+                <p>{{trip.description}}</p>
+                <h4>Routes to Try:</h4>
+                <ul>
+                    <li ng-repeat="route in routes" ng-if="trip.id === route.trip_id">{{route.name}} {{route.rating}}</li>
+                </ul>
+                <h4>Places:</h4>
+                <ul>
+                    <li ng-repeat="place in places" ng-if="trip.id === place.trip_id">{{place.name}}
+                        <button class="btn btn-danger" ng-click="deletePlace($index, place.id)">X</button>
+                    </li>
+                </ul>
+                <p>{{trip.date}}</p>
                 <button class='btn btn-default' ng-click="addPlaces(trip.id)">Add Accomedations</button>
+                <button class='btn btn-default' ng-click="editTrip(trip.id)">Edit Trip</button>
             </div>
         </div>
     </div>

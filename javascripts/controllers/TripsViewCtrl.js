@@ -66,4 +66,12 @@ app.controller('TripsViewCtrl', function ($location, $scope, AuthService, Routes
         });
     };
 
+    $scope.deletePlace = (index, placeId) => {
+        PlacesService.deletePlace(placeId).then((results) => {
+            $scope.places.splice(index, 1);
+        }).catch((err) => {
+            console.log("err in deletePlace, TripsViewCtrl:", err);
+        });
+    };
+
 });

@@ -28,5 +28,9 @@ app.service("PlacesService", function ($http, $q, FIREBASE_CONFIG, GOOGLEPLACES_
         return $http.post(`${FIREBASE_CONFIG.databaseURL}/places.json`, JSON.stringify(place));
     };
 
-    return { getGooglePlaces, getPlaces, savePlace };
+    const deletePlace = (placeId) => {
+        return $http.delete(`${FIREBASE_CONFIG.databaseURL}/places/${placeId}.json`);
+    };
+
+    return { deletePlace, getGooglePlaces, getPlaces, savePlace };
 });
