@@ -10,30 +10,34 @@ app.controller('TripsViewCtrl', function ($location, $scope, AuthService, Routes
         $location.path(`/trip/add-places/${tripId}`);
     };
 
+    $scope.editTrip = (tripId) => {
+        $location.path(`/trip/detail/${tripId}`);
+    };
+
     const getTrips = () => {
-        $scope.places = [];
         TripsService.getTrips(AuthService.getCurrentUid()).then((trips) => {
             $scope.trips = trips;
             RoutesService.getRoutes(AuthService.getCurrentUid()).then((routes) => {
                 $scope.routes = routes;
-                trips.forEach((trip) => {
-                    PlacesService.getPlaces(trip.id).then((results) => {
-                        $scope.places.push(results);
-                    }).catch((err) => {
-                        console.log("error in getPlaces:", err);
-                    });
-                });                
-            }).catch((err) => {
-                console.log('err in getTrips:', err);
+                getPlaces();
             });
         }).catch((err) => {
             console.log('err in getRoutes:', err);
-        });        
+        });
     };
     getTrips();
 
-    $scope.editTrip = (tripId) => {
-        $location.path(`/trip/detail/${tripId}`);
+    const getPlaces = () => {
+        $scope.places = [];
+        $scope.trips.forEach((trip) => {
+            PlacesService.getPlaces(trip.id).then((results) => {
+                results.forEach((place) => {
+                    $scope.places.push(place);
+                });
+            });
+        }).catch((err) => {
+            console.log("error in getPlaces:", err);
+        });
     };
 
     const deleteRoutesFromTrip = (tripId) => {

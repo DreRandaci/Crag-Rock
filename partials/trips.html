@@ -15,7 +15,7 @@
                     </ul>
                     <h4>Places:</h4>
                     <ul>
-                        <li ng-repeat="place in places" >{{place.name}}</li>
+                        <li ng-repeat="place in places" ng-if="trip.id === place.trip_id">{{place.name}}</li>
                     </ul>
                     <p>{{trip.date}}</p>
                 </div>
