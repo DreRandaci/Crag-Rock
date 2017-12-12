@@ -41,6 +41,8 @@ app.controller('TripCreateCtrl', function ($location, $scope, $window, GOOGLEMAP
             model.show = !model.show;
             MapsService.getMapByLatLngQuery(lat, lng).then((results) => {
                 $scope.address = results.data.results[0].formatted_address;
+            }).catch((err) => {
+                console.log('error in getMapByLatLngQuery, TripCreateCtrl:', err);
             });
             getClimbingRoutes(lat, lng);
         }
