@@ -31,9 +31,11 @@ app.service("PlacesService", function ($http, $q, FIREBASE_CONFIG, GOOGLEPLACES_
             $http.get(`${FIREBASE_CONFIG.databaseURL}/places.json`).then((results) => {
                 fbPlaces = results.data;
                 Object.keys(fbPlaces).forEach((key) => {
-                    if (fbPlaces[key].trip_id === tripId) {
-                        fbPlaces[key].id = key;
-                        places.push(fbPlaces[key]);
+                    if (fbPlaces) {
+                        if (fbPlaces[key].trip_id === tripId) {
+                            fbPlaces[key].id = key;
+                            places.push(fbPlaces[key]);
+                        }
                     }
                 });
                 resolve(places);

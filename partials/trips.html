@@ -12,12 +12,14 @@
                 <ul>
                     <li ng-repeat="route in routes" ng-if="trip.id === route.trip_id">{{route.name}} {{route.rating}}</li>
                 </ul>
-                <h4>Food and Lodging:</h4>
-                <ul>
-                    <li ng-repeat="place in places" ng-if="trip.id === place.trip_id">{{place.name}}
-                        <button class="btn btn-danger" ng-click="deletePlace($index, place.id)">X</button>
-                    </li>
-                </ul>
+                <div ng-show="places.length">
+                    <h4>Food and Lodging:</h4>
+                    <ul>
+                        <li ng-repeat="place in places" ng-if="trip.id === place.trip_id">{{place.name}}
+                            <button class="btn btn-danger" ng-click="deletePlace($index, place.id)">X</button>
+                        </li>
+                    </ul>
+                </div>
                 <p>{{trip.date}}</p>
                 <button class='btn btn-default' ng-click="addPlaces(trip.id)">Add Accomedations</button>
                 <button class='btn btn-default' ng-click="editTrip(trip.id)">Edit Trip</button>

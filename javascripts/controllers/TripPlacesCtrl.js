@@ -76,7 +76,7 @@ app.controller('TripPlacesCtrl', function ($routeParams, $scope, GOOGLEPLACES_CO
             $scope.markers = coords;
             $scope.markers.push({ id: 'trip', latitude: lat, longitude: lng });
         }).catch((err) => {
-            console.log('error in getSingleTrip, TripPlacesCtrl:', err);
+            console.log('error in getGooglePlaces, TripPlacesCtrl:', err);
         });
     };
 
