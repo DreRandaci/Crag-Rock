@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('TripsViewCtrl', function ($location, $scope, AuthService, RoutesService, TripsService) {
+app.controller('TripsViewCtrl', function ($location, $scope, AuthService, RoutesService, TripsService, PlacesService) {
 
     $scope.routeToCreateTrip = () => {
         $location.path("/trip/create");
@@ -11,16 +11,24 @@ app.controller('TripsViewCtrl', function ($location, $scope, AuthService, Routes
     };
 
     const getTrips = () => {
+        $scope.places = [];
         TripsService.getTrips(AuthService.getCurrentUid()).then((trips) => {
             $scope.trips = trips;
             RoutesService.getRoutes(AuthService.getCurrentUid()).then((routes) => {
                 $scope.routes = routes;
+                trips.forEach((trip) => {
+                    PlacesService.getPlaces(trip.id).then((results) => {
+                        $scope.places.push(results);
+                    }).catch((err) => {
+                        console.log("error in getPlaces:", err);
+                    });
+                });                
             }).catch((err) => {
                 console.log('err in getTrips:', err);
             });
         }).catch((err) => {
             console.log('err in getRoutes:', err);
-        });
+        });        
     };
     getTrips();
 

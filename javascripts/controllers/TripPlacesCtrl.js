@@ -12,7 +12,7 @@ app.controller('TripPlacesCtrl', function ($routeParams, $scope, GOOGLEPLACES_CO
             //default nashville coords
             latitude: 36.174465, longitude: -86.767960
         },
-        zoom: 6,
+        zoom: 7,
         options: { scrollwheel: false }
     };
 
@@ -83,25 +83,13 @@ app.controller('TripPlacesCtrl', function ($routeParams, $scope, GOOGLEPLACES_CO
         click: function (marker, eventName, model) {
             $scope.showPlaceHeading = true;
             $scope.placeHeading = model.name;
-            $scope.grabMarker = model;
-            // let lat = model.latitude;
-            // let lng = model.longitude;
-
-            // $scope.map.zoom = 14;
-            // $scope.map.center = { latitude: lat, longitude: lng };
-            // model.show = !model.show;
-            // MapsService.getMapByLatLngQuery(lat, lng).then((results) => {
-            //     $scope.address = results.data.results[0].formatted_address;
-            // }).catch((err) => {
-            // console.log('error in getMapByLatLngQuery, TripCreateCtrl:', err);
-            // });
+            $scope.grabMarker = model;            
         }
     };
 
     $scope.addPlace = (place) => {
         $scope.showSaveHeading = true;
         PlacesService.savePlace(place).then((results) => {
-            console.log(results);
         }).catch((err) => {
             console.log("err in savePlace, TripPlacesCtrl", err);
         });

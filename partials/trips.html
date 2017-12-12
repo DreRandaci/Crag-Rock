@@ -9,9 +9,13 @@
                 <div ng-click="editTrip(trip.id)">
                     <h4>{{trip.area}}</h4>
                     <p>{{trip.description}}</p>
-                    <h4>Routes to Try</h4>
+                    <h4>Routes to Try:</h4>
                     <ul>
                         <li ng-repeat="route in routes" ng-if="trip.id === route.trip_id">{{route.name}} {{route.rating}}</li>
+                    </ul>
+                    <h4>Places:</h4>
+                    <ul>
+                        <li ng-repeat="place in places" >{{place.name}}</li>
                     </ul>
                     <p>{{trip.date}}</p>
                 </div>
