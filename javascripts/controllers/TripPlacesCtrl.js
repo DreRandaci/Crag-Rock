@@ -22,11 +22,14 @@ app.controller('TripPlacesCtrl', function ($routeParams, $scope, GOOGLEPLACES_CO
     $scope.trip = {};
 
     const getSingleTrip = (routeParams) => {
-        TripsService.getSingleTrip(routeParams).then((trip) => {
-            $scope.trip = trip.data;  
-            let type = 'hotel';
-            PlacesService.getGooglePlaces(36.174465,-86.767960, type).then((results) => {
-                console.log(results);
+        TripsService.getSingleTrip(routeParams).then((trip) => {            
+            trip = trip.data;
+            let type = 'lodging';
+            PlacesService.getGooglePlaces(trip.lat,trip.lng, type).then((results) => {
+                console.log(results.data);
+                results.data.results.forEach((place) => {
+                    console.log("place:", place);
+                });                
             }).catch((err) => {
 
             });

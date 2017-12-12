@@ -106,18 +106,36 @@
       "userUid": "asdfasdf"
     }
   },
-  "attendees": {
+  "places": {
     "firebase_generated_id0": {
-      "uid": "BnRMTXsdlFS6Z4e2zcEbkFTsFQD3",
-      "trip_id": "tripName0"
+      "google_place_id": "cdasdfasdfasdfasdfasdfasdfasdf",
+      "trip_id": "tripName0",
+      "type": "hotel",
+      "name": "Best Hotel Ever",
+      "number": "1800AwesomeHotel",
+      "website": "besthotelever.com",
+      "lat": 34.2343,
+      "lng": 12.341
     },
     "firebase_generated_id1": {
-      "uid": "BnRMTXsdlFS6Z4e2zcEbkFTsFQD3",
-      "trip_id": "tripName1"
+      "google_place_id": "dsadfasdfasdfasdfasdfasdfasdf",
+      "trip_id": "tripName1",
+      "type": "campground",
+      "name": "Best Campsite Ever",
+      "number": "1800AwesomeCamp",
+      "website": "amazingcampsite.com",
+      "lat": 34.43,
+      "lng": -86.341
     },
     "firebase_generated_id2": {
-      "uid": "2",
-      "trip_id": "tripName2"
+      "google_place_id": "asdfasdfasdfasdfasdf",
+      "trip_id": "tripName2",
+      "type": "Outdoor Shop",
+      "name": "Super REI",
+      "number": "1800bestREIever",
+      "website": "incredibleREI.com",
+      "lat": 35.2343,
+      "lng": -85.341
     },
     "firebase_generated_id3": {
       "uid": "3",
