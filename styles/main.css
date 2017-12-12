@@ -23,3 +23,9 @@
   position: absolute;
   top: 4px;
   left: 188px; }
+
+a {
+  color: #3c3c3c; }
+
+a:hover {
+  color: black; }
