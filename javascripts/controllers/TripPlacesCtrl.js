@@ -16,20 +16,31 @@ app.controller('TripPlacesCtrl', function ($routeParams, $scope, GOOGLEPLACES_CO
     // initial marker instance on page load
     $scope.markers = [{
         id: 0,
-        latitude: 36.174465, longitude: -86.767960
     }];
 
     $scope.trip = {};
 
     const getSingleTrip = (routeParams) => {
-        TripsService.getSingleTrip(routeParams).then((trip) => {            
+        TripsService.getSingleTrip(routeParams).then((trip) => {
             trip = trip.data;
             let type = 'lodging';
-            PlacesService.getGooglePlaces(trip.lat,trip.lng, type).then((results) => {
-                console.log(results.data);
-                results.data.results.forEach((place) => {
-                    console.log("place:", place);
+            PlacesService.getGooglePlaces(trip.lat, trip.lng, type).then((results) => {
+                let coords = results.data.results.map((place, i) => {
+                    let places = {};
+                    places.google_place_id = place.place_id;
+                    places.trip_id = $routeParams.id;
+                    places.type = 'lodging';
+                    places.name = place.name;
+                    places.latitude = place.geometry.location.lat;
+                    places.longitude = place.geometry.location.lng;
+                    places.id = i;
+                    places.icon = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png";
+                    return places;
                 });                
+                $scope.map.center = { latitude: trip.lat, longitude: trip.lng };
+                $scope.map.zoom = 10;
+                $scope.markers = coords;
+                $scope.markers.push({id:'trip', latitude:trip.lat, longitude:trip.lng});
             }).catch((err) => {
 
             });
