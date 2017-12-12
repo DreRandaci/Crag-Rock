@@ -56,7 +56,7 @@ app.config(function ($qProvider, $routeProvider, uiGmapGoogleMapApiProvider, GOO
         china: true,
         key: GOOGLEMAPS_CONFIG,
         v: '3.30',
-        libraries: 'weather,geometry,visualization'
+        libraries: 'weather,geometry,visualization,places'
     });
     $routeProvider
         .when("/auth", {
@@ -90,6 +90,10 @@ app.config(function ($qProvider, $routeProvider, uiGmapGoogleMapApiProvider, GOO
         .when("/trips", {
             templateUrl: 'partials/trips.html',
             controller: 'TripsViewCtrl',
+        })
+        .when("/trip/add-places/:id", {
+            templateUrl: 'partials/trip-places.html',
+            controller: 'TripPlacesCtrl',
         })
         .otherwise('/auth');
 

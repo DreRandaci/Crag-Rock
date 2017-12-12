@@ -7,10 +7,12 @@ app.service("TripsService", function ($http, $q, FIREBASE_CONFIG, AuthService) {
         return $q((resolve, reject) => {
             $http.get(`${FIREBASE_CONFIG.databaseURL}/trips.json?orderBy="uid"&equalTo="${userUid}"`).then((results) => {
                 let fbTrips = results.data;
-                Object.keys(fbTrips).forEach((key) => {
-                    fbTrips[key].id = key;
-                    trips.push(fbTrips[key]);
-                });
+                if (fbTrips) {
+                    Object.keys(fbTrips).forEach((key) => {
+                        fbTrips[key].id = key;
+                        trips.push(fbTrips[key]);
+                    });
+                }
                 resolve(trips);
             }).catch((error) => {
                 reject(error);

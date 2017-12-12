@@ -1,9 +1,17 @@
 'use strict';
 
-app.controller('TripsViewCtrl', function ($location, $scope, AuthService, RoutesService, TripsService) {
+app.controller('TripsViewCtrl', function ($location, $scope, AuthService, RoutesService, TripsService, PlacesService) {
 
     $scope.routeToCreateTrip = () => {
         $location.path("/trip/create");
+    };
+
+    $scope.addPlaces = (tripId) => {
+        $location.path(`/trip/add-places/${tripId}`);
+    };
+
+    $scope.editTrip = (tripId) => {
+        $location.path(`/trip/detail/${tripId}`);
     };
 
     const getTrips = () => {
@@ -11,8 +19,7 @@ app.controller('TripsViewCtrl', function ($location, $scope, AuthService, Routes
             $scope.trips = trips;
             RoutesService.getRoutes(AuthService.getCurrentUid()).then((routes) => {
                 $scope.routes = routes;
-            }).catch((err) => {
-                console.log('err in getTrips:', err);
+                getPlaces();
             });
         }).catch((err) => {
             console.log('err in getRoutes:', err);
@@ -20,8 +27,17 @@ app.controller('TripsViewCtrl', function ($location, $scope, AuthService, Routes
     };
     getTrips();
 
-    $scope.editTrip = (tripId) => {
-        $location.path(`/trip/detail/${tripId}`);
+    const getPlaces = () => {
+        $scope.places = [];
+        $scope.trips.forEach((trip) => {
+            PlacesService.getPlaces(trip.id).then((results) => {
+                results.forEach((place) => {
+                    $scope.places.push(place);
+                });
+            });
+        }).catch((err) => {
+            console.log("error in getPlaces:", err);
+        });
     };
 
     const deleteRoutesFromTrip = (tripId) => {
@@ -43,10 +59,32 @@ app.controller('TripsViewCtrl', function ($location, $scope, AuthService, Routes
 
     $scope.deleteTrip = (tripId) => {
         deleteRoutesFromTrip(tripId);
+        deletePlacesFromTrip(tripId);
         TripsService.deleteTrip(tripId).then((results) => {
             getTrips();
         }).catch((err) => {
             console.log("err in deleteTrip:", err);
+        });
+    };
+
+    const deletePlacesFromTrip = (tripId) => {
+        PlacesService.getPlacesForSingleTrip(tripId).then((places) => {
+            places.forEach((place) => {
+                PlacesService.deletePlace(place.id).then(() => {
+                }).catch((err) => {
+                    console.log("error in deletePlace:", err);
+                });
+            });
+        }).catch((err) => {
+            console.log("error in getPlacesForSingelTrip:", err);
+        });        
+    };
+
+    $scope.deletePlace = (index, placeId) => {
+        PlacesService.deletePlace(placeId).then((results) => {
+            $scope.places.splice(index, 1);
+        }).catch((err) => {
+            console.log("err in deletePlace, TripsViewCtrl:", err);
         });
     };
 

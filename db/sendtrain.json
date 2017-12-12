@@ -1,86 +1,35 @@
 {
   "trips": {
     "tripName0": {
+      "area": "Red River Gorge",
       "name": "getting sendy at the red",
       "description": "Going to The Red this weekend",
-      "date": "Jan 29th, 2018",
+      "date": "Tue Dec 26 2017 13:28:35 GMT-0600 (CST)",
       "googleMapsAddress": "The red river gorge, ky",
       "lat": 37.6523,
       "lng": -83.7082,
       "uid": "BnRMTXsdlFS6Z4e2zcEbkFTsFQD3"
     },
-    "tripName1": {
-      "name": "frisk me, im going to the obed",
-      "description": "The obed saturday",
-      "date": "Jan 12th, 2018",
-      "googleMapsAddress": "The obed, tn",
-      "lat": 36.0266818,
-      "lng": -84.8564098,
-      "uid": "BnRMTXsdlFS6Z4e2zcEbkFTsFQD3"
-    },
     "tripName2": {
+      "area": "Little Rock City",
       "name": "lrc",
       "description": "LRC all weekend",
-      "date": "Jan 3rd, 2018",
+      "date": "Tue Dec 26 2017 13:28:35 GMT-0600 (CST)",
       "googleMapsAddress": "Little Rock City, chattanooga",
       "lat": 35.2477488,
       "lng": -85.2201949,
-      "uid": "asdfasdfasdfa1223"
-    },
-    "tripName3": {
-      "name": "rocktown",
-      "description": "Rocktown all weekend",
-      "date": "Jan 13th, 2018",
-      "googleMapsAddress": "Rocktown, ga",
-      "lat": 34.658668,
-      "lng": -85.38973899999999,
-      "uid": "asdfasdfasdfa1223"
-    },
-    "tripName4": {
-      "name": "fosters",
-      "description": "Foster Falls all week",
-      "date": "Jan 13th, 2018",
-      "googleMapsAddress": "foster falls, tn",
-      "lat": 35.1818913,
-      "lng": -85.676007,
-      "uid": "asdfasdfasdfa1223"
+      "uid": "BnRMTXsdlFS6Z4e2zcEbkFTsFQD3"
     }
   },
   "savedRoutesForTrips": {
     "firebase_generated_id0": {
       "routeId": 1,
+      "area": "Red River Gorge",
+      "type": "Sport",
       "name": "Amarillo Sunset",
-      "difficulty": "5.11b",
+      "rating": "5.11b",
       "stars": "4.9",
-      "wall": "Pendergrass-Murray Recreational Preserve (PMRP), North 40",
       "trip_id": "tripName0",
-      "uid": "BnRMTXsdlFS6Z4e2zcEbkFTsFQD3"
-    },
-    "firebase_generated_id1": {
-      "routeId": 1,
-      "name": "Twinkie",
-      "difficulty": "5.12a",
-      "stars": "4.9",
-      "wall": "Phantasia",
-      "trip_id": "tripName0",
-      "uid": "BnRMTXsdlFS6Z4e2zcEbkFTsFQD3"
-    },
-    "firebase_generated_id2": {
-      "routeId": 1,
-      "name": "Solstice",
-      "difficulty": "5.12a",
-      "stars": "4.9",
-      "wall": "North Clear",
-      "trip_id": "tripName1",
-      "uid": "BnRMTXsdlFS6Z4e2zcEbkFTsFQD3"
-    },
-    "firebase_generated_id3": {
-      "routeId": 1,
-      "name": "Heresy",
-      "difficulty": "5.11c",
-      "stars": "4.5",
-      "wall": "Lilly Bluff",
-      "trip_id": "tripName1",
       "uid": "BnRMTXsdlFS6Z4e2zcEbkFTsFQD3"
     }
   },
@@ -106,30 +55,19 @@
       "userUid": "asdfasdf"
     }
   },
-  "attendees": {
+  "places": {
     "firebase_generated_id0": {
-      "uid": "BnRMTXsdlFS6Z4e2zcEbkFTsFQD3",
-      "trip_id": "tripName0"
-    },
-    "firebase_generated_id1": {
-      "uid": "BnRMTXsdlFS6Z4e2zcEbkFTsFQD3",
-      "trip_id": "tripName1"
-    },
-    "firebase_generated_id2": {
-      "uid": "2",
-      "trip_id": "tripName2"
-    },
-    "firebase_generated_id3": {
-      "uid": "3",
-      "trip_id": "tripName3"
-    },
-    "firebase_generated_id4": {
-      "uid": "4",
-      "trip_id": "tripName4"
+      "google_place_id": "cdasdfasdfasdfasdfasdfasdfasdf",
+      "trip_id": "tripName0",
+      "type": "hotel",
+      "name": "Best Hotel Ever",      
+      "lat": 34.2343,
+      "lng": 12.341,
+      "icon": "asdfasdf.com",
+      "img": "asdfasdf.png",
+      "photo_reference": "sfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf",
+      "vicinity": "120 fake street",
+      "id": 3
     }
-  },
-  "profileInfo": {
-    "name": "Tanner McSendy",
-    "email": "senditbebe@sendtrain.com"
   }
 }
