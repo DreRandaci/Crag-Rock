@@ -1,9 +1,8 @@
 <div class="container">
 
     <div class="col-md-12">
-
         <ui-gmap-google-map id="map" center='map.center' zoom='map.zoom' draggable='true'>
-
+            <ui-gmap-search-box template="searchbox.template" events="searchbox.events"></ui-gmap-search-box>
             <ui-gmap-markers events="markersEvents" coords="'self'" options="'options'" models="markers" icon="'icon'">
             </ui-gmap-markers>
 
@@ -18,10 +17,11 @@
 
     <div ng-show="showPlaceHeading" class="col-md-6">
         <h1>{{placeHeading}}</h1>
+        <p>{{grabMarker.vicinity}}</p>
         <button class='btn btn-default' ng-click="addPlace(grabMarker)">Add</button>
     </div>
     <div ng-show="showSaveHeading" class="col-md-6">
-        <h1>THIS IS WHAT YOU WANNA SAVE?!</h1>
+        
     </div>
 
 </div>

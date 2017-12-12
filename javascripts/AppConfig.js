@@ -56,7 +56,7 @@ app.config(function ($qProvider, $routeProvider, uiGmapGoogleMapApiProvider, GOO
         china: true,
         key: GOOGLEMAPS_CONFIG,
         v: '3.30',
-        libraries: 'weather,geometry,visualization'
+        libraries: 'weather,geometry,visualization,places'
     });
     $routeProvider
         .when("/auth", {

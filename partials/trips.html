@@ -12,7 +12,7 @@
                 <ul>
                     <li ng-repeat="route in routes" ng-if="trip.id === route.trip_id">{{route.name}} {{route.rating}}</li>
                 </ul>
-                <h4>Places:</h4>
+                <h4>Food and Lodging:</h4>
                 <ul>
                     <li ng-repeat="place in places" ng-if="trip.id === place.trip_id">{{place.name}}
                         <button class="btn btn-danger" ng-click="deletePlace($index, place.id)">X</button>

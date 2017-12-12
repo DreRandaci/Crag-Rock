@@ -64,9 +64,10 @@ app.controller('TripPlacesCtrl', function ($routeParams, $scope, GOOGLEPLACES_CO
                 places.longitude = place.geometry.location.lng;
                 places.id = i;
                 places.icon = icon;
+                places.vicinity = place.vicinity;
                 if (place.photos !== undefined) {
-                places.img = place.photos[0].html_attributions[0];
-                places.photo_reference = place.photos[0].photo_reference;
+                    places.img = place.photos[0].html_attributions[0];
+                    places.photo_reference = place.photos[0].photo_reference;
                 }
                 return places;
             });
@@ -83,7 +84,7 @@ app.controller('TripPlacesCtrl', function ($routeParams, $scope, GOOGLEPLACES_CO
         click: function (marker, eventName, model) {
             $scope.showPlaceHeading = true;
             $scope.placeHeading = model.name;
-            $scope.grabMarker = model;            
+            $scope.grabMarker = model;
         }
     };
 
