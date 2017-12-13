@@ -174,12 +174,18 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
 
     $scope.savedRoutes = [];
 
-    $scope.removeRouteFromSavedRoutes = (index, route) => {
+    $scope.removeRouteFromSavedRoutes = (index, route) => {        
+        $scope.routes.forEach((listRoute) => {
+            if (listRoute.id === route.id) {
+                listRoute.disabled = false;
+            }
+        });
         $scope.savedRoutes.splice(index, 1);
     };
 
     //save each climbing route
-    $scope.saveToRouteList = (route) => {
+    $scope.saveToRouteList = (index, route) => {
+        route.disabled = true;
         $scope.savedRoutes.push(route);
     };
 

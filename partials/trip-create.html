@@ -1,6 +1,6 @@
 <div class="container">
     <h1>Create a Trip</h1>
-    
+
     <div class="angular-google-map-container col-md-12">
 
         <ui-gmap-google-map id="map" center='map.center' zoom='map.zoom' draggable='true'>
@@ -12,23 +12,22 @@
     </div>
 
     <div class='col-md-6'>
-        <h4>Routes</h4>
+        <h4 ng-show="routes.length">Add Routes</h4>
         <div id="routes_list" ng-show="routes.length" class="list-group">
-            <a ng-repeat="route in routes" class="list-group-item" ng-click="saveToRouteList(route)">{{route.name}} {{route.rating}}</a>
+            <a ng-repeat="route in routes" ng-class="{'disabled': route.disabled}" class="list-group-item" ng-click="saveToRouteList($index, route)">{{route.name}} {{route.rating}}</a>
         </div>
     </div>
-
 
     <div class="col-md-6">
         <h1 ng-show="routes.length">{{area}}</h1>
         <h1 ng-show="updateHeadingBeforeUserClicksMarker">Click a Marker to Find Routes</h1>
         <h4>{{address}}</h4>
-        <div ng-show="savedRoutes.length">
+        <form name="createTripForm" ng-show="savedRoutes.length">
             <div class="form-group">
-                <input type="text" placeholder="Trip Name" ng-model="trip.name">
+                <input class="form-control" type="text" placeholder="Trip Name" ng-model="trip.name" ng-required="true">
             </div>
             <div class="form-group">
-                <input type="text" placeholder="Trip Description" ng-model="trip.description">
+                <input class="form-control" type="text" placeholder="Trip Description" ng-model="trip.description" ng-required="true">
             </div>
 
             <!-- DATEPICKER -->
@@ -42,15 +41,19 @@
                 </span>
             </p>
 
-            <h4>Your Trip Routes:</h4>
+            <h4 class="text-center">Your Trip Routes</h4>
             <ul>
                 <li ng-repeat="route in savedRoutes" ng-model="routes">
                     <a>{{route.name}} {{route.rating}}</a>
-                    <a class="trash_float" ng-click="removeRouteFromSavedRoutes($index, route)"><i class="fas fa-trash"></i></a>
+                    <a class="trash_float" ng-click="removeRouteFromSavedRoutes($index, route)">
+                        <i class="fas fa-trash"></i>
+                    </a>
                 </li>
             </ul>
-            <button class="btn btn-success" ng-click="createTrip(trip, dt)">Save</button>
-        </div>
+            <div class="text-center">
+                <button ng-show="!createTripForm.$invalid" class="btn btn-default" ng-click="createTrip(trip, dt)">Save</button>
+            </div>
+        </form>
     </div>
 
 </div>
