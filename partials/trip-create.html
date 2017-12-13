@@ -11,10 +11,12 @@
         </ui-gmap-google-map>
     </div>
 
-    <div class='col-md-6'>
-        <h4 ng-show="routes.length">Add Routes</h4>
-        <div id="routes_list" ng-show="routes.length" class="list-group">
-            <a ng-repeat="route in routes" ng-class="{'disabled': route.disabled}" class="list-group-item" ng-click="saveToRouteList($index, route)">{{route.name}} {{route.rating}}</a>
+    <div class='col-md-6 routes'>
+        <div ng-show="routes.length">
+            <h4>Add Routes</h4>
+            <div id="routes_list" ng-show="routes.length" class="list-group">
+                <a ng-repeat="route in routes" ng-class="{'disabled': route.disabled}" class="list-group-item route" ng-click="saveToRouteList($index, route)">{{route.name}} {{route.rating}}</a>
+            </div>
         </div>
     </div>
 
@@ -41,10 +43,11 @@
                 </span>
             </p>
 
-            <h4 class="text-center">Your Trip Routes</h4>
+            <h4 class="text-center">Your Trip Routes</h4>            
+            <h5>{{area}}:</h5>
             <ul>
                 <li ng-repeat="route in savedRoutes" ng-model="routes">
-                    <a>{{route.name}} {{route.rating}}</a>
+                    <a class="route_links">{{route.name}} {{route.rating}}</a>
                     <a class="trash_float" ng-click="removeRouteFromSavedRoutes($index, route)">
                         <i class="fas fa-trash"></i>
                     </a>

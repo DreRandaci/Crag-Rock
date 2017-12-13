@@ -77,12 +77,12 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
             });
 
             /////ClIMBING AREA HEADING
-            $scope.area = area[0].location[1] + ', ' + area[0].location[0];  
+            $scope.area = area[0].location[1] + ', ' + area[0].location[0];
 
             let routes = climbs.map((route) => {
                 route.area = route.location[1] + ', ' + route.location[0];
                 return route;
-            });            
+            });
             $scope.routes = routes;
         }).catch((err) => {
             console.log('error in getClimbingRoutesByLatLng:', err);
@@ -174,7 +174,7 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
 
     $scope.savedRoutes = [];
 
-    $scope.removeRouteFromSavedRoutes = (index, route) => {        
+    $scope.removeRouteFromSavedRoutes = (index, route) => {
         $scope.routes.forEach((listRoute) => {
             if (listRoute.id === route.id) {
                 listRoute.disabled = false;
@@ -185,8 +185,10 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
 
     //save each climbing route
     $scope.saveToRouteList = (index, route) => {
-        route.disabled = true;
-        $scope.savedRoutes.push(route);
+        if (!route.disabled) {
+            route.disabled = true;
+            $scope.savedRoutes.push(route);
+        }
     };
 
     $scope.createTrip = (trip, dt) => {
