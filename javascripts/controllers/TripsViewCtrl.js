@@ -1,11 +1,7 @@
 'use strict';
 
 app.controller('TripsViewCtrl', function (moment, $location, $scope, AuthService, RoutesService, TripsService, PlacesService) {
-
-    $scope.routeToCreateTrip = () => {
-        $location.path("/trip/create");
-    };
-
+    
     $scope.addPlaces = (tripId) => {
         $location.path(`/trip/add-places/${tripId}`);
     };
@@ -16,7 +12,11 @@ app.controller('TripsViewCtrl', function (moment, $location, $scope, AuthService
 
     const getTrips = () => {
         TripsService.getTrips(AuthService.getCurrentUid()).then((trips) => {
-            $scope.trips = trips;
+            $scope.trips = trips.map((trip) => {
+                let date = trip.date;
+                trip.date = moment(date).format("dddd, MMMM Do YYYY");
+                return trip;
+            });
             RoutesService.getRoutes(AuthService.getCurrentUid()).then((routes) => {
                 $scope.routes = routes;
                 getPlaces();

@@ -24,11 +24,11 @@ app.controller('TripEditCtrl', function ($location, $log, $routeParams, $scope, 
             $scope.trip = trip.data;
 
             //FOR DATEPICKER
-            $scope.tripDate = function () {
-                let date = $scope.trip.date.toString();
+            let tripDate = function () {
+                let date = $scope.trip.date;
                 $scope.dt = new Date(date);
             };
-            $scope.tripDate();
+            tripDate();
 
             updateRoutesList(trip.data);
             getRoutes(AuthService.getCurrentUid(), routeParams);
@@ -96,7 +96,7 @@ app.controller('TripEditCtrl', function ($location, $log, $routeParams, $scope, 
     };
 
     $scope.createTrip = (trip, savedRoutes, dt) => {
-        trip.date = moment(dt).format("MM-DD-YYYY");
+        trip.date = dt.toString();
         postUpdatedTrip(trip);
     };
 

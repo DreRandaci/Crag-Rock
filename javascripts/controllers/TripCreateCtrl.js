@@ -192,7 +192,7 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
     };
 
     $scope.createTrip = (trip, dt) => {
-        let date = moment(dt).format("dddd, MMMM Do YYYY");
+        let date = dt.toString();
         let area = $scope.area;
         let lat = $scope.map.center.latitude;
         let lng = $scope.map.center.longitude;
