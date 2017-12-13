@@ -2,17 +2,15 @@
 
     <div class="col-md-12">
         <ui-gmap-google-map id="map" center='map.center' zoom='map.zoom' draggable='true'>
-            
+
             <ui-gmap-markers events="markersEvents" coords="'self'" options="'options'" models="markers" icon="'icon'">
             </ui-gmap-markers>
 
         </ui-gmap-google-map>
-    </div>
 
-    <div class="col-md-12">
-        <button class="btn btn-default" ng-click="plotLodging('lodging')">See Hotels</button>
-        <button class="btn btn-default" ng-click="plotRestaurants('restaurant')">See Restaurants</button>
-        <button class="btn btn-default" ng-click="plotCampsites('campground')">See Campgrounds</button>
+        <button class="btn_margin add_shadow btn btn-default" ng-click="plotLodging('lodging')">See Hotels</button>
+        <button class="btn_margin add_shadow btn btn-default" ng-click="plotRestaurants('restaurant')">See Restaurants</button>
+        <button class="btn_margin add_shadow btn btn-default" ng-click="plotCampsites('campground')">See Campgrounds</button>
     </div>
 
     <div ng-show="showPlaceHeading" class="col-md-6">
