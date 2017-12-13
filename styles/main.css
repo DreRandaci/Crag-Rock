@@ -23,8 +23,14 @@
 a {
   color: #3c3c3c; }
 
+li {
+  list-style: none; }
+
 a:hover {
   color: black; }
+
+.trash_float {
+  float: right; }
 
 .flex_container {
   display: flex;

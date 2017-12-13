@@ -11,7 +11,7 @@
         </ui-gmap-google-map>
     </div>
 
-    <div class='col-md-4'>
+    <div class='col-md-6'>
         <h4>Routes</h4>
         <div id="routes_list" ng-show="routes.length" class="list-group">
             <a ng-repeat="route in routes" class="list-group-item" ng-click="saveToRouteList(route)">{{route.name}} {{route.rating}}</a>
@@ -19,7 +19,7 @@
     </div>
 
 
-    <div class="col-md-4">
+    <div class="col-md-6">
         <h1 ng-show="routes.length">{{area}}</h1>
         <h1 ng-show="updateHeadingBeforeUserClicksMarker">Click a Marker to Find Routes</h1>
         <h4>{{address}}</h4>
@@ -46,7 +46,7 @@
             <ul>
                 <li ng-repeat="route in savedRoutes" ng-model="routes">
                     <a>{{route.name}} {{route.rating}}</a>
-                    <button class='btn btn-danger btn-sm' ng-click="removeRouteFromSavedRoutes($index, route)">X</button>
+                    <a class="trash_float" ng-click="removeRouteFromSavedRoutes($index, route)"><i class="fas fa-trash"></i></a>
                 </li>
             </ul>
             <button class="btn btn-success" ng-click="createTrip(trip, dt)">Save</button>

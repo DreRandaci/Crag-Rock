@@ -23,8 +23,14 @@
 a {    
     color: rgb(60, 60, 60);
 }
+li {
+    list-style: none;
+}
 a:hover {
     color: black; 
+}
+.trash_float {
+    float: right;   
 }
 .flex_container {
     display: flex;
