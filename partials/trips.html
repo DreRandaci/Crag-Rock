@@ -1,32 +1,43 @@
-<div ng-repeat="trip in trips" class="col-sm-6 col-md-4 trip">
-    <div class="caption">
-        <div class="panel panel-default">
+<div class="container">
+    <div class="text-center">
+        <button class="btn btn-default btn-lg" ng-click="routeToCreateTrip()">Create Trip</button>
+    </div>
+
+    <div class="flex_container">
+        <div ng-repeat="trip in trips" class="trip panel panel-default">
             <div class="panel-heading">
-                <button ng-click="deleteTrip(trip.id)" class="btn btn-default btn-sm delete_btn"><i class="fas fa-trash"></i></button>
-                <h1 class="panel-title">{{trip.name}}</h1>
+                <button ng-click="deleteTrip(trip.id)" class="btn btn-default btn-sm delete_btn">
+                    <i class="fas fa-trash"></i>
+                </button>
+                <h1 class="panel-title">
+                    <a>
+                        {{trip.name}}
+                    </a>
+                </h1>
             </div>
-            <div class="panel-body">
-                <h4>{{trip.area}}</h4>
-                <p>{{trip.description}}</p>
-                <h4>Routes to Try:</h4>
-                <ul>
-                    <li ng-repeat="route in routes" ng-if="trip.id === route.trip_id">{{route.name}} {{route.rating}}</li>
-                </ul>
-                <div ng-show="places.length">
-                    <h4>Food and Lodging:</h4>
+            <div>
+                <div class="panel-body">
+                    <h4>{{trip.area}}</h4>
+                    <p>{{trip.description}}</p>
+                    <h4>Routes to Try:</h4>
                     <ul>
-                        <li ng-repeat="place in places" ng-if="trip.id === place.trip_id">{{place.name}}
-                            <a ng-click="deletePlace($index, place.id)"><i class="fas fa-trash"></i></a>
-                        </li>
+                        <li ng-repeat="route in routes" ng-if="trip.id === route.trip_id">{{route.name}} {{route.rating}}</li>
                     </ul>
+                    <div ng-show="places.length">
+                        <h4>Food and Lodging:</h4>
+                        <ul>
+                            <li ng-repeat="place in places" ng-if="trip.id === place.trip_id">{{place.name}}
+                                <a ng-click="deletePlace($index, place.id)">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <p>{{trip.date}}</p>
+                    <button class='btn btn-default' ng-click="addPlaces(trip.id)">Add Accomedations</button>
+                    <button class='btn btn-default' ng-click="editTrip(trip.id)">Edit Trip</button>
                 </div>
-                <p>{{trip.date}}</p>
-                <button class='btn btn-default' ng-click="addPlaces(trip.id)">Add Accomedations</button>
-                <button class='btn btn-default' ng-click="editTrip(trip.id)">Edit Trip</button>
             </div>
         </div>
     </div>
-</div>
-<div class="text-center">
-    <button class="btn btn-success btn-lg" ng-click="routeToCreateTrip()">Create Trip</button>
 </div>
