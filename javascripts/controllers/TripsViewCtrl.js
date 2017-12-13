@@ -1,7 +1,7 @@
 'use strict';
 
-app.controller('TripsViewCtrl', function ($location, $scope, AuthService, RoutesService, TripsService, PlacesService) {
-
+app.controller('TripsViewCtrl', function (moment, $location, $scope, AuthService, RoutesService, TripsService, PlacesService) {
+    console.log();
     $scope.routeToCreateTrip = () => {
         $location.path("/trip/create");
     };
@@ -16,6 +16,9 @@ app.controller('TripsViewCtrl', function ($location, $scope, AuthService, Routes
 
     const getTrips = () => {
         TripsService.getTrips(AuthService.getCurrentUid()).then((trips) => {
+            // trips = trips.map((trip) => {
+            //     return trip.date;
+            // });
             $scope.trips = trips;
             RoutesService.getRoutes(AuthService.getCurrentUid()).then((routes) => {
                 $scope.routes = routes;
@@ -77,7 +80,7 @@ app.controller('TripsViewCtrl', function ($location, $scope, AuthService, Routes
             });
         }).catch((err) => {
             console.log("error in getPlacesForSingelTrip:", err);
-        });        
+        });
     };
 
     $scope.deletePlace = (index, placeId) => {

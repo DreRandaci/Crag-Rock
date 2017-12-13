@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('TripCreateCtrl', function ($location, $scope, $window, GOOGLEMAPS_CONFIG, MapsService, MountainProjService, RoutesService, TripsService) {
+app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, GOOGLEMAPS_CONFIG, MapsService, MountainProjService, RoutesService, TripsService) {
 
     //inject google maps script
     $scope.googleUrl = `http://maps.google.com/maps/api/js?key=${GOOGLEMAPS_CONFIG}`;
@@ -184,7 +184,7 @@ app.controller('TripCreateCtrl', function ($location, $scope, $window, GOOGLEMAP
     };
 
     $scope.createTrip = (trip, dt) => {
-        let date = dt.toString();
+        let date = moment(dt).format("MM-DD-YYYY");
         let area = $scope.area;
         let lat = $scope.map.center.latitude;
         let lng = $scope.map.center.longitude;

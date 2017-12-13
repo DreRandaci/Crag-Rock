@@ -22,12 +22,14 @@
     "angular": "^1.6.7",
     "angular-animate": "^1.6.7",
     "angular-google-maps": "^2.4.1",
+    "angular-moment": "^1.2.0",
     "angular-route": "^1.6.7",
     "angular-sanitize": "^1.6.7",
     "angular-ui-bootstrap": "^2.5.6",
     "bootstrap": "^3.3.7",
     "google-images": "^2.1.0",
     "jquery": "^3.2.1",
+    "moment": "^2.19.4",
     "ngmap": "^1.18.4"
   }
 }
