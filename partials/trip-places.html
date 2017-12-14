@@ -20,7 +20,10 @@
         <button class='btn btn-default' ng-click="addPlace(grabMarker)">Add</button>
     </div>
     <div ng-show="showSaveHeading" class="col-md-6">
-
+        <h1>Places to Save</h1>
+        <ul>
+            <li ng-repeat="place in places">{{place.name}}</li>
+        </ul>
     </div>
 
 </div>

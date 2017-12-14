@@ -2,6 +2,8 @@
 
 app.controller('TripsViewCtrl', function (moment, $location, $scope, AuthService, RoutesService, TripsService, PlacesService) {
     
+    $scope.toggle_container = false;
+    
     $scope.addPlaces = (tripId) => {
         $location.path(`/trip/add-places/${tripId}`);
     };
