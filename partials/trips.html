@@ -8,15 +8,9 @@
 
         <div ng-repeat="trip in trips" data-toggle="modal" data-target="#trip" ng-click="seeTrip(trip)" class="trip panel">
             <div class="panel-heading">
-                <button ng-click="deleteTrip(trip.id)" class="btn btn-default btn-sm delete_btn">
+                <!-- <button ng-click="deleteTrip(trip.id)" class="btn btn-default btn-sm delete_btn">
                     <i class="fas fa-trash"></i>
-                </button>
-                <h1>{{trip.name}}</h1>
-                <h1 class="panel-title">
-                    <a>
-                        {{trip.name}}
-                    </a>
-                </h1>
+                </button> -->
             </div>
             <div>
                 <div class="panel-body">
@@ -84,6 +78,9 @@
                 <div class="modal-footer">
                     <button type="button" class='btn btn-default' data-dismiss="modal" ng-click="addPlaces(tripId)">Add Accomedations</button>
                     <button type="button" class='btn btn-default' data-dismiss="modal" ng-click="editTrip(tripId)">Edit Trip</button>
+                    <button ng-click="deleteTrip(tripId)" class="btn btn-danger btn-sm">
+                        <i class="fas fa-trash"></i>
+                    </button>
                 </div>
             </div>
         </div>
