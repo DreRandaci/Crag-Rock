@@ -62,17 +62,17 @@
 
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-6">
-                            <!-- <p>{{currentTrip.description}}</p> -->
-                            <h4>Routes to Try:</h4>
+                        <div class="col-md-12">
+                            <p>{{currentTrip.description}}</p>
+                            <h4>Routes to Try</h4>
                             <ul>
                                 <li ng-repeat="route in routes" ng-if="tripId === route.trip_id">{{route.name}} {{route.rating}}</li>
                             </ul>
                         </div>
-                        <div ng-show="places.length">
+                        <div class="col-md-12" ng-show="places.length">
                             <h4>Food and Lodging:</h4>
                             <ul>
-                                <li ng-repeat="place in places" ng-if="trip.id === place.trip_id">{{place.name}}
+                                <li ng-repeat="place in places" ng-if="tripId === place.trip_id">{{place.name}}
                                     <a ng-click="deletePlace($index, place.id)">
                                         <i class="fas fa-trash"></i>
                                     </a>
@@ -84,7 +84,6 @@
                 <div class="modal-footer">
                     <button type="button" class='btn btn-default' data-dismiss="modal" ng-click="addPlaces(tripId)">Add Accomedations</button>
                     <button type="button" class='btn btn-default' data-dismiss="modal" ng-click="editTrip(tripId)">Edit Trip</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
