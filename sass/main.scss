@@ -44,8 +44,11 @@ a:hover {
 .trip {
     margin: 1em;
     box-shadow: $light-box-shadow;
-    // background-color: rgb(198, 83, 83);
-    // color: #e2e2e2;
+    width: 264px;
+    border: 1px solid #a7a7a738;;
+    box-shadow: $light-box-shadow;
+    height: 250px;    
+    background-color: #26343F;
 }
 .trip:hover {
     box-shadow: $dark-box-shadow;

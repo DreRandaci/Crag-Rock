@@ -41,10 +41,15 @@ a:hover {
 
 .trip {
   margin: 1em;
-  box-shadow: 0px 10px 35px -13px rgba(63, 63, 63, 0.75); }
+  box-shadow: 0px 10px 35px -13px rgba(63, 63, 63, 0.75);
+  width: 264px;
+  border: 1px solid #a7a7a738;
+  box-shadow: 0px 10px 35px -13px rgba(63, 63, 63, 0.75);
+  height: 250px;
+  background-color: #26343F; }
 
 .trip:hover {
-  box-shadow: 0px 10px 59px -13px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 10px 100px -13px rgba(0, 0, 0, 0.75);
   opacity: 1;
   transition: all 0.5s ease; }
 

@@ -4,7 +4,8 @@
         <button ng-if="!trips.length" class="btn btn-default" ng-click="routeToCreateTrip()">No Trips! Create a Trip Here</button>
     </div>
 
-    <div class="flex_container">
+    <div class="flex_container">        
+
         <div ng-repeat="trip in trips" class="trip panel panel-default">
             <div class="panel-heading">
                 <button ng-click="deleteTrip(trip.id)" class="btn btn-default btn-sm delete_btn">
