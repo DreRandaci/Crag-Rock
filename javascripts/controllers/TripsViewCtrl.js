@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('TripsViewCtrl', function (moment, $location, $scope, AuthService, RoutesService, TripsService, PlacesService) {
+app.controller('TripsViewCtrl', function (moment, $location, $scope, $timeout, AuthService, RoutesService, TripsService, PlacesService) {
 
     $scope.toggle_container = false;
 
@@ -9,11 +9,15 @@ app.controller('TripsViewCtrl', function (moment, $location, $scope, AuthService
     };
 
     $scope.addPlaces = (tripId) => {
-        $location.path(`/trip/add-places/${tripId}`);
+        $timeout(function () {
+            $location.path(`/trip/add-places/${tripId}`);
+        }, 500);
     };
 
     $scope.editTrip = (tripId) => {
-        $location.path(`/trip/detail/${tripId}`);
+        $timeout(function () {
+            $location.path(`/trip/detail/${tripId}`);
+        }, 500);
     };
 
     $scope.currentTrip = {};
