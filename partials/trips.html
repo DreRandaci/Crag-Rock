@@ -8,26 +8,26 @@
 
         <div ng-repeat="trip in trips" class="trip ">
             <div class="">                
-                <!-- <button ng-click="deleteTrip(trip.id)" class="btn btn-default btn-sm delete_btn">
+                <button ng-click="deleteTrip(trip.id)" class="btn btn-default btn-sm delete_btn">
                     <i class="fas fa-trash"></i>
-                </button> -->
-                <!-- <h1>{{trip.name}}</h1> -->
-                <!-- <h1 class="panel-title">
+                </button>
+                <h1>{{trip.name}}</h1>
+                <h1 class="panel-title">
                     <a>
                         {{trip.name}}
                     </a>
-                </h1> -->
+                </h1>
             </div>
             <div>                
-                <!-- <div class="panel-body"> -->
-                <!-- <div class=""> -->
-                    <h4 class="trip_area_heading_position">{{trip.area}}</h4>
-                    <!-- <p>{{trip.description}}</p> -->
-                    <!-- <h4>Routes to Try:</h4> -->
-                    <!-- <ul>
+                <div class="panel-body">
+                <div class="">
+                    <h4 class="">{{trip.area}}</h4>
+                    <p>{{trip.description}}</p>
+                    <h4>Routes to Try:</h4>
+                    <ul>
                         <li ng-repeat="route in routes" ng-if="trip.id === route.trip_id">{{route.name}} {{route.rating}}</li>
-                    </ul> -->
-                    <!-- <div ng-show="places.length">
+                    </ul>
+                    <div ng-show="places.length">
                         <h4>Food and Lodging:</h4>
                         <ul>
                             <li ng-repeat="place in places" ng-if="trip.id === place.trip_id">{{place.name}}
@@ -36,10 +36,10 @@
                                 </a>
                             </li>
                         </ul>
-                    </div> -->
+                    </div>
                     <p>{{trip.date}}</p>
-                    <!-- <button class='btn btn-default' ng-click="addPlaces(trip.id)">Add Accomedations</button> -->
-                    <!-- <button class='btn btn-default' ng-click="editTrip(trip.id)">Edit Trip</button> -->
+                    <button class='btn btn-default' ng-click="addPlaces(trip.id)">Add Accomedations</button>
+                    <button class='btn btn-default' ng-click="editTrip(trip.id)">Edit Trip</button>
                 </div>
             </div>
         </div>
