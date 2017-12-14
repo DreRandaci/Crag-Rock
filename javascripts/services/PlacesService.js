@@ -2,6 +2,20 @@
 
 app.service("PlacesService", function ($http, $q, FIREBASE_CONFIG, GOOGLEPLACES_CONFIG) {
 
+    const createPlaceObj = (place) => {
+        return {
+            "google_place_id": place.google_place_id,
+            "icon": place.icon,
+            "id": place.id,
+            "latitude": place.latitude,
+            "longitude": place.longitude,
+            "name": place.name,
+            "trip_id": place.trip_id,
+            "type": place.type,
+            "vicinity": place.vicinity
+        };
+    };
+
     const getGooglePlaces = (type, lat, lng) => {
         return $http.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=15000&type=${type}&key=${GOOGLEPLACES_CONFIG}`);
     };
@@ -53,5 +67,5 @@ app.service("PlacesService", function ($http, $q, FIREBASE_CONFIG, GOOGLEPLACES_
         return $http.delete(`${FIREBASE_CONFIG.databaseURL}/places/${placeId}.json`);
     };
 
-    return { deletePlace, getGooglePlaces, getPlaces, getPlacesForSingleTrip, savePlace };
+    return { createPlaceObj, deletePlace, getGooglePlaces, getPlaces, getPlacesForSingleTrip, savePlace };
 });

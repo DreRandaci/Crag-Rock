@@ -1,5 +1,5 @@
 <div class="container">
-    <h1>Create a Trip</h1>
+    <h1>Create a Climbing Trip</h1>
 
     <div class="angular-google-map-container col-md-12">
 
@@ -14,7 +14,7 @@
     <div class='col-md-6 routes'>
         <div ng-show="routes.length">
             <h4>Add Routes</h4>
-            <div ng-show="routes.length" class="list-group add_shadow">
+            <div id="routes_list" ng-show="routes.length" class="list-group add_shadow">
                 <a ng-repeat="route in routes" ng-class="{'disabled': route.disabled}" class="list-group-item route" ng-click="saveToRouteList($index, route)">{{route.name}} {{route.rating}}</a>
             </div>
         </div>

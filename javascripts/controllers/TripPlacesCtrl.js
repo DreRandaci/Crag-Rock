@@ -91,12 +91,23 @@ app.controller('TripPlacesCtrl', function ($routeParams, $scope, GOOGLEPLACES_CO
     $scope.places = [];
 
     $scope.addPlace = (place) => {
+        console.log(place);
         $scope.showSaveHeading = true;
         $scope.places.push(place);
-        // PlacesService.savePlace(place).then((results) => {
-        // }).catch((err) => {
-        //     console.log("err in savePlace, TripPlacesCtrl", err);
-        // });
+    };
+
+    $scope.savePlaces = () => {
+        $scope.places.forEach((place) => {
+            let newPlace = PlacesService.createPlaceObj(place);
+            PlacesService.savePlace(newPlace).then(() => {
+            }).catch((err) => {
+                console.log("err in savePlace, TripPlacesCtrl", err);
+            });
+        });
+    };
+
+    $scope.removePlaceFromPlaces = (index, place) => {
+        $scope.places.splice(index, 1);
     };
 
 });
