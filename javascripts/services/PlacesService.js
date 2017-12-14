@@ -17,7 +17,7 @@ app.service("PlacesService", function ($http, $q, FIREBASE_CONFIG, GOOGLEPLACES_
     };
 
     const getGooglePlaces = (type, lat, lng) => {
-        return $http.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=15000&type=${type}&key=${GOOGLEPLACES_CONFIG}`);
+        return $http.get(`https://weekend-send-train.herokuapp.com/api/google-places/?location=${lat},${lng}&radius=15000&type=${type}&key=${GOOGLEPLACES_CONFIG}`);
     };
 
     const getPlaces = (tripId) => {

@@ -101,7 +101,7 @@ app.controller('TripPlacesCtrl', function ($location, $routeParams, $scope, GOOG
             PlacesService.savePlace(newPlace).then(() => {
             }).catch((err) => {
                 console.log("err in savePlace, TripPlacesCtrl", err);
-            });           
+            });
         });
         $location.path("/trips");
     };

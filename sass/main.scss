@@ -2,7 +2,7 @@
 @import 'variables';
 
 body {
-    font-family: "Prompt", "Roboto", "Open Sans";
+    font-family: "Roboto", "Open Sans";
 }
 .angular-google-map-container {
     width: 100%;
@@ -48,12 +48,13 @@ a:hover {
 .trip {
     margin: 1em;
     box-shadow: $light-box-shadow;
-    width: 300px;
+    width: 400px;
     border: 1px solid #a7a7a738;;
     box-shadow: $light-box-shadow;
-    height: 300px;    
-    background-color: #26343F;
-    color: white;
+    height: 400px;    
+    background-color: rgb(225, 225, 225);
+    // background-color: #26343F;
+    color: black;
     position: relative;
 }
 .trip:hover {

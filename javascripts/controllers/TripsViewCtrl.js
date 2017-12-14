@@ -16,11 +16,19 @@ app.controller('TripsViewCtrl', function (moment, $location, $scope, AuthService
         $location.path(`/trip/detail/${tripId}`);
     };
 
+    $scope.currentTrip = {};
+
+    $scope.seeTrip = (trip) => {
+        $scope.tripId = trip.id;
+        $scope.currentTrip = trip;
+    };
+
     const getTrips = () => {
         TripsService.getTrips(AuthService.getCurrentUid()).then((trips) => {
             $scope.trips = trips.map((trip) => {
                 let date = trip.date;
-                trip.date = moment(date).format("dddd, MMMM Do YYYY");
+                let dateFormat = "dddd, MMMM Do YYYY";
+                trip.date = moment(date, dateFormat).format("dddd, MMMM Do YYYY");
                 return trip;
             });
             RoutesService.getRoutes(AuthService.getCurrentUid()).then((routes) => {

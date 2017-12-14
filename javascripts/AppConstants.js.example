@@ -9,3 +9,4 @@ app.constant("FIREBASE_CONFIG", {
 
 app.constant( "GOOGLEMAPS_CONFIG", "your_key" );
 app.constant("MOUNTAINPROJ_CONFIG", 'your_key');
+app.constant("GOOGLEPLACES_CONFIG", 'your_key');

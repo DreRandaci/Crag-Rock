@@ -4,10 +4,10 @@
         <button ng-if="!trips.length" class="btn btn-default" ng-click="routeToCreateTrip()">No Trips! Create a Trip Here</button>
     </div>
 
-    <div class="flex_container">        
+    <div class="flex_container">
 
-        <div ng-repeat="trip in trips" class="trip ">
-            <div class="">                
+        <div ng-repeat="trip in trips" class="trip panel">
+            <div class="panel-heading">
                 <button ng-click="deleteTrip(trip.id)" class="btn btn-default btn-sm delete_btn">
                     <i class="fas fa-trash"></i>
                 </button>
@@ -18,30 +18,55 @@
                     </a>
                 </h1>
             </div>
-            <div>                
+            <div>
                 <div class="panel-body">
-                <div class="">
-                    <h4 class="">{{trip.area}}</h4>
-                    <p>{{trip.description}}</p>
-                    <h4>Routes to Try:</h4>
-                    <ul>
-                        <li ng-repeat="route in routes" ng-if="trip.id === route.trip_id">{{route.name}} {{route.rating}}</li>
-                    </ul>
-                    <div ng-show="places.length">
-                        <h4>Food and Lodging:</h4>
+                    <div class="">
+                        <h4 class="">{{trip.area}}</h4>
+                        <p>{{trip.description}}</p>
+                        <h4>Routes to Try:</h4>
                         <ul>
-                            <li ng-repeat="place in places" ng-if="trip.id === place.trip_id">{{place.name}}
-                                <a ng-click="deletePlace($index, place.id)">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </li>
+                            <li ng-repeat="route in routes" ng-if="trip.id === route.trip_id">{{route.name}} {{route.rating}}</li>
                         </ul>
+                        <div ng-show="places.length">
+                            <h4>Food and Lodging:</h4>
+                            <ul>
+                                <li ng-repeat="place in places" ng-if="trip.id === place.trip_id">{{place.name}}
+                                    <a ng-click="deletePlace($index, place.id)">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <p>{{trip.date}}</p>
+                        <button class='btn btn-default' ng-click="addPlaces(trip.id)">Add Accomedations</button>
+                        <button class='btn btn-default' ng-click="editTrip(trip.id)">Edit Trip</button>
+                        <button class='btn btn-default' data-toggle="modal" data-target="#trip" ng-click="seeTrip(trip)">Modal</button>
                     </div>
-                    <p>{{trip.date}}</p>
-                    <button class='btn btn-default' ng-click="addPlaces(trip.id)">Add Accomedations</button>
-                    <button class='btn btn-default' ng-click="editTrip(trip.id)">Edit Trip</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="trip">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h2>{{currentTrip.name}}</h2>
+                    <p>{{currentTrip.area}}</p>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <!-- <p>{{currentTrip.description}}</p> -->
+                            <h4>Routes to Try:</h4>
+                            <ul>
+                                <li ng-repeat="route in routes" ng-if="tripId === route.trip_id">{{route.name}} {{route.rating}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
