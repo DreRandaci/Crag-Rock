@@ -1,9 +1,13 @@
 'use strict';
 
 app.controller('TripsViewCtrl', function (moment, $location, $scope, AuthService, RoutesService, TripsService, PlacesService) {
-    
+
     $scope.toggle_container = false;
-    
+
+    $scope.routeToCreateTrip = () => {
+        $location.path("/trip/create");
+    };
+
     $scope.addPlaces = (tripId) => {
         $location.path(`/trip/add-places/${tripId}`);
     };
