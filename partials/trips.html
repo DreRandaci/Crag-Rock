@@ -7,21 +7,21 @@
     <div class="flex_container">
 
         <div ng-repeat="trip in trips" data-toggle="modal" data-target="#trip" ng-click="seeTrip(trip)" class="trip panel">
-            <div class="panel-heading">
+            <div class="">
                 <!-- <button ng-click="deleteTrip(trip.id)" class="btn btn-default btn-sm delete_btn">
                     <i class="fas fa-trash"></i>
                 </button> -->
             </div>
             <div>
-                <div class="panel-body">
+                <div class="">
                     <div class="">
                         <h4 class="">{{trip.area}}</h4>
-                        <p>{{trip.description}}</p>
+                        <!-- <p>{{trip.description}}</p>
                         <h4>Routes to Try:</h4>
                         <ul>
                             <li ng-repeat="route in routes" ng-if="trip.id === route.trip_id">{{route.name}} {{route.rating}}</li>
-                        </ul>
-                        <div ng-show="places.length">
+                        </ul> -->
+                        <!-- <div ng-show="places.length">
                             <h4>Food and Lodging:</h4>
                             <ul>
                                 <li ng-repeat="place in places" ng-if="trip.id === place.trip_id">{{place.name}}
@@ -30,7 +30,7 @@
                                     </a>
                                 </li>
                             </ul>
-                        </div>
+                        </div> -->
                         <p>{{trip.date}}</p>
                         <!-- <button class='btn btn-default' ng-click="addPlaces(trip.id)">Add Accomedations</button>
                         <button class='btn btn-default' ng-click="editTrip(trip.id)">Edit Trip</button> -->
@@ -38,51 +38,56 @@
                 </div>
             </div>
         </div>
+
     </div>
+    <!-- END FLEX CONTAINER -->
+</div>
 
-    <div class="modal fade" id="trip">
-        <div class="modal-dialog">
-            <div class="modal-content">
 
-                <div class="modal-header text-center">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+<!-- MODAL -->
+<div class="modal fade" id="trip">
+    <div class="modal-dialog">
+        <div class="modal-content">
 
-                    <h2 class="modal-title">{{currentTrip.name}}</h2>
-                    <p>{{currentTrip.area}}</p>
+            <div class="modal-header text-center">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
 
-                </div>
+                <h2 class="modal-title">{{currentTrip.name}}</h2>
+                <p>{{currentTrip.area}}</p>
 
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <p>{{currentTrip.description}}</p>
-                            <h4>Routes to Try</h4>
-                            <ul>
-                                <li ng-repeat="route in routes" ng-if="tripId === route.trip_id">{{route.name}} {{route.rating}}</li>
-                            </ul>
-                        </div>
-                        <div class="col-md-12" ng-show="places.length">
-                            <h4>Food and Lodging:</h4>
-                            <ul>
-                                <li ng-repeat="place in places" ng-if="tripId === place.trip_id">{{place.name}}
-                                    <a ng-click="deletePlace($index, place.id)">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <p>{{currentTrip.description}}</p>
+                        <h4>Routes to Try</h4>
+                        <ul>
+                            <li ng-repeat="route in routes" ng-if="tripId === route.trip_id">{{route.name}} {{route.rating}}</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-12" ng-show="places.length">
+                        <h4>Food and Lodging:</h4>
+                        <ul>
+                            <li ng-repeat="place in places" ng-if="tripId === place.trip_id">{{place.name}}
+                                <a ng-click="deletePlace($index, place.id)">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class='btn btn-default' data-dismiss="modal" ng-click="addPlaces(tripId)">Add Accomedations</button>
-                    <button type="button" class='btn btn-default' data-dismiss="modal" ng-click="editTrip(tripId)">Edit Trip</button>
-                    <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" ng-click="deleteTrip(tripId)">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class='btn btn-default' data-dismiss="modal" ng-click="addPlaces(tripId)">Add Accomedations</button>
+                <button type="button" class='btn btn-default' data-dismiss="modal" ng-click="editTrip(tripId)">Edit Trip</button>
+                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" ng-click="deleteTrip(tripId)">
+                    <i class="fas fa-trash"></i>
+                </button>
             </div>
         </div>
-
     </div>
+
+</div>
