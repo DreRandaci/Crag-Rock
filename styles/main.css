@@ -91,3 +91,17 @@ a:hover {
   position: absolute;
   top: 125px;
   left: 45px; }
+
+.added_margin {
+  margin-bottom: 15px; }
+
+.btn-social > :first-child {
+  position: absolute;
+  left: 0;
+  top: 3px;
+  bottom: 0;
+  width: 32px;
+  line-height: 34px;
+  font-size: 1.6em;
+  text-align: center;
+  border-right: 1px solid rgba(0, 0, 0, 0.2); }
