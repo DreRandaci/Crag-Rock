@@ -7,6 +7,7 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
 
     $scope.updateHeadingBeforeUserClicksMarker = true;
 
+    //GRABS CURRENT LOCATION, PLOTS CLIMBS WITHIN 100 MILES
     $window.navigator.geolocation.getCurrentPosition(function (position) {
         let lat = position.coords.latitude;
         let lng = position.coords.longitude;
@@ -55,7 +56,52 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
             latitude: 36.174465, longitude: -86.767960
         },
         zoom: 4,
-        options: { scrollwheel: false }
+        options: { scrollwheel: false },
+        searchbox: {
+            template: 'searchbox.tpl.html',
+            //position:'top-right',
+            position: 'top-left',
+            options: {
+                bounds: {},
+                visible: true
+            },
+            //parentdiv:'searchBoxParent',
+            events: {
+                places_changed: function (searchBox) {
+
+                    let places = searchBox.getPlaces();
+
+                    if (places.length == 0) {
+                        return;
+                    }
+                    // For each place, get the icon, place name, and location.
+                    let newMarkers = [];
+                    for (var i = 0, place; place = places[i]; i++) {
+                        // Create a marker for each place.
+                        var marker = {
+                            idKey: i,
+                            place_id: place.place_id,
+                            name: place.name,
+                            latitude: place.geometry.location.lat(),
+                            longitude: place.geometry.location.lng(),
+                            templateurl: 'window.tpl.html',
+                            templateparameter: place,
+                            events: {
+                                click: function (marker) {
+                                    $scope.window.coords = {
+                                        latitude: marker.model.latitude,
+                                        longitude: marker.model.longitude
+                                    };
+                                    $scope.window.templateparameter = marker.model.templateparameter;
+                                    $scope.window.show = true;
+
+                                }
+                            }
+                        };
+                    }
+                }
+            }
+        }
     };
 
     // initial marker instance on page load
@@ -63,6 +109,8 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
         id: 0,
         latitude: 36.174465, longitude: -86.767960
     }];
+
+
 
     const getClimbingRoutes = (lat, lng) => {
         $scope.routes = [];
