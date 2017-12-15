@@ -7,6 +7,7 @@
     <title>Weekend Send Train</title>
     <link rel="stylesheet" href="lib/node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="lib/node_modules/angular-ui-bootstrap/dist/ui-bootstrap-csp.css">
+    <link rel="stylesheet" href="lib/node_modules/bootstrap-social/bootstrap-social.css">
     <link rel="stylesheet" type="text/css" href="./styles/main.css">
 </head>
 <body ng-app="SendTrainApp">
@@ -18,7 +19,7 @@
         <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>        
         <script ng-src="{{googleUrl}}"></script>        
         <script ng-src="{{googlePlacesUrl}}"></script>        
-
+        <script defer src="https://use.fontawesome.com/releases/v5.0.1/js/all.js"></script>        
         <script type="text/javascript" src="lib/node_modules/lodash/index.js"></script>
         <script type="text/javascript" src="lib/node_modules/jquery/dist/jquery.min.js"></script>
         <script type="text/javascript" src="lib/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>    
@@ -30,6 +31,8 @@
         <script type="text/javascript" src="lib/node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js"></script>
         <script type="text/javascript" src="lib/node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
         <script type="text/javascript" src="lib/node_modules/angular-google-maps/dist/angular-google-maps.min.js"></script>                    
+        <script type="text/javascript" src="lib/node_modules/moment/moment.js"></script>                    
+        <script type="text/javascript" src="lib/node_modules/angular-moment/angular-moment.min.js"></script>                    
 
         <script type="text/javascript" src="javascripts/angular-simple-logger.js"></script>
         <script type="text/javascript" src="javascripts/app.js"></script>
@@ -38,9 +41,7 @@
 
         <script type="text/javascript" src="javascripts/services/AuthService.js"></script>
         <script type="text/javascript" src="javascripts/services/TripsService.js"></script>
-        <script type="text/javascript" src="javascripts/services/AttendeesService.js"></script>
         <script type="text/javascript" src="javascripts/services/ProfileService.js"></script>
-        <script type="text/javascript" src="javascripts/services/RelationshipsService.js"></script>
         <script type="text/javascript" src="javascripts/services/RoutesService.js"></script>
         <script type="text/javascript" src="javascripts/services/MapsService.js"></script>
         <script type="text/javascript" src="javascripts/services/PlacesService.js"></script>
@@ -48,9 +49,6 @@
 
         <script type="text/javascript" src="javascripts/controllers/NavCtrl.js"></script>
         <script type="text/javascript" src="javascripts/controllers/AuthCtrl.js"></script>
-        <script type="text/javascript" src="javascripts/controllers/ChatCtrl.js"></script>
-        <script type="text/javascript" src="javascripts/controllers/FriendsCtrl.js"></script>
-        <script type="text/javascript" src="javascripts/controllers/FriendDetailCtrl.js"></script>
         <script type="text/javascript" src="javascripts/controllers/ProfileCtrl.js"></script>
         <script type="text/javascript" src="javascripts/controllers/TripsViewCtrl.js"></script>
         <script type="text/javascript" src="javascripts/controllers/TripEditCtrl.js"></script>

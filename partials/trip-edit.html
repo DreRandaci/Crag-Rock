@@ -12,12 +12,12 @@
     </div>
 
     <h4>Routes</h4>
-    <div class='col-md-4'>
+    <div class='col-md-6'>
         <div id="routes_list" ng-show="routes.length" class="list-group">
             <a ng-repeat="route in routes" class="list-group-item" ng-click="saveToRouteList(route)">{{route.name}} {{route.rating}}</a>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-6">
         <h1>{{trip.area}}</h1>
         <h4>{{trip.googleMapsAddress}}</h4>
         <div ng-show="savedRoutes.length">
@@ -44,7 +44,7 @@
             <ul>
                 <li ng-repeat="route in savedRoutes" ng-model="routes">
                     <a>{{route.name}} {{route.rating}}, {{route.wall}}</a>
-                    <button class='btn btn-danger btn-sm' ng-click="removeRouteFromSavedRoutes($index, route)">X</button>
+                    <a class='trash_float' ng-click="removeRouteFromSavedRoutes($index, route)"><i class="fas fa-trash"></i></a>
                 </li>
             </ul>
             <button class="btn btn-success" ng-click="createTrip(trip, savedRoutes, dt)">Update</button>

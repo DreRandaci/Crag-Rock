@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('TripPlacesCtrl', function ($routeParams, $scope, GOOGLEPLACES_CONFIG, TripsService, PlacesService) {
+app.controller('TripPlacesCtrl', function ($location, $routeParams, $scope, GOOGLEPLACES_CONFIG, TripsService, PlacesService) {
 
     $scope.googlePlacesUrl = `https://maps.googleapis.com/maps/api/js?key=${GOOGLEPLACES_CONFIG}&libraries=places`;
 
@@ -88,12 +88,26 @@ app.controller('TripPlacesCtrl', function ($routeParams, $scope, GOOGLEPLACES_CO
         }
     };
 
+    $scope.places = [];
+
     $scope.addPlace = (place) => {
         $scope.showSaveHeading = true;
-        PlacesService.savePlace(place).then((results) => {
-        }).catch((err) => {
-            console.log("err in savePlace, TripPlacesCtrl", err);
+        $scope.places.push(place);
+    };
+
+    $scope.savePlaces = () => {
+        $scope.places.forEach((place) => {
+            let newPlace = PlacesService.createPlaceObj(place);
+            PlacesService.savePlace(newPlace).then(() => {
+            }).catch((err) => {
+                console.log("err in savePlace, TripPlacesCtrl", err);
+            });
         });
+        $location.path("/trips");
+    };
+
+    $scope.removePlaceFromPlaces = (index, place) => {
+        $scope.places.splice(index, 1);
     };
 
 });

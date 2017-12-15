@@ -7,12 +7,10 @@
             </ui-gmap-markers>
 
         </ui-gmap-google-map>
-    </div>
 
-    <div class="col-md-12">
-        <button class="btn btn-default" ng-click="plotLodging('lodging')">See Hotels</button>
-        <button class="btn btn-default" ng-click="plotRestaurants('restaurant')">See Restaurants</button>
-        <button class="btn btn-default" ng-click="plotCampsites('campground')">See Campgrounds</button>
+        <button class="btn_margin add_shadow btn btn-default" ng-click="plotLodging('lodging')">See Hotels</button>
+        <button class="btn_margin add_shadow btn btn-default" ng-click="plotRestaurants('restaurant')">See Restaurants</button>
+        <button class="btn_margin add_shadow btn btn-default" ng-click="plotCampsites('campground')">See Campgrounds</button>
     </div>
 
     <div ng-show="showPlaceHeading" class="col-md-6">
@@ -22,7 +20,15 @@
         <button class='btn btn-default' ng-click="addPlace(grabMarker)">Add</button>
     </div>
     <div ng-show="showSaveHeading" class="col-md-6">
-
+        <h4>Places to Save</h4>
+        <ul>
+            <li ng-repeat="place in places">{{place.name}}
+                <a class="trash_float" ng-click="removePlaceFromPlaces($index, place)">
+                    <i class="fas fa-trash"></i>
+                </a>
+            </li>
+        </ul>
+        <button class="btn btn-default" ng-click="savePlaces()">Save Places</button>
     </div>
 
 </div>

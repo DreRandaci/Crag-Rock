@@ -1,9 +1,9 @@
 'use strict';
 
-app.controller('TripCreateCtrl', function ($location, $scope, $window, GOOGLEMAPS_CONFIG, MapsService, MountainProjService, RoutesService, TripsService) {
+app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, GOOGLEMAPS_CONFIG, MapsService, MountainProjService, RoutesService, TripsService) {
 
     //inject google maps script
-    $scope.googleUrl = `http://maps.google.com/maps/api/js?key=${GOOGLEMAPS_CONFIG}`;
+    $scope.googleUrl = `https://maps.google.com/maps/api/js?key=${GOOGLEMAPS_CONFIG}`;
 
     $scope.updateHeadingBeforeUserClicksMarker = true;
 
@@ -77,12 +77,12 @@ app.controller('TripCreateCtrl', function ($location, $scope, $window, GOOGLEMAP
             });
 
             /////ClIMBING AREA HEADING
-            $scope.area = area[0].location[1] + ', ' + area[0].location[0];  
+            $scope.area = area[0].location[1] + ', ' + area[0].location[0];
 
             let routes = climbs.map((route) => {
                 route.area = route.location[1] + ', ' + route.location[0];
                 return route;
-            });            
+            });
             $scope.routes = routes;
         }).catch((err) => {
             console.log('error in getClimbingRoutesByLatLng:', err);
@@ -175,12 +175,20 @@ app.controller('TripCreateCtrl', function ($location, $scope, $window, GOOGLEMAP
     $scope.savedRoutes = [];
 
     $scope.removeRouteFromSavedRoutes = (index, route) => {
+        $scope.routes.forEach((listRoute) => {
+            if (listRoute.id === route.id) {
+                listRoute.disabled = false;
+            }
+        });
         $scope.savedRoutes.splice(index, 1);
     };
 
     //save each climbing route
-    $scope.saveToRouteList = (route) => {
-        $scope.savedRoutes.push(route);
+    $scope.saveToRouteList = (index, route) => {
+        if (!route.disabled) {
+            route.disabled = true;
+            $scope.savedRoutes.push(route);
+        }
     };
 
     $scope.createTrip = (trip, dt) => {

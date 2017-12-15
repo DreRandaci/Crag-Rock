@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('TripEditCtrl', function ($location, $log, $routeParams, $scope, AuthService, MapsService, MountainProjService, RoutesService, TripsService) {
+app.controller('TripEditCtrl', function ($location, $log, $routeParams, $scope, moment, AuthService, MapsService, MountainProjService, RoutesService, TripsService) {
 
     // initial map instance on page load
     $scope.map = {
@@ -24,11 +24,11 @@ app.controller('TripEditCtrl', function ($location, $log, $routeParams, $scope, 
             $scope.trip = trip.data;
 
             //FOR DATEPICKER
-            $scope.tripDate = function () {
-                let date = $scope.trip.date.toString();
+            let tripDate = function () {
+                let date = $scope.trip.date;
                 $scope.dt = new Date(date);
             };
-            $scope.tripDate();
+            tripDate();
 
             updateRoutesList(trip.data);
             getRoutes(AuthService.getCurrentUid(), routeParams);

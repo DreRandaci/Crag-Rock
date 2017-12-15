@@ -1,32 +1,68 @@
-<div ng-repeat="trip in trips" class="col-sm-6 col-md-4 trip">
-    <div class="caption">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <button ng-click="deleteTrip(trip.id)" class="btn btn-danger btn-sm delete_btn">X</button>
-                <h1 class="panel-title">{{trip.name}}</h1>
-            </div>
-            <div class="panel-body">
+<div class="container">
+
+    <div class="text-center">
+        <button ng-if="!trips.length" class="btn btn-default" ng-click="routeToCreateTrip()">No Trips! Create a Trip Here</button>
+    </div>
+
+    <div class="flex_container">
+
+        <div ng-repeat="trip in trips" data-toggle="modal" data-target="#trip" ng-click="seeTrip(trip)" class="trip panel">
+            <div class="text-center trip_cover_text">
                 <h4>{{trip.area}}</h4>
-                <p>{{trip.description}}</p>
-                <h4>Routes to Try:</h4>
-                <ul>
-                    <li ng-repeat="route in routes" ng-if="trip.id === route.trip_id">{{route.name}} {{route.rating}}</li>
-                </ul>
-                <div ng-show="places.length">
-                    <h4>Food and Lodging:</h4>
-                    <ul>
-                        <li ng-repeat="place in places" ng-if="trip.id === place.trip_id">{{place.name}}
-                            <button class="btn btn-danger" ng-click="deletePlace($index, place.id)">X</button>
-                        </li>
-                    </ul>
-                </div>
                 <p>{{trip.date}}</p>
-                <button class='btn btn-default' ng-click="addPlaces(trip.id)">Add Accomedations</button>
-                <button class='btn btn-default' ng-click="editTrip(trip.id)">Edit Trip</button>
+            </div>
+        </div>
+
+    <!-- END FLEX CONTAINER -->
+    </div>
+
+</div>
+
+
+<!-- MODAL -->
+<div class="modal fade" id="trip">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header text-center">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+                <h2 class="modal-title">{{currentTrip.name}}</h2>
+                <p>{{currentTrip.area}}</p>
+
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <p>{{currentTrip.description}}</p>
+                        <h4>Routes to Try</h4>
+                        <ul>
+                            <li ng-repeat="route in routes" ng-if="tripId === route.trip_id">{{route.name}} {{route.rating}}</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-12" ng-show="places.length">
+                        <h4>Food and Lodging:</h4>
+                        <ul>
+                            <li ng-repeat="place in places" ng-if="tripId === place.trip_id">{{place.name}}
+                                <a ng-click="deletePlace($index, place.id)">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class='btn btn-default' data-dismiss="modal" ng-click="addPlaces(tripId)">Add Accomedations</button>
+                <button type="button" class='btn btn-default' data-dismiss="modal" ng-click="editTrip(tripId)">Edit Trip</button>
+                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" ng-click="deleteTrip(tripId)">
+                    <i class="fas fa-trash"></i>
+                </button>
             </div>
         </div>
     </div>
-</div>
-<div class="text-center">
-    <button class="btn btn-success btn-lg" ng-click="routeToCreateTrip()">Create Trip</button>
+
 </div>

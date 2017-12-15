@@ -1,22 +1,40 @@
 'use strict';
 
-app.controller('TripsViewCtrl', function ($location, $scope, AuthService, RoutesService, TripsService, PlacesService) {
+app.controller('TripsViewCtrl', function (moment, $location, $scope, $timeout, AuthService, RoutesService, TripsService, PlacesService) {
+
+    $scope.toggle_container = false;
 
     $scope.routeToCreateTrip = () => {
         $location.path("/trip/create");
     };
 
     $scope.addPlaces = (tripId) => {
-        $location.path(`/trip/add-places/${tripId}`);
+        $timeout(function () {
+            $location.path(`/trip/add-places/${tripId}`);
+        }, 500);
     };
 
     $scope.editTrip = (tripId) => {
-        $location.path(`/trip/detail/${tripId}`);
+        $timeout(function () {
+            $location.path(`/trip/detail/${tripId}`);
+        }, 500);
+    };
+
+    $scope.currentTrip = {};
+
+    $scope.seeTrip = (trip) => {
+        $scope.tripId = trip.id;
+        $scope.currentTrip = trip;
     };
 
     const getTrips = () => {
         TripsService.getTrips(AuthService.getCurrentUid()).then((trips) => {
-            $scope.trips = trips;
+            $scope.trips = trips.map((trip) => {
+                let date = trip.date;
+                let dateFormat = "dddd, MMMM Do YYYY";
+                trip.date = moment(date, dateFormat).format("dddd, MMMM Do YYYY");
+                return trip;
+            });
             RoutesService.getRoutes(AuthService.getCurrentUid()).then((routes) => {
                 $scope.routes = routes;
                 getPlaces();
@@ -77,7 +95,7 @@ app.controller('TripsViewCtrl', function ($location, $scope, AuthService, Routes
             });
         }).catch((err) => {
             console.log("error in getPlacesForSingelTrip:", err);
-        });        
+        });
     };
 
     $scope.deletePlace = (index, placeId) => {

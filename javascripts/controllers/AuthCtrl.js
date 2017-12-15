@@ -5,7 +5,7 @@ app.controller("AuthCtrl", function ($location, $rootScope, $scope, AuthService)
         AuthService.authenticateGoogle().then((result) => {
             $rootScope.navbar = true;
             $scope.$apply(() => {
-                $location.url("/trips");
+                $location.url("/trip/create");
             });
         }).catch((error) => {
             console.log("error in authenticateGoogle", error);
