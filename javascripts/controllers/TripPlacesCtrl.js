@@ -13,14 +13,7 @@ app.controller('TripPlacesCtrl', function ($location, $routeParams, $scope, GOOG
             latitude: 36.174465, longitude: -86.767960
         },
         zoom: 10,
-        options: { scrollwheel: true },
-        searchbox: {
-            template: 'searchbox.tpl.html',
-            position: 'top-left',
-            options: {
-                visible: true
-            }
-        }
+        options: { scrollwheel: true }        
     };
 
     // initial marker instance on page load
