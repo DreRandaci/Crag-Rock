@@ -1,25 +1,28 @@
-<nav class="navbar navbar-default navbar-static-top" ng-controller="NavCtrl">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">Weekend Send Train</a><img id="train_icon" src="./img/train-icon.png" alt="Send Train Icon">
-          </div>    
+<div id="wrapper" class="active">
+  <div id="sidebar-wrapper">
+    <ul id="sidebar_menu" class="sidebar-nav">
+      <li class="sidebar-brand">
+        <a id="menu-toggle" ng-href="#!/trips">Menu
+          <span id="main_icon" class="glyphicon glyphicon-align-justify"></span>
+        </a>
+      </li>
+    </ul>
+    <ul class="sidebar-nav" id="sidebar" ng-show="!navbar">
+      <li>
+        <a ng-href="#!/auth">Login</a>
+      </li>
+    </ul>
+    <ul ng-show='navbar' class="sidebar-nav" id="sidebar">
+      <li>
+        <a ng-href="#!/trips">Trips</a>
+      </li>
+      <li>
+        <a ng-href="#!/trip/create">Create Trip</a>
+      </li>
+      <li>
+        <a ng-click="logoutUser()">Logout</a>
+      </li>
+    </ul>
+  </div>
 
-          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">                                        
-              <ul class="nav navbar-nav navbar-right" ng-show="!navbar">
-                  <li role="presentation"><a ng-href="#!/auth">Login</a></li>        
-              </ul>
-              
-              <ul ng-show='navbar' class="nav navbar-nav navbar-right">                                     
-                <li><a ng-href="#!/trips">Trips</a></li>    
-                <li><a ng-href="#!/trip/create">Create Trip</a></li>    
-                <li><a ng-click="logoutUser()">Logout</a></li>
-              </ul>
-          </div>
-        </div>
-      </nav>            
+</div>
