@@ -1,10 +1,9 @@
 <div class="container">
     <h1>Create a Climbing Trip</h1>
-
-    <!-- <input type="text">Search for Climbing Areas -->
+    
     <div class="angular-google-map-container col-md-12">
 
-        <ui-gmap-google-map id="map" center='map.center' zoom='map.zoom' draggable='true'>
+        <ui-gmap-google-map id="map" center='map.center' zoom='map.zoom' draggable='true' events="map.events">
             
             <ui-gmap-search-box options="map.searchbox.options" template="map.searchbox.template" events="map.searchbox.events" position="map.searchbox.position"></ui-gmap-search-box>
             
@@ -17,6 +16,18 @@
     <div class='col-md-6 routes'>
         <div ng-show="routes.length">
             <h4>Add Routes</h4>
+
+            <div class="btn-group" uib-dropdown is-open="status.isopen">
+                <button id="single-button" type="button" class="btn btn-success" uib-dropdown-toggle ng-disabled="disabled">
+                    Filter <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                    <li role="menuitem"><a href="#">By type</a></li>
+                    <li role="menuitem"><a href="#">By Grade</a></li>
+                    <li role="menuitem"><a href="#">By Rating</a></li>
+                </ul>
+            </div>
+
             <div id="routes_list" ng-show="routes.length" class="list-group add_shadow">
                 <a ng-repeat="route in routes" ng-class="{'disabled': route.disabled}" class="list-group-item route" ng-click="saveToRouteList($index, route)">{{route.name}} {{route.rating}} ({{route.type}})</a>
             </div>
@@ -27,7 +38,7 @@
         <h1 ng-show="routes.length">{{area}}</h1>
         <h1 ng-show="updateHeadingBeforeUserClicksMarker">Click a Marker to Find Routes</h1>
         <h4>{{address}}</h4>
-        <div ng-show="!updateHeadingBeforeUserClicksMarker" class="add_border">
+        <div ng-show="!updateHeadingBeforeUserClicksMarker" class="add_border add_shadow">
             <form name="createTripForm">
                 <div class="form-group">
                     <input class="form-control" type="text" placeholder="Trip Name" ng-model="trip.name" ng-required="true">

@@ -15,9 +15,36 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
             center: {
                 latitude: lat, longitude: lng
             },
+            events: {
+                click: function (a, click, c) {
+                    // console.log(a);
+                    let lat = a.center.lat();
+                    let lng = a.center.lng();
+                    getClimbingRadius50Miles(lat, lng);
+                }
+            },
             zoom: 6,
             options: { scrollwheel: true }
         };
+        getClimbingRadius100Miles(lat, lng);        
+    });
+
+    const getClimbingRadius100Miles = (lat, lng) => {
+        MountainProjService.getClimbingAreas100(lat, lng).then((results) => {
+            let coords = results.data.routes.map((route, i) => {
+                let locations = {};
+                locations.latitude = route.latitude;
+                locations.longitude = route.longitude;
+                locations.id = i;
+                return locations;
+            });     
+            $scope.markers = coords;
+        }).catch((err) => {
+            console.log("err in getClimbingAreas100:", err);
+        });
+    };
+
+    const getClimbingRadius50Miles = (lat, lng) => {
         MountainProjService.getClimbingAreas100(lat, lng).then((results) => {
             let coords = results.data.routes.map((route, i) => {
                 let locations = {};
@@ -26,9 +53,12 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
                 locations.id = i;
                 return locations;
             });
+            console.log(coords);            
             $scope.markers = coords;
+        }).catch((err) => {
+            console.log("err in getClimbingAreas100:", err);
         });
-    });
+    };
 
     $scope.markersEvents = {
         click: function (marker, eventName, model) {
@@ -56,6 +86,10 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
         },
         zoom: 4,
         options: { scrollwheel: true },
+        events: {
+            click: function (a, click, b) {
+            }
+        },
         searchbox: {
             template: 'searchbox.tpl.html',
             position: 'top-left',
@@ -66,8 +100,8 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
                 places_changed: function (searchBox) {
                     let places = searchBox.getPlaces();
                     let lat = places[0].geometry.location.lat();
-                    let lng = places[0].geometry.location.lng();                 
-                    MountainProjService.getClimbingAreas10(lat, lng).then((results) => {
+                    let lng = places[0].geometry.location.lng();
+                    MountainProjService.getClimbingAreas15(lat, lng).then((results) => {
                         $scope.map.zoom = 12;
                         $scope.map.center = { latitude: results.data.routes[0].latitude, longitude: results.data.routes[0].longitude };
                         let coords = results.data.routes.map((route, i) => {
@@ -192,7 +226,6 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
                 }
             }
         }
-
         return '';
     }
 
