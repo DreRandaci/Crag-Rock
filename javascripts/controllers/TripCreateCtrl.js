@@ -66,8 +66,10 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
                 places_changed: function (searchBox) {
                     let places = searchBox.getPlaces();
                     let lat = places[0].geometry.location.lat();
-                    let lng = places[0].geometry.location.lng();                    
+                    let lng = places[0].geometry.location.lng();         
+                    console.log(lat, lng);           
                     MountainProjService.getClimbingAreas10(lat, lng).then((results) => {
+                        console.log(results);
                         $scope.map.zoom = 12;
                         $scope.map.center = { latitude: results.data.routes[0].latitude, longitude: results.data.routes[0].longitude };
                         let coords = results.data.routes.map((route, i) => {

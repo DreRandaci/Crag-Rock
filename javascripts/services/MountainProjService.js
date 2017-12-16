@@ -7,7 +7,7 @@ app.service("MountainProjService", function ($http, MOUNTAINPROJ_CONFIG) {
     };
 
     const getClimbingAreas10 = (lat, lng) => {
-        return $http.get(`https://www.mountainproject.com/data/get-routes-for-lat-lon?lat=${lat}&lon=${lng}&maxDistance=10&key=${MOUNTAINPROJ_CONFIG}`);
+        return $http.get(`https://www.mountainproject.com/data/get-routes-for-lat-lon?lat=${lat}&lon=${lng}&maxDistance=15&key=${MOUNTAINPROJ_CONFIG}`);
     };
 
     const getClimbingAreas100 = (lat, lng) => {
