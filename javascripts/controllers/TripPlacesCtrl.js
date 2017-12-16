@@ -2,7 +2,7 @@
 
 app.controller('TripPlacesCtrl', function ($location, $routeParams, $scope, GOOGLEPLACES_CONFIG, TripsService, PlacesService) {
 
-    $scope.googlePlacesUrl = `https://maps.googleapis.com/maps/api/js?key=${GOOGLEPLACES_CONFIG}&libraries=places`;
+    $scope.googlePlacesUrl = `https://maps.googleapis.com/maps/api/js?key=${GOOGLEPLACES_CONFIG}`;
 
     $scope.showPlaceHeading = false;
     $scope.showSaveHeading = false;
@@ -12,8 +12,35 @@ app.controller('TripPlacesCtrl', function ($location, $routeParams, $scope, GOOG
             //default nashville coords
             latitude: 36.174465, longitude: -86.767960
         },
-        zoom: 7,
-        options: { scrollwheel: false }
+        zoom: 10,
+        options: { scrollwheel: true },
+        searchbox: {
+            template: 'searchbox.tpl.html',
+            position: 'top-left',
+            options: {
+                visible: true
+            },
+            events: {
+                places_changed: function (searchBox) {
+                    let places = searchBox.getPlaces();
+                    console.log(places);
+                    console.log(searchBox);
+                    let lat = places[0].geometry.location.lat();
+                    let lng = places[0].geometry.location.lng();
+
+                    // $scope.map.zoom = 12;
+                    // $scope.map.center = { latitude: results.data.routes[0].latitude, longitude: results.data.routes[0].longitude };
+                    // let coords = results.data.routes.map((route, i) => {
+                    //     let locations = {};
+                    //     locations.latitude = route.latitude;
+                    //     locations.longitude = route.longitude;
+                    //     locations.id = i;
+                    //     return locations;
+                    // });
+                    // $scope.markers = coords;
+                }
+            }
+        }
     };
 
     // initial marker instance on page load
@@ -28,6 +55,23 @@ app.controller('TripPlacesCtrl', function ($location, $routeParams, $scope, GOOG
             trip = trip.data;
             $scope.trip = trip;
             $scope.markers.push({ id: 'trip', latitude: trip.lat, longitude: trip.lng });
+            $scope.map = {
+                center: {
+                    //default nashville coords
+                    latitude: trip.lat, longitude: trip.lng
+                },
+                zoom: 10,
+                options: { scrollwheel: true },
+                events: {
+                    places_changed: function (searchBox) {
+                        let places = searchBox.getPlaces();
+                        console.log(places);
+                        console.log(searchBox);
+                        let lat = places[0].geometry.location.lat();
+                        let lng = places[0].geometry.location.lng();
+                    }
+                }
+            };
         }).catch((err) => {
             console.log('err in getSingleTrip:', err);
         });

@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, GOOGLEMAPS_CONFIG, uiGmapGoogleMapApi, MapsService, MountainProjService, RoutesService, TripsService) {
+app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, GOOGLEMAPS_CONFIG, MapsService, MountainProjService, RoutesService, TripsService) {
 
     //inject google maps script
     $scope.googleUrl = `https://maps.google.com/maps/api/js?key=${GOOGLEMAPS_CONFIG}`;
@@ -16,7 +16,7 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
                 latitude: lat, longitude: lng
             },
             zoom: 6,
-            options: { scrollwheel: false }
+            options: { scrollwheel: true }
         };
         MountainProjService.getClimbingAreas100(lat, lng).then((results) => {
             let coords = results.data.routes.map((route, i) => {
@@ -48,10 +48,6 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
         }
     };
 
-    // uiGmapGoogleMapApi.then((maps) => {
-    //     maps.visualRefresh = true;
-    // });
-
     //initial map instance on page load purely for the map to rendar 
     $scope.map = {
         center: {
@@ -59,7 +55,7 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
             latitude: 36.174465, longitude: -86.767960
         },
         zoom: 4,
-        options: { scrollwheel: false },
+        options: { scrollwheel: true },
         searchbox: {
             template: 'searchbox.tpl.html',
             position: 'top-left',
