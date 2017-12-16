@@ -111,10 +111,7 @@ li {
     left: 45px;
 }
 
-
-
-
-
+// SIDE NAVE
 #wrapper {
     padding-left: 70px;
     transition: all .4s ease 0s;
@@ -228,19 +225,19 @@ li {
 }
 
 @media (max-width:767px) {
-#wrapper {
-    padding-left: 70px;
-    transition: all .4s ease 0s;
-}
-#sidebar-wrapper {
-    left: 70px;
-}
-#wrapper.active {
-    padding-left: 150px;
-}
-#wrapper.active #sidebar-wrapper {
-    left: 150px;
-    width: 150px;
-    transition: all .4s ease 0s;
-}
+    #wrapper {
+        padding-left: 70px;
+        transition: all .4s ease 0s;
+    }
+    #sidebar-wrapper {
+        left: 70px;
+    }
+    #wrapper.active {
+        padding-left: 150px;
+    }
+    #wrapper.active #sidebar-wrapper {
+        left: 150px;
+        width: 150px;
+        transition: all .4s ease 0s;
+    }
 }
