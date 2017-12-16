@@ -2,7 +2,7 @@
 
 app.controller('TripPlacesCtrl', function ($location, $routeParams, $scope, GOOGLEPLACES_CONFIG, TripsService, PlacesService) {
 
-    $scope.googlePlacesUrl = `https://maps.googleapis.com/maps/api/js?key=${GOOGLEPLACES_CONFIG}`;
+    $scope.googlePlacesUrl = `https://maps.googleapis.com/maps/api/js?key=${GOOGLEPLACES_CONFIG}&libraries=places`;
 
     $scope.showPlaceHeading = false;
     $scope.showSaveHeading = false;
@@ -19,26 +19,6 @@ app.controller('TripPlacesCtrl', function ($location, $routeParams, $scope, GOOG
             position: 'top-left',
             options: {
                 visible: true
-            },
-            events: {
-                places_changed: function (searchBox) {
-                    let places = searchBox.getPlaces();
-                    console.log(places);
-                    console.log(searchBox);
-                    let lat = places[0].geometry.location.lat();
-                    let lng = places[0].geometry.location.lng();
-
-                    // $scope.map.zoom = 12;
-                    // $scope.map.center = { latitude: results.data.routes[0].latitude, longitude: results.data.routes[0].longitude };
-                    // let coords = results.data.routes.map((route, i) => {
-                    //     let locations = {};
-                    //     locations.latitude = route.latitude;
-                    //     locations.longitude = route.longitude;
-                    //     locations.id = i;
-                    //     return locations;
-                    // });
-                    // $scope.markers = coords;
-                }
             }
         }
     };
@@ -61,16 +41,7 @@ app.controller('TripPlacesCtrl', function ($location, $routeParams, $scope, GOOG
                     latitude: trip.lat, longitude: trip.lng
                 },
                 zoom: 10,
-                options: { scrollwheel: true },
-                events: {
-                    places_changed: function (searchBox) {
-                        let places = searchBox.getPlaces();
-                        console.log(places);
-                        console.log(searchBox);
-                        let lat = places[0].geometry.location.lat();
-                        let lng = places[0].geometry.location.lng();
-                    }
-                }
+                options: { scrollwheel: true }
             };
         }).catch((err) => {
             console.log('err in getSingleTrip:', err);
