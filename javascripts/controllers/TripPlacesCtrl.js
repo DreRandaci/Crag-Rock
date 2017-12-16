@@ -12,8 +12,8 @@ app.controller('TripPlacesCtrl', function ($location, $routeParams, $scope, GOOG
             //default nashville coords
             latitude: 36.174465, longitude: -86.767960
         },
-        zoom: 7,
-        options: { scrollwheel: false }
+        zoom: 10,
+        options: { scrollwheel: true }        
     };
 
     // initial marker instance on page load
@@ -28,6 +28,14 @@ app.controller('TripPlacesCtrl', function ($location, $routeParams, $scope, GOOG
             trip = trip.data;
             $scope.trip = trip;
             $scope.markers.push({ id: 'trip', latitude: trip.lat, longitude: trip.lng });
+            $scope.map = {
+                center: {
+                    //default nashville coords
+                    latitude: trip.lat, longitude: trip.lng
+                },
+                zoom: 10,
+                options: { scrollwheel: true }
+            };
         }).catch((err) => {
             console.log('err in getSingleTrip:', err);
         });

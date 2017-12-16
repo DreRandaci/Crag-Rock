@@ -1,10 +1,13 @@
 <div class="container">
     <h1>Create a Climbing Trip</h1>
 
+    <!-- <input type="text">Search for Climbing Areas -->
     <div class="angular-google-map-container col-md-12">
 
         <ui-gmap-google-map id="map" center='map.center' zoom='map.zoom' draggable='true'>
-
+            
+            <ui-gmap-search-box options="map.searchbox.options" template="map.searchbox.template" events="map.searchbox.events" position="map.searchbox.position"></ui-gmap-search-box>
+            
             <ui-gmap-markers events="markersEvents" coords="'self'" options="'options'" models="markers" icon="'icon'">
             </ui-gmap-markers>
 
