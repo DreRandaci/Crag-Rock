@@ -55,12 +55,8 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
             center: formatMapCenter(lat, lng),
             events: {
                 click: function (a, click, c) {
-                    // console.log(a);
-                    // console.log(c[0].latLng.lat());
-                    // console.log(a.center.lat());
-                    // console.log(a.center.lng());
-                    $scope.map.zoom = 8;  
-                    $scope.map.center = formatMapCenter(c[0].latLng.lat(), c[0].latLng.lng());  
+                    $scope.map.zoom = 8;
+                    $scope.map.center = formatMapCenter(c[0].latLng.lat(), c[0].latLng.lng());
                     getClimbingRadius50Miles(c[0].latLng.lat(), c[0].latLng.lng());
                 }
             },
@@ -93,8 +89,8 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
         });
     };
 
-    const getClimbingRadius50Miles = (lat, lng) => {        
-        MountainProjService.getClimbingAreas50(lat, lng).then((results) => {            
+    const getClimbingRadius50Miles = (lat, lng) => {
+        MountainProjService.getClimbingAreas50(lat, lng).then((results) => {
             $scope.markers = formatMarkerLocations(results);
         }).catch((err) => {
             console.log("err in getClimbingAreas100:", err);
@@ -108,7 +104,7 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
 
             let markerLat = model.latitude;
             let markerLng = model.longitude;
-            $scope.map.zoom = 12;
+            $scope.map.zoom = 13;
             $scope.map.center = formatMapCenter(markerLat, markerLng);
             getMapByLatLng(markerLat, markerLng);
             getClimbingRoutes(markerLat, markerLng);
@@ -229,6 +225,16 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
     }
 
     //////////////////////////////////////////////////
+
+    $scope.filterClassicRoutes = () => {
+        
+        $scope.routes = $scope.routes.filter((a) => {
+            if (4.5 <= a.stars) {
+                console.log(a);
+                return a;
+            }
+        });
+    };
 
     $scope.savedRoutes = [];
 
