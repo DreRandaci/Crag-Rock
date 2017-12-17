@@ -164,7 +164,7 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
             return route.type.indexOf(type) > -1;
         });
         if ($scope.routes.length == 0) {
-            $scope.routes = [{ name: "None", type: "Search Again" }];
+            $scope.routes = [{ name: "None", type: "search again" }];
         }
     };
 
