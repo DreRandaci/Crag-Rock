@@ -37,8 +37,7 @@
 
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-12">
-                        <p>{{currentTrip.description}}</p>
+                    <div class="col-md-12">                        
                         <h4>Routes to Try</h4>
                         <ul>
                             <li ng-repeat="route in routes" ng-if="tripId === route.trip_id">{{route.name}} {{route.rating}}</li>
@@ -61,6 +60,8 @@
                                 </a>
                             </li>
                         </ul>
+                        <h5>Notes:</h5>
+                        <p>{{currentTrip.description}}</p>
                     </div>
                 </div>
             </div>
