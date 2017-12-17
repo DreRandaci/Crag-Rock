@@ -36,6 +36,9 @@ app.controller('TripPlacesCtrl', function ($location, $routeParams, $scope, GOOG
                 zoom: 10,
                 options: { scrollwheel: true }
             };
+            PlacesService.getPlacesForSingleTrip(routeParams).then((results) => {
+                $scope.places = results;
+            });
         }).catch((err) => {
             console.log('err in getSingleTrip:', err);
         });

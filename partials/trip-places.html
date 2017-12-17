@@ -19,7 +19,7 @@
         <p>{{grabMarker.vicinity}}</p>
         <button class='btn btn-default' ng-click="addPlace(grabMarker)">Add</button>
     </div>
-    <div ng-show="showSaveHeading" class="col-md-6">
+    <div ng-show="places.length" class="col-md-6">
         <h4>Places to Save</h4>
         <ul>
             <li ng-repeat="place in places">{{place.name}}
