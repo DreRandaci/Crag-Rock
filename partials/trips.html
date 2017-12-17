@@ -55,7 +55,7 @@
                         </ul>
                         <h4>Lodging:</h4>
                         <ul>
-                            <li ng-repeat="place in places" ng-if="tripId == place.trip_id && place.type == 'lodging' || place.type == 'campground'">{{place.name}}
+                            <li ng-repeat="place in places" ng-if="tripId == place.trip_id && place.type == 'lodging' || tripId == place.trip_id && place.type == 'campground'">{{place.name}}
                                 <a ng-click="deletePlace($index, place.id)">
                                     <i class="fas fa-trash"></i>
                                 </a>
