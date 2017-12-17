@@ -6,7 +6,7 @@
 
     <div class="flex_container">
 
-        <div ng-repeat="trip in trips" data-toggle="modal" data-target="#trip" ng-click="seeTrip(trip)" class="trip panel">
+        <div ng-repeat="trip in trips | orderBy : 'orderByDate'" data-toggle="modal" data-target="#trip" ng-click="seeTrip(trip)" class="trip panel">
             <div class="text-center trip_cover_text">
                 <h4>{{trip.area}}</h4>
                 <p>{{trip.date}}</p>
@@ -20,7 +20,7 @@
 
 
 <!-- MODAL -->
-<div class="modal fade" id="trip">
+<div class="modal" id="trip">
     <div class="modal-dialog">
         <div class="modal-content">
 
@@ -31,27 +31,37 @@
 
                 <h2 class="modal-title">{{currentTrip.name}}</h2>
                 <p>{{currentTrip.area}}</p>
+                <p>{{currentTrip.date}}</p>
 
             </div>
 
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-12">
-                        <p>{{currentTrip.description}}</p>
+                    <div class="col-md-12">                        
                         <h4>Routes to Try</h4>
                         <ul>
                             <li ng-repeat="route in routes" ng-if="tripId === route.trip_id">{{route.name}} {{route.rating}}</li>
                         </ul>
                     </div>
                     <div class="col-md-12" ng-show="places.length">
-                        <h4>Food and Lodging:</h4>
+                        <h4>Food:</h4>
                         <ul>
-                            <li ng-repeat="place in places" ng-if="tripId === place.trip_id">{{place.name}}
+                            <li ng-repeat="place in places" ng-if="tripId == place.trip_id && place.type == 'restaurant'">{{place.name}}
                                 <a ng-click="deletePlace($index, place.id)">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </li>
                         </ul>
+                        <h4>Lodging:</h4>
+                        <ul>
+                            <li ng-repeat="place in places" ng-if="tripId == place.trip_id && place.type == 'lodging' || tripId == place.trip_id && place.type == 'campground'">{{place.name}}
+                                <a ng-click="deletePlace($index, place.id)">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </li>
+                        </ul>
+                        <h5>Notes:</h5>
+                        <p>{{currentTrip.description}}</p>
                     </div>
                 </div>
             </div>
