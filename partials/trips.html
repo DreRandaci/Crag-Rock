@@ -6,7 +6,7 @@
 
     <div class="flex_container">
 
-        <div ng-repeat="trip in trips" data-toggle="modal" data-target="#trip" ng-click="seeTrip(trip)" class="trip panel">
+        <div ng-repeat="trip in trips | orderBy : 'orderByDate'" data-toggle="modal" data-target="#trip" ng-click="seeTrip(trip)" class="trip panel">
             <div class="text-center trip_cover_text">
                 <h4>{{trip.area}}</h4>
                 <p>{{trip.date}}</p>

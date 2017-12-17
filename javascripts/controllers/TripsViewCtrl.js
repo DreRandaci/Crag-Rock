@@ -29,9 +29,10 @@ app.controller('TripsViewCtrl', function (moment, $location, $scope, $timeout, A
 
     const getTrips = () => {
         TripsService.getTrips(AuthService.getCurrentUid()).then((trips) => {
+            let dateFormat = "dddd, MMMM Do YYYY";
             $scope.trips = trips.map((trip) => {
                 let date = trip.date;
-                let dateFormat = "dddd, MMMM Do YYYY";
+                trip.orderByDate = moment(date, dateFormat).unix();
                 trip.date = moment(date, dateFormat).format("dddd, MMMM Do YYYY");
                 return trip;
             });
