@@ -141,11 +141,88 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
                 route.area = route.location[1] + ', ' + route.location[0];
                 return route;
             });
-            //SAVING A COPY OF THE ARRAY FOR FILTERING
+            //SAVING A COPY OF THE ROUTES ARRAY FOR FILTERING
             $scope.allRoutes = routes;
             $scope.routes = routes;
         }).catch((err) => {
             console.log('error in getClimbingRoutesByLatLng:', err);
+        });
+    };
+
+    $scope.filterRoutesClassic = () => {
+        getAllRoutes();
+        $scope.routes = $scope.routes.filter((a) => {
+            if (4.5 <= a.stars) {
+                return a;
+            }
+        });
+    };
+
+    $scope.filterRoutesType = (type) => {
+        getAllRoutes();
+        $scope.routes = $scope.routes.filter((route) => {
+            return route.type.indexOf(type) > -1;
+        });
+        if ($scope.routes.length == 0) {
+            $scope.routes = [{ name: "None", type: "Search Again" }];
+        }
+    };
+
+    $scope.getAllRoutes = () => {
+        getAllRoutes();
+    };
+
+    const getAllRoutes = () => {
+        $scope.routes = $scope.allRoutes;
+    };
+
+    $scope.savedRoutes = [];
+
+    $scope.removeRouteFromSavedRoutes = (index, route) => {
+        $scope.routes.forEach((listRoute) => {
+            if (listRoute.id === route.id) {
+                listRoute.disabled = false;
+            }
+        });
+        $scope.savedRoutes.splice(index, 1);
+    };
+
+    //save each climbing route
+    $scope.saveToRouteList = (index, route) => {
+        if (!route.disabled) {
+            route.disabled = true;
+            $scope.savedRoutes.push(route);
+        }
+    };
+
+    $scope.createTrip = (trip, dt) => {
+        let date = dt.toString();
+        let area = $scope.area;
+        let lat = $scope.map.center.latitude;
+        let lng = $scope.map.center.longitude;
+        let mapsAddress = $scope.address;
+
+        let newTrip = TripsService.createTripObj(trip, mapsAddress, lat, lng, date, area);
+        saveTrip(newTrip);
+    };
+
+    const saveTrip = (newTrip) => {
+        TripsService.saveTripToFirebase(newTrip).then((results) => {
+            let tripId = results.data.name;
+            saveRoutes($scope.savedRoutes, tripId);
+            $location.path("/trips");
+        }).catch((err) => {
+            console.log('error in saveTripToFirebase:', err);
+        });
+    };
+
+    const saveRoutes = (routes, tripId) => {
+        routes.forEach((route) => {
+            let newRoute = RoutesService.createRouteObj(route, tripId);
+            RoutesService.saveTripRoutesToFirebase(newRoute).then(() => {
+            }).catch((err) => {
+                console.log('error in saveTripRoutesToFirebase:', err);
+            });
         });
     };
 
@@ -230,84 +307,5 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
     }
 
     //////////////////////////////////////////////////
-
-
-    $scope.filterRoutesClassic = () => {
-        getAllRoutes();
-        $scope.routes = $scope.routes.filter((a) => {
-            if (4.5 <= a.stars) {
-                return a;
-            }
-        });
-    };
-
-    $scope.filterRoutesType = (type) => {
-        getAllRoutes();
-        $scope.routes = $scope.routes.filter((route) => {
-            return route.type.indexOf(type) > -1;
-        });        
-        if ($scope.routes.length == 0) {
-            $scope.routes = [{name: "None", type: "Search Again"}];
-        }
-    };
-
-    $scope.getAllRoutes = () => {
-        getAllRoutes();
-    };
-
-    const getAllRoutes = () => {
-        $scope.routes = $scope.allRoutes;
-    };
-
-    $scope.savedRoutes = [];
-
-    $scope.removeRouteFromSavedRoutes = (index, route) => {
-        $scope.routes.forEach((listRoute) => {
-            if (listRoute.id === route.id) {
-                listRoute.disabled = false;
-            }
-        });
-        $scope.savedRoutes.splice(index, 1);
-    };
-
-    //save each climbing route
-    $scope.saveToRouteList = (index, route) => {
-        if (!route.disabled) {
-            route.disabled = true;
-            $scope.savedRoutes.push(route);
-        }
-    };
-
-    $scope.createTrip = (trip, dt) => {
-        let date = dt.toString();
-        let area = $scope.area;
-        let lat = $scope.map.center.latitude;
-        let lng = $scope.map.center.longitude;
-        let mapsAddress = $scope.address;
-
-        let newTrip = TripsService.createTripObj(trip, mapsAddress, lat, lng, date, area);
-        saveTrip(newTrip);
-    };
-
-
-    const saveTrip = (newTrip) => {
-        TripsService.saveTripToFirebase(newTrip).then((results) => {
-            let tripId = results.data.name;
-            saveRoutes($scope.savedRoutes, tripId);
-            $location.path("/trips");
-        }).catch((err) => {
-            console.log('error in saveTripToFirebase:', err);
-        });
-    };
-
-    const saveRoutes = (routes, tripId) => {
-        routes.forEach((route) => {
-            let newRoute = RoutesService.createRouteObj(route, tripId);
-            RoutesService.saveTripRoutesToFirebase(newRoute).then(() => {
-            }).catch((err) => {
-                console.log('error in saveTripRoutesToFirebase:', err);
-            });
-        });
-    };
 
 });
