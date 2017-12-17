@@ -27,6 +27,7 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
                 visible: true
             },
             events: {
+                //FOR SEARCH QUERIES
                 places_changed: function (searchBox) {
                     let places = searchBox.getPlaces();
                     let lat = places[0].geometry.location.lat();
@@ -54,6 +55,7 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
         $scope.map = {
             center: formatMapCenter(lat, lng),
             events: {
+                //FOR CLICK QUERIES
                 click: function (a, click, c) {
                     $scope.map.zoom = 8;
                     $scope.map.center = formatMapCenter(c[0].latLng.lat(), c[0].latLng.lng());
@@ -120,6 +122,7 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
     };
 
     const getClimbingRoutes = (lat, lng) => {
+        $scope.allRoutes = [];
         $scope.routes = [];
         MountainProjService.getClimbingRoutesByLatLng(lat, lng).then((climbs) => {
             climbs = climbs.data.routes;
@@ -138,6 +141,8 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
                 route.area = route.location[1] + ', ' + route.location[0];
                 return route;
             });
+            //SAVING A COPY OF THE ARRAY FOR FILTERING
+            $scope.allRoutes = routes;
             $scope.routes = routes;
         }).catch((err) => {
             console.log('error in getClimbingRoutesByLatLng:', err);
@@ -226,12 +231,32 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
 
     //////////////////////////////////////////////////
 
-    $scope.filterClassicRoutes = () => {
+
+    $scope.filterRoutesClassic = () => {
+        getAllRoutes();
         $scope.routes = $scope.routes.filter((a) => {
-            if (4.5 <= a.stars) {                
+            if (4.5 <= a.stars) {
                 return a;
             }
         });
+    };
+
+    $scope.filterRoutesType = (type) => {
+        getAllRoutes();
+        $scope.routes = $scope.routes.filter((route) => {
+            return route.type.indexOf(type) > -1;
+        });        
+        if ($scope.routes.length == 0) {
+            $scope.routes = [{name: "None", type: "Search Again"}];
+        }
+    };
+
+    $scope.getAllRoutes = () => {
+        getAllRoutes();
+    };
+
+    const getAllRoutes = () => {
+        $scope.routes = $scope.allRoutes;
     };
 
     $scope.savedRoutes = [];
