@@ -30,7 +30,7 @@
             </div>
 
             <div id="routes_list" ng-show="routes.length" class="list-group add_shadow">
-                <a ng-repeat="route in routes" ng-class="{'disabled': route.disabled}" class="list-group-item route" ng-click="saveToRouteList($index, route)">{{route.name}} {{route.rating}} ({{route.type}})</a>
+                <a ng-repeat="route in routes | orderBy : 'stars'" ng-class="{'disabled': route.disabled}" class="list-group-item route" ng-click="saveToRouteList($index, route)">{{route.name}} {{route.rating}} ({{route.type}}) {{route.stars}}</a>
             </div>
         </div>
     </div>
@@ -63,7 +63,7 @@
                 <h5 ng-show="savedRoutes.length">{{area}}:</h5>
                 <ul>
                     <li ng-repeat="route in savedRoutes" ng-model="routes">
-                        <a class="route_links">{{route.name}} {{route.rating}} ({{route.type}})</a>
+                        <a class="route_links">{{route.name}} {{route.rating}} ({{route.type}}) {{route.stars}}</a>
                         <a class="trash_float" ng-click="removeRouteFromSavedRoutes($index, route)">
                             <i class="fas fa-trash"></i>
                         </a>

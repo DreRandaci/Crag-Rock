@@ -228,8 +228,7 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
 
     $scope.filterClassicRoutes = () => {
         $scope.routes = $scope.routes.filter((a) => {
-            if (4.5 <= a.stars) {
-                console.log(a);
+            if (4.5 <= a.stars) {                
                 return a;
             }
         });
