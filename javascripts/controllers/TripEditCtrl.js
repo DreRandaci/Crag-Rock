@@ -39,7 +39,7 @@ app.controller('TripEditCtrl', function ($location, $log, $routeParams, $scope, 
     getSingleTrip($routeParams.id);
 
     const getRoutes = (uid, tripId) => {
-        RoutesService.getRoutes(AuthService.getCurrentUid()).then((savedRoutes) => {
+        RoutesService.getRoutes(uid).then((savedRoutes) => {
             savedRoutes.forEach((route) => {
                 if (route.trip_id === tripId) {
                     $scope.savedRoutes.push(route);

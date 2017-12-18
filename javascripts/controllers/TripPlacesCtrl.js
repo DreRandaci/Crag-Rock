@@ -90,6 +90,16 @@ app.controller('TripPlacesCtrl', function ($location, $routeParams, $scope, GOOG
             $scope.map.zoom = 11;
             $scope.markers = coords;
             $scope.places = coords;
+            // ADDS DISABLED TO PREVIOUSLY SAVED PLACES
+            $scope.places.forEach((place) => {
+                $scope.savedPlaces.forEach((savedPlace) => {
+                    if (place.name == savedPlace.name && savedPlace.disabled) {
+                        // place.disabled = true;
+                        console.log("place:", place);
+                        console.log("savedPlace:", savedPlace);
+                    }
+                });
+            });
             //TO ALSO SHOW TRIP MARKER 
             $scope.markers.push({ id: 'trip', latitude: lat, longitude: lng });
         }).catch((err) => {
@@ -105,11 +115,14 @@ app.controller('TripPlacesCtrl', function ($location, $routeParams, $scope, GOOG
         }
     };
 
-    $scope.places = [];
+    // $scope.placesToSave = [];
 
-    $scope.addPlace = (place) => {
+    $scope.saveToPlaceList = (index, place) => {
         $scope.showSaveHeading = true;
-        $scope.places.push(place);
+        if (!place.disabled) {
+            place.disabled = true;
+            $scope.savedPlaces.push(place);
+        }        
     };
 
     $scope.savePlaces = () => {
@@ -123,8 +136,13 @@ app.controller('TripPlacesCtrl', function ($location, $routeParams, $scope, GOOG
         $location.path("/trips");
     };
 
-    $scope.removePlaceFromPlaces = (index, place) => {
-        $scope.places.splice(index, 1);
+    $scope.removePlaceFromSavedPlacesList = (index, place) => {
+        $scope.savedPlaces.forEach((listPlace) => {
+            if (listPlace.id === place.id) {
+                listPlace.disabled = false;
+            }
+        });
+        $scope.savedPlaces.splice(index, 1);
     };
 
 });

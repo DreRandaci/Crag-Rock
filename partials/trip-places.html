@@ -7,21 +7,14 @@
             <ui-gmap-markers events="markersEvents" coords="'self'" options="'options'" models="markers" icon="'icon'">
             </ui-gmap-markers>
 
-        </ui-gmap-google-map>
-
-        <!-- <button class="btn_margin add_shadow btn btn-default" ng-click="plotLodging('lodging')">See Hotels</button>
-        <button class="btn_margin add_shadow btn btn-default" ng-click="plotRestaurants('restaurant')">See Restaurants</button>
-        <button class="btn_margin add_shadow btn btn-default" ng-click="plotCampsites('campground')">See Campgrounds</button> -->
+        </ui-gmap-google-map>        
     </div>
-
-
 
     <div class='col-md-6 routes'>
         <div ng-show="places.length || savedPlaces.length">
             <h4>Add Places</h4>
 
             <uib-tabset active="active">
-                <!-- <uib-tab index="0" heading="All" ng-click="plotAll()"></uib-tab> -->
                 <uib-tab index="1" heading="Hotels" ng-click="plotLodging('lodging')"></uib-tab>
                 <uib-tab index="2" heading="Restaurants" ng-click="plotRestaurants('restaurant')"></uib-tab>
                 <uib-tab index="3" heading="Campgrounds" ng-click="plotCampsites('campground')"></uib-tab>
@@ -29,7 +22,7 @@
 
 
             <div class="places_and_routes_list list-group add_shadow">
-                <a ng-show="places" ng-repeat="place in places" ng-class="{'disabled': place.disabled}" class="list-group-item route" ng-click="saveToPlaceList($index, place)">{{place.name}} ({{place.type}})</a>
+                <a ng-show="places" ng-repeat="place in places | orderBy : 'name'" ng-class="{'disabled': place.disabled}" class="list-group-item route" ng-click="saveToPlaceList($index, place)">{{place.name}} ({{place.type}})</a>
             </div>
         </div>
     </div>
@@ -42,11 +35,11 @@
         <p>{{grabMarker.vicinity}}</p>
         <button class='btn btn-default' ng-click="addPlace(grabMarker)">Add</button>
     </div> -->
-    <div ng-show="places.length" class="col-md-6">
+    <div ng-show="savedPlaces.length" class="col-md-6">
         <h4>Places to Save</h4>
         <ul>
-            <li ng-repeat="place in places">{{place.name}}
-                <a class="trash_float" ng-click="removePlaceFromPlaces($index, place)">
+            <li ng-repeat="place in savedPlaces">{{place.name}}
+                <a class="trash_float" ng-click="removePlaceFromSavedPlacesList($index, place)">
                     <i class="fas fa-trash"></i>
                 </a>
             </li>
@@ -62,11 +55,11 @@
         <div class="add_border add_shadow">
             <form name="placesForm">
                 <h4 class="text-center">Your Trip Places</h4>
-                <h5 ng-show="places.length">{{area}}:</h5>
+                <h5 ng-show="savedPlaces.length">{{area}}:</h5>
                 <ul>
                     <li ng-repeat="place in savedPlaces" ng-model="places">
-                        <a class="route_links">{{route.name}} {{route.rating}} ({{route.type}}) {{route.stars}}</a>
-                        <a class="trash_float" ng-click="removeRouteFromSavedPlaces($index, route)">
+                        <a class="route_links">{{place.name}} ({{place.type}})</a>
+                        <a class="trash_float" ng-click="removePlaceFromSavedPlacesList($index, route)">
                             <i class="fas fa-trash"></i>
                         </a>
                     </li>
