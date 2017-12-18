@@ -95,8 +95,8 @@ app.controller('TripsViewCtrl', function (moment, $location, $scope, $timeout, A
 
     $scope.updateTripNote = (trip) => {        
         // FOR DATE PICKER
-        trip.date = moment(trip.date, "ddd, MMM, DD, YYYY, hh:mm:ss").format("ddd MMM DD YYYY hh:mm:ss");
         let updatedTrip = TripsService.createTripObj(trip);
+        updatedTrip.date = moment(trip.date, "ddd, MMM, DD, YYYY, hh:mm:ss").format("ddd MMM DD YYYY hh:mm:ss");
         TripsService.updateTripInFirebase(updatedTrip, trip.id).then(() => {            
         }).catch((err) => {
             console.log("error in updateTripNote:", err);
