@@ -13,8 +13,8 @@
 
     <h4>Routes</h4>
     <div class='col-md-6'>
-        <div id="routes_list" ng-show="routes.length" class="list-group">
-            <a ng-repeat="route in routes" class="list-group-item" ng-click="saveToRouteList(route)">{{route.name}} {{route.rating}}</a>
+        <div class="places_and_routes_list" ng-show="routes.length" class="list-group">
+            <a ng-repeat="route in routes | orderBy: 'name'" ng-class="{'disabled': route.disabled}" class="list-group-item" ng-click="saveToRouteList(route)">{{route.name}} {{route.rating}}</a>
         </div>
     </div>
     <div class="col-md-6">

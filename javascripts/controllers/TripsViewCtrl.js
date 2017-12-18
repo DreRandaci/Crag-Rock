@@ -4,6 +4,8 @@ app.controller('TripsViewCtrl', function (moment, $location, $scope, $timeout, A
 
     $scope.toggle_container = false;
 
+    $scope.showSave = false;
+
     $scope.routeToCreateTrip = () => {
         $location.path("/trip/create");
     };
@@ -33,18 +35,22 @@ app.controller('TripsViewCtrl', function (moment, $location, $scope, $timeout, A
             $scope.trips = trips.map((trip) => {
                 let date = trip.date;
                 trip.orderByDate = moment(date, dateFormat).unix();
-                trip.date = moment(date, dateFormat).format("dddd, MMMM Do YYYY");
+                trip.date = moment(date, dateFormat).format(dateFormat);
                 return trip;
             });
-            RoutesService.getRoutes(AuthService.getCurrentUid()).then((routes) => {
-                $scope.routes = routes;
-                getPlaces();
-            });
+            getRoutes();
         }).catch((err) => {
             console.log('err in getRoutes:', err);
         });
     };
     getTrips();
+
+    const getRoutes = () => {
+        RoutesService.getRoutes(AuthService.getCurrentUid()).then((routes) => {
+            $scope.routes = routes;
+            getPlaces();
+        });
+    };
 
     const getPlaces = () => {
         $scope.places = [];
@@ -76,6 +82,33 @@ app.controller('TripsViewCtrl', function (moment, $location, $scope, $timeout, A
         });
     };
 
+    const deletePlacesFromTrip = (tripId) => {
+        PlacesService.getPlacesForSingleTrip(tripId).then((places) => {
+            places.forEach((place) => {
+                PlacesService.deletePlace(place.id).then(() => {
+                }).catch((err) => {
+                    console.log("error in deletePlacesFromTrip:", err);
+                });
+            });
+        });
+    };
+
+    $scope.updateTripNote = (trip) => {        
+        // FOR DATE PICKER
+        let updatedTrip = TripsService.createTripObj(trip);
+        updatedTrip.date = moment(trip.date, "ddd, MMM, DD, YYYY, hh:mm:ss").format("ddd MMM DD YYYY hh:mm:ss");
+        TripsService.updateTripInFirebase(updatedTrip, trip.id).then(() => {            
+        }).catch((err) => {
+            console.log("error in updateTripNote:", err);
+        });
+        $scope.showSave = false;
+    };
+
+    $scope.deleteRoute = (index, routeId) => {
+        $scope.routes.splice(index, 1);
+        deleteRoutes(routeId);
+    };
+
     $scope.deleteTrip = (tripId) => {
         deleteRoutesFromTrip(tripId);
         deletePlacesFromTrip(tripId);
@@ -84,20 +117,7 @@ app.controller('TripsViewCtrl', function (moment, $location, $scope, $timeout, A
         }).catch((err) => {
             console.log("err in deleteTrip:", err);
         });
-    };
-
-    const deletePlacesFromTrip = (tripId) => {
-        PlacesService.getPlacesForSingleTrip(tripId).then((places) => {
-            places.forEach((place) => {
-                PlacesService.deletePlace(place.id).then(() => {
-                }).catch((err) => {
-                    console.log("error in deletePlace:", err);
-                });
-            });
-        }).catch((err) => {
-            console.log("error in getPlacesForSingelTrip:", err);
-        });
-    };
+    };    
 
     $scope.deletePlace = (index, placeId) => {
         PlacesService.deletePlace(placeId).then((results) => {

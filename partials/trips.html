@@ -1,19 +1,20 @@
-<!-- <div class="container"> -->
+<div class="container-fluid">
 
     <div class="text-center">
-        <button ng-if="!trips.length" class="btn btn-default" ng-click="routeToCreateTrip()">No Trips! Create a Trip Here</button>
+        <button ng-if="!trips.length" class="btn btn-success" ng-click="routeToCreateTrip()">No Trips! Create a Trip Here</button>
     </div>
 
     <div class="flex_container">
 
-        <div ng-repeat="trip in trips | orderBy : 'orderByDate'" data-toggle="modal" data-target="#trip" ng-click="seeTrip(trip)" class="trip panel">
+        <div ng-repeat="trip in trips | orderBy : 'orderByDate'" data-toggle="modal" data-target="#trip" ng-click="seeTrip(trip)"
+            class="trip panel">
             <div class="text-center trip_cover_text">
                 <h4>{{trip.area}}</h4>
                 <p>{{trip.date}}</p>
             </div>
         </div>
 
-    <!-- END FLEX CONTAINER -->
+        <!-- END FLEX CONTAINER -->
     </div>
 
 </div>
@@ -37,17 +38,21 @@
 
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-12">                        
-                        <h4>Routes to Try</h4>
+                    <div class="col-md-12">
+                        <h4>Routes to Try:</h4>
                         <ul>
-                            <li ng-repeat="route in routes" ng-if="tripId === route.trip_id">{{route.name}} {{route.rating}}</li>
+                            <li ng-repeat="route in routes" ng-if="tripId === route.trip_id">{{route.name}} {{route.rating}}
+                                <a class="trash_float" ng-click="deleteRoute($index, route.id)">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                     <div class="col-md-12" ng-show="places.length">
                         <h4>Food:</h4>
                         <ul>
                             <li ng-repeat="place in places" ng-if="tripId == place.trip_id && place.type == 'restaurant'">{{place.name}}
-                                <a ng-click="deletePlace($index, place.id)">
+                                <a class="trash_float" ng-click="deletePlace($index, place.id)">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </li>
@@ -55,13 +60,18 @@
                         <h4>Lodging:</h4>
                         <ul>
                             <li ng-repeat="place in places" ng-if="tripId == place.trip_id && place.type == 'lodging' || tripId == place.trip_id && place.type == 'campground'">{{place.name}}
-                                <a ng-click="deletePlace($index, place.id)">
+                                <a class="trash_float" ng-click="deletePlace($index, place.id)">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </li>
                         </ul>
-                        <h5>Notes:</h5>
-                        <p>{{currentTrip.description}}</p>
+                    </div>
+                    <div class="col-md-12">                        
+                        <label for="notes">Notes:</label>
+                        <input ng-click="showSave = true" name="notes" type="text" class="form-control" ng-model="currentTrip.description">
+                        <div class="save_btn_margin">
+                            <button class="btn btn-success" ng-show="showSave" ng-click="updateTripNote(currentTrip)">Save</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -75,4 +85,4 @@
         </div>
     </div>
 
-<!-- </div> -->
+</div>

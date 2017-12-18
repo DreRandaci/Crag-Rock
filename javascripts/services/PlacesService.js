@@ -59,6 +59,10 @@ app.service("PlacesService", function ($http, $q, FIREBASE_CONFIG, GOOGLEPLACES_
         });
     };
 
+    const getSinglePlace = (placeId) => {
+        return $http.get(`${FIREBASE_CONFIG.databaseURL}/places/${placeId}.json`);
+    };
+
     const savePlace = (place) => {
         return $http.post(`${FIREBASE_CONFIG.databaseURL}/places.json`, JSON.stringify(place));
     };
@@ -67,5 +71,5 @@ app.service("PlacesService", function ($http, $q, FIREBASE_CONFIG, GOOGLEPLACES_
         return $http.delete(`${FIREBASE_CONFIG.databaseURL}/places/${placeId}.json`);
     };
 
-    return { createPlaceObj, deletePlace, getGooglePlaces, getPlaces, getPlacesForSingleTrip, savePlace };
+    return { createPlaceObj, deletePlace, getGooglePlaces, getSinglePlace, getPlaces, getPlacesForSingleTrip, savePlace };
 });

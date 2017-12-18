@@ -27,12 +27,12 @@ app.service("TripsService", function ($http, $q, FIREBASE_CONFIG, AuthService) {
     const createTripObj = (trip, mapAddress, lat, lng, date, area) => {
         return {
             "name": trip.name,
-            "area": area,
+            "area": area ? area : trip.area,
             "description": trip.description,
-            "date": date,
-            "googleMapsAddress": mapAddress,
-            "lat": lat,
-            "lng": lng,
+            "date": date ? date : trip.date,
+            "googleMapsAddress": mapAddress ? mapAddress : trip.googleMapsAddress,
+            "lat": lat ? lat : trip.lat,
+            "lng": lng ? lng : trip.lng,
             "uid": AuthService.getCurrentUid()
         };
     };
@@ -43,7 +43,7 @@ app.service("TripsService", function ($http, $q, FIREBASE_CONFIG, AuthService) {
 
     const updateTripInFirebase = (updatedTrip, tripId) => {
         return $http.put(`${FIREBASE_CONFIG.databaseURL}/trips/${tripId}.json`, JSON.stringify(updatedTrip));
-    };
+    };    
 
     const deleteTrip = (tripId) => {
         return $http.delete(`${FIREBASE_CONFIG.databaseURL}/trips/${tripId}.json`);

@@ -26,8 +26,8 @@
             </uib-tabset>
 
 
-            <div id="routes_list" class="list-group add_shadow">
-                <a ng-show="routes" ng-repeat="route in routes | orderBy : 'stars'" ng-class="{'disabled': route.disabled}" class="list-group-item route"
+            <div class="places_and_routes_list list-group add_shadow">
+                <a ng-show="routes" ng-repeat="route in routes | orderBy : filterOn" ng-class="{'disabled': route.disabled}" class="list-group-item route"
                     ng-click="saveToRouteList($index, route)">{{route.name}} {{route.rating}} ({{route.type}}) {{route.stars}}</a>
             </div>
         </div>
@@ -68,7 +68,7 @@
                     </li>
                 </ul>
                 <div class="text-center">
-                    <button ng-show="!createTripForm.$invalid" class="btn btn-default" ng-click="createTrip(trip, dt)">Save</button>
+                    <button ng-show="!createTripForm.$invalid" class="btn btn-success" ng-click="createTrip(trip, dt)">Save</button>
                 </div>
             </form>
         </div>

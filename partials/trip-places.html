@@ -1,34 +1,69 @@
 <div class="container">
+    <h1>Add Accommodations</h1>
+    
+        <div class='col-md-4 routes'>
+            <div ng-show="places.length || savedPlaces.length">
+    
+                <uib-tabset active="active">
+                    <uib-tab index="1" heading="Hotels" ng-click="plotLodging('lodging')"></uib-tab>
+                    <uib-tab index="2" heading="Restaurants" ng-click="plotRestaurants('restaurant')"></uib-tab>
+                    <uib-tab index="3" heading="Campgrounds" ng-click="plotCampsites('campground')"></uib-tab>
+                </uib-tabset>
+    
+    
+                <div class="places_and_routes_list list-group add_shadow">
+                    <a ng-show="places" ng-repeat="place in places | orderBy : 'name'" ng-class="{'disabled': place.disabled}" class="list-group-item route" ng-click="saveToPlaceList($index, place)">{{place.name}} ({{place.type}})</a>
+                </div>
+            </div>
+        </div>
 
-    <div class="col-md-12">
-        <ui-gmap-google-map id="map" center='map.center' zoom='map.zoom' draggable='true'>                    
-            
+    <div class="col-md-8">
+        <ui-gmap-google-map id="map" center='map.center' zoom='map.zoom' draggable='true'>
+
             <ui-gmap-markers events="markersEvents" coords="'self'" options="'options'" models="markers" icon="'icon'">
             </ui-gmap-markers>
 
-        </ui-gmap-google-map>
-
-        <button class="btn_margin add_shadow btn btn-default" ng-click="plotLodging('lodging')">See Hotels</button>
-        <button class="btn_margin add_shadow btn btn-default" ng-click="plotRestaurants('restaurant')">See Restaurants</button>
-        <button class="btn_margin add_shadow btn btn-default" ng-click="plotCampsites('campground')">See Campgrounds</button>
+        </ui-gmap-google-map>        
     </div>
 
-    <div ng-show="showPlaceHeading" class="col-md-6">
+
+
+    <div ng-show="savedPlaces.length" class="col-md-8 col-md-offset-2">
+        <h4>Places to Save</h4>
+        <div>
+            <ul class="list-group">
+                <li class="list-group-item" ng-repeat="place in savedPlaces">{{place.name}} ({{place.type}})
+                    <a class="trash_float" ng-click="removePlaceFromSavedPlacesList($index, place)">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </li>
+            </ul>
+            <button class="btn btn-success" ng-click="routeToTrips()">Done</button>
+        </div>
+    </div>
+
+
+    <!-- <div ng-show="showPlaceHeading" class="col-md-6">
         <h1>{{placeHeading}}</h1>
         <h4>{{grabMarker.type}}</h4>
         <p>{{grabMarker.vicinity}}</p>
-        <button class='btn btn-default' ng-click="addPlace(grabMarker)">Add</button>
-    </div>
-    <div ng-show="places.length" class="col-md-6">
-        <h4>Places to Save</h4>
-        <ul>
-            <li ng-repeat="place in places">{{place.name}}
-                <a class="trash_float" ng-click="removePlaceFromPlaces($index, place)">
-                    <i class="fas fa-trash"></i>
-                </a>
-            </li>
-        </ul>
-        <button class="btn btn-default" ng-click="savePlaces()">Save Places</button>
-    </div>
+        <div class="add_border add_shadow">
+            <form name="placesForm">
+                <h4 class="text-center">Your Trip Places</h4>
+                <h5 ng-show="savedPlaces.length">{{area}}:</h5>
+                <ul>
+                    <li ng-repeat="place in savedPlaces" ng-model="places">
+                        <a class="route_links">{{place.name}} ({{place.type}})</a>
+                        <a class="trash_float" ng-click="removePlaceFromSavedPlacesList($index, route)">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </li>
+                </ul>
+                <div class="text-center">
+                    <button ng-show="!placesForm.$invalid" class="btn btn-success" ng-click="savePlaces()">Save Places</button>
+                </div>
+            </form>
+        </div>
+    </div> -->
 
 </div>

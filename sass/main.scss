@@ -63,18 +63,15 @@ li {
     flex-wrap: wrap; 
     margin-left: 310px;
 }
-#routes_list {
+.places_and_routes_list {
     overflow: scroll; 
     height:400px;    
 }
 .route_links:hover {
     text-decoration: none;
 }
-#train_icon {
-    width: 3%;
-    position: absolute;
-    top: 4px;
-    left: 188px;
+.save_btn_margin {
+    margin-top: 10px;
 }
 .trash_float {
     float: right;   
