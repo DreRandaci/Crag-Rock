@@ -1,8 +1,8 @@
 <div class="container-fluid">
 
-    <div class="text-center container col-md-4 col-md-offset-4">
+    <div ng-if="!trips.length" class="text-center container col-md-4 col-md-offset-4">
         <div class="center_create_trip_btn alert">
-            <button ng-if="!trips.length" class="btn btn-success" ng-click="routeToCreateTrip()">No Trips! Create a Trip Here</button>
+            <button class="btn btn-success" ng-click="routeToCreateTrip()">No Trips! Create a Trip Here</button>
         </div>        
     </div>
 
