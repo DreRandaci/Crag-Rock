@@ -67,9 +67,11 @@ app.controller('TripsViewCtrl', function (moment, $location, $scope, $timeout, A
 
     const deleteRoutesFromTrip = (tripId) => {
         RoutesService.getRoutesForSingleTrip(tripId).then((routes) => {
-            routes.forEach((route) => {
-                deleteRoutes(route.id);
-            });
+            if (routes) {
+                routes.forEach((route) => {
+                    deleteRoutes(route.id);
+                });
+            }
         }).catch((err) => {
             console.log("err in getRoutes:", err);
         });
@@ -93,11 +95,11 @@ app.controller('TripsViewCtrl', function (moment, $location, $scope, $timeout, A
         });
     };
 
-    $scope.updateTripNote = (trip) => {        
+    $scope.updateTripNote = (trip) => {
         // FOR DATE PICKER
         let updatedTrip = TripsService.createTripObj(trip);
         updatedTrip.date = moment(trip.date, "ddd, MMM, DD, YYYY, hh:mm:ss").format("ddd MMM DD YYYY hh:mm:ss");
-        TripsService.updateTripInFirebase(updatedTrip, trip.id).then(() => {            
+        TripsService.updateTripInFirebase(updatedTrip, trip.id).then(() => {
         }).catch((err) => {
             console.log("error in updateTripNote:", err);
         });
@@ -117,7 +119,7 @@ app.controller('TripsViewCtrl', function (moment, $location, $scope, $timeout, A
         }).catch((err) => {
             console.log("err in deleteTrip:", err);
         });
-    };    
+    };
 
     $scope.deletePlace = (index, placeId) => {
         PlacesService.deletePlace(placeId).then((results) => {
