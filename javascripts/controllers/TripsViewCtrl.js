@@ -101,6 +101,7 @@ app.controller('TripsViewCtrl', function (moment, $location, $scope, $timeout, A
         }).catch((err) => {
             console.log("error in updateTripNote:", err);
         });
+        $scope.showSave = false;
     };
 
     $scope.deleteRoute = (index, routeId) => {

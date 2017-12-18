@@ -36,14 +36,18 @@ app.controller('TripPlacesCtrl', function ($location, $routeParams, $scope, GOOG
                 zoom: 10,
                 options: { scrollwheel: true }
             };
-            PlacesService.getPlacesForSingleTrip(routeParams).then((results) => {
-                $scope.places = results;
-            });
+            getSavedPlaces(routeParams);            
         }).catch((err) => {
             console.log('err in getSingleTrip:', err);
         });
     };
     getSingleTripLocation($routeParams.id);
+
+    const getSavedPlaces = (routeParams) => {
+        PlacesService.getPlacesForSingleTrip(routeParams).then((results) => {
+            $scope.savedPlaces = results;
+        });
+    };
 
     $scope.plotLodging = (lodging) => {
         let blueIcon = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
@@ -85,6 +89,8 @@ app.controller('TripPlacesCtrl', function ($location, $routeParams, $scope, GOOG
             $scope.map.center = { latitude: lat, longitude: lng };
             $scope.map.zoom = 11;
             $scope.markers = coords;
+            $scope.places = coords;
+            //TO ALSO SHOW TRIP MARKER 
             $scope.markers.push({ id: 'trip', latitude: lat, longitude: lng });
         }).catch((err) => {
             console.log('error in getGooglePlaces, TripPlacesCtrl:', err);
