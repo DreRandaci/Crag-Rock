@@ -124,7 +124,23 @@ app.controller('TripPlacesCtrl', function ($location, $rootScope, $routeParams, 
 
     $scope.markersEvents = {
         click: function (marker, eventName, model) {
-            $rootScope.infoWindowContent = model.name;
+            $rootScope.infoWindowContent = { name: model.name, type: model.type };
+            $rootScope.addPlaceToList = () => {
+                // if (!model.disabled) {
+                    // model.disabled = true;
+                    let newPlace = PlacesService.createPlaceObj(model);
+                    PlacesService.savePlace(newPlace).then((results) => {
+                        $scope.places.forEach((place) => {
+                            if (place.name == model.name) {
+                                place.disabled = true;
+                            }
+                        });
+                        model.id = results.data.name;
+                        model.disabled = true;
+                        $scope.savedPlaces.push(model);
+                    });
+                // }
+            };
             $scope.showPlaceHeading = true;
             $scope.placeHeading = model.name;
             $scope.grabMarker = model;
@@ -151,8 +167,8 @@ app.controller('TripPlacesCtrl', function ($location, $rootScope, $routeParams, 
     };
 
     $scope.removePlaceFromSavedPlacesList = (index, place) => {
-        $scope.savedPlaces.forEach((listPlace) => {
-            if (listPlace.id === place.id) {
+        $scope.places.forEach((listPlace) => {
+            if (listPlace.name === place.name) {
                 listPlace.disabled = false;
             }
         });

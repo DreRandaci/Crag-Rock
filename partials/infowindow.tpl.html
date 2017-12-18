@@ -1,1 +1,5 @@
-<h4 style="width: 200px; height: 70px;">{{$root.infoWindowContent}}</h4>
+<div ng-controller="TripPlacesCtrl">
+    <h4 style="width: 200px;">{{$root.infoWindowContent.name}}</h4>
+    <p>{{$root.infoWindowContent.type}}</p>
+    <button class="btn btn-success" ng-click="$root.addPlaceToList()">Add</button>
+</div>
