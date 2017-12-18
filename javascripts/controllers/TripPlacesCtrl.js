@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('TripPlacesCtrl', function ($location, $routeParams, $scope, GOOGLEPLACES_CONFIG, TripsService, PlacesService) {
+app.controller('TripPlacesCtrl', function ($location, $rootScope, $routeParams, $scope, GOOGLEPLACES_CONFIG, TripsService, PlacesService) {
 
     $scope.googlePlacesUrl = `https://maps.googleapis.com/maps/api/js?key=${GOOGLEPLACES_CONFIG}&libraries=places`;
 
@@ -13,13 +13,14 @@ app.controller('TripPlacesCtrl', function ($location, $routeParams, $scope, GOOG
             latitude: 36.174465, longitude: -86.767960
         },
         zoom: 10,
-        options: { scrollwheel: true }
+        options: $scope.mapOptions,
     };
 
     // initial marker instance on page load
     $scope.markers = [{
         id: 0,
     }];
+
 
     $scope.trip = {};
 
@@ -31,10 +32,18 @@ app.controller('TripPlacesCtrl', function ($location, $routeParams, $scope, GOOG
             $scope.map = {
                 center: { latitude: trip.lat, longitude: trip.lng },
                 zoom: 10,
-                options: { scrollwheel: true }
+                options: { scrollwheel: true },
+                window: {
+                    marker: {},
+                    show: false,
+                    closeClick: function () {
+                        this.show = false;
+                    },
+                    options: {}
+                }
             };
             getUserSavedPlaces(routeParams);
-            getAndFormatPlaces("lodging", trip.lat, trip.lng, "http://maps.google.com/mapfiles/ms/icons/blue-dot.png");
+            getAndFormatPlaces("lodging", trip.lat, trip.lng, "https://maps.google.com/mapfiles/ms/icons/blue-dot.png");
         }).catch((err) => {
             console.log('err in getSingleTrip:', err);
         });
@@ -48,19 +57,18 @@ app.controller('TripPlacesCtrl', function ($location, $routeParams, $scope, GOOG
     };
 
     $scope.plotLodging = (lodging) => {
-        let blueIcon = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
-        // let yellowIcon = "https://cdn.cyberduck.io/img/cyberduck-icon-384.png";
+        let blueIcon = 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png';
         plotPlaceMarkers(lodging, blueIcon);
     };
 
     $scope.plotRestaurants = (restaurant) => {
-        let blueIcon = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
-        plotPlaceMarkers(restaurant, blueIcon);
+        let orangeIcon = 'https://maps.google.com/mapfiles/ms/icons/orange-dot.png';
+        plotPlaceMarkers(restaurant, orangeIcon);
     };
 
     $scope.plotCampsites = (campground) => {
-        let blueIcon = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
-        plotPlaceMarkers(campground, blueIcon);
+        let greenIcon = 'https://maps.google.com/mapfiles/ms/icons/green-dot.png';
+        plotPlaceMarkers(campground, greenIcon);
     };
 
     const plotPlaceMarkers = (type, icon) => {
@@ -115,11 +123,28 @@ app.controller('TripPlacesCtrl', function ($location, $routeParams, $scope, GOOG
 
     $scope.markersEvents = {
         click: function (marker, eventName, model) {
+            $rootScope.infoWindowContent = { name: model.name, type: model.type };
+            $rootScope.addPlaceToList = () => {
+                let newPlace = PlacesService.createPlaceObj(model);
+                PlacesService.savePlace(newPlace).then((results) => {
+                    $scope.places.forEach((place) => {
+                        if (place.name == model.name) {
+                            place.disabled = true;
+                        }
+                    });
+                    model.id = results.data.name;
+                    model.disabled = true;
+                    $scope.savedPlaces.push(model);
+                });
+            };
             $scope.showPlaceHeading = true;
             $scope.placeHeading = model.name;
             $scope.grabMarker = model;
+            $scope.map.window.model = model;
+            $scope.map.window.show = true;
         }
     };
+
 
     $scope.saveToPlaceList = (index, place) => {
         $scope.showSaveHeading = true;
@@ -133,13 +158,13 @@ app.controller('TripPlacesCtrl', function ($location, $routeParams, $scope, GOOG
         }
     };
 
-    $scope.routeToTrips = () => {        
+    $scope.routeToTrips = () => {
         $location.path("/trips");
     };
 
     $scope.removePlaceFromSavedPlacesList = (index, place) => {
-        $scope.savedPlaces.forEach((listPlace) => {
-            if (listPlace.id === place.id) {
+        $scope.places.forEach((listPlace) => {
+            if (listPlace.name === place.name) {
                 listPlace.disabled = false;
             }
         });
