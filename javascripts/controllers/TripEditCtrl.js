@@ -31,14 +31,14 @@ app.controller('TripEditCtrl', function ($location, $log, $routeParams, $scope, 
             tripDate();
 
             updateRoutesList(trip.data);
-            getRoutes(AuthService.getCurrentUid(), routeParams);
+            getUserSavedRoutes(AuthService.getCurrentUid(), routeParams);
         }).catch((err) => {
             console.log('err in getSingleTrip:', err);
         });
     };
     getSingleTrip($routeParams.id);
 
-    const getRoutes = (uid, tripId) => {
+    const getUserSavedRoutes = (uid, tripId) => {
         RoutesService.getRoutes(uid).then((savedRoutes) => {
             savedRoutes.forEach((route) => {
                 if (route.trip_id === tripId) {
@@ -46,7 +46,7 @@ app.controller('TripEditCtrl', function ($location, $log, $routeParams, $scope, 
                 }
             });
         }).catch((err) => {
-            console.log('err in getRoutes:', err);
+            console.log('err in getUserSavedRoutes:', err);
         });
     };
 
@@ -75,6 +75,15 @@ app.controller('TripEditCtrl', function ($location, $log, $routeParams, $scope, 
         MountainProjService.getClimbingRoutesByLatLng(lat, lng).then((climbs) => {
             let areaName = climbs.data.routes[0].location[1] + ', ' + climbs.data.routes[0].location[0];
             $scope.routes = climbs.data.routes;
+            
+            // ADDS 'DISABLED' PROPERTY TO PREVIOUSLY SAVED ROUTES
+            $scope.routes.forEach((route) => {
+                $scope.savedRoutes.forEach((savedRoute) => {
+                    if (route.name == savedRoute.name) {
+                        route.disabled = true;
+                    }
+                });
+            });
         }).catch((err) => {
             console.log('error in getClimbingRoutesByLatLng:', err);
         });

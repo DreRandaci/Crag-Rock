@@ -33,7 +33,7 @@ app.controller('TripPlacesCtrl', function ($location, $routeParams, $scope, GOOG
                 zoom: 10,
                 options: { scrollwheel: true }
             };
-            getSavedPlaces(routeParams);
+            getUserSavedPlaces(routeParams);
             getAndFormatPlaces("lodging", trip.lat, trip.lng, "http://maps.google.com/mapfiles/ms/icons/blue-dot.png");
         }).catch((err) => {
             console.log('err in getSingleTrip:', err);
@@ -41,7 +41,7 @@ app.controller('TripPlacesCtrl', function ($location, $routeParams, $scope, GOOG
     };
     getSingleTripLocation($routeParams.id);
 
-    const getSavedPlaces = (routeParams) => {
+    const getUserSavedPlaces = (routeParams) => {
         PlacesService.getPlacesForSingleTrip(routeParams).then((results) => {
             $scope.savedPlaces = results;
         });
@@ -122,26 +122,18 @@ app.controller('TripPlacesCtrl', function ($location, $routeParams, $scope, GOOG
     };
 
     $scope.saveToPlaceList = (index, place) => {
-
-
-        //FIRE OFF SAVE PROMISE EVERY TIME 
-
-
         $scope.showSaveHeading = true;
         if (!place.disabled) {
             place.disabled = true;
-            $scope.savedPlaces.push(place);
+            let newPlace = PlacesService.createPlaceObj(place);
+            PlacesService.savePlace(newPlace).then((res) => {
+                place.id = res.data.name;
+                $scope.savedPlaces.push(place);
+            });
         }
     };
 
-    $scope.savePlaces = () => {
-        $scope.savedPlaces.forEach((place) => {
-            let newPlace = PlacesService.createPlaceObj(place);
-            PlacesService.savePlace(newPlace).then(() => {
-            }).catch((err) => {
-                console.log("err in savePlace, TripPlacesCtrl", err);
-            });
-        });
+    $scope.routeToTrips = () => {        
         $location.path("/trips");
     };
 
@@ -151,7 +143,11 @@ app.controller('TripPlacesCtrl', function ($location, $routeParams, $scope, GOOG
                 listPlace.disabled = false;
             }
         });
-        $scope.savedPlaces.splice(index, 1);
+        PlacesService.deletePlace(place.id).then((results) => {
+            $scope.savedPlaces.splice(index, 1);
+        }).catch((err) => {
+            console.log("err in deletePlace, TripsViewCtrl:", err);
+        });
     };
 
 });
