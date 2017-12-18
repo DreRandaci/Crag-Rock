@@ -6,6 +6,7 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
     $scope.googleUrl = `https://maps.google.com/maps/api/js?key=${GOOGLEMAPS_CONFIG}`;
 
     $scope.updateHeadingBeforeUserClicksMarker = true;
+    $scope.filterOn = "name";
 
     //initial map instance on page load purely for the map to rendar 
     $scope.map = {
@@ -125,7 +126,7 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
         $scope.allRoutes = [];
         $scope.routes = [];
         MountainProjService.getClimbingRoutesByLatLng(lat, lng).then((climbs) => {
-            climbs = climbs.data.routes;
+            climbs = climbs.data.routes;            
             let area = climbs.filter(function (route) {
                 if (route.latitude === $scope.map.center.latitude && route.longitude === $scope.map.center.longitude) {
                     return route.location[1].indexOf($scope.map.center.latitude) + ', ' + route.location[0].indexOf($scope.map.center.latitude);
@@ -150,6 +151,7 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
     };
 
     $scope.filterRoutesClassic = () => {
+        $scope.filterOn = "stars";
         getAllRoutes();
         $scope.routes = $scope.routes.filter((a) => {
             if (4.5 <= a.stars) {
@@ -159,6 +161,7 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
     };
 
     $scope.filterRoutesType = (type) => {
+        $scope.filterOn = "name";
         getAllRoutes();
         $scope.routes = $scope.routes.filter((route) => {
             return route.type.indexOf(type) > -1;
@@ -169,6 +172,7 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
     };
 
     $scope.getAllRoutes = () => {
+        $scope.filterOn = "name";
         getAllRoutes();
     };
 
