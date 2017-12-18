@@ -43,7 +43,7 @@ app.controller('TripPlacesCtrl', function ($location, $rootScope, $routeParams, 
                 }
             };
             getUserSavedPlaces(routeParams);
-            getAndFormatPlaces("lodging", trip.lat, trip.lng, "http://maps.google.com/mapfiles/ms/icons/blue-dot.png");
+            getAndFormatPlaces("lodging", trip.lat, trip.lng, "https://maps.google.com/mapfiles/ms/icons/blue-dot.png");
         }).catch((err) => {
             console.log('err in getSingleTrip:', err);
         });
@@ -57,18 +57,18 @@ app.controller('TripPlacesCtrl', function ($location, $rootScope, $routeParams, 
     };
 
     $scope.plotLodging = (lodging) => {
-        let blueIcon = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
+        let blueIcon = 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png';
         // let yellowIcon = "https://cdn.cyberduck.io/img/cyberduck-icon-384.png";
         plotPlaceMarkers(lodging, blueIcon);
     };
 
     $scope.plotRestaurants = (restaurant) => {
-        let blueIcon = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
+        let blueIcon = 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png';
         plotPlaceMarkers(restaurant, blueIcon);
     };
 
     $scope.plotCampsites = (campground) => {
-        let blueIcon = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
+        let blueIcon = 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png';
         plotPlaceMarkers(campground, blueIcon);
     };
 
@@ -126,20 +126,17 @@ app.controller('TripPlacesCtrl', function ($location, $rootScope, $routeParams, 
         click: function (marker, eventName, model) {
             $rootScope.infoWindowContent = { name: model.name, type: model.type };
             $rootScope.addPlaceToList = () => {
-                // if (!model.disabled) {
-                    // model.disabled = true;
-                    let newPlace = PlacesService.createPlaceObj(model);
-                    PlacesService.savePlace(newPlace).then((results) => {
-                        $scope.places.forEach((place) => {
-                            if (place.name == model.name) {
-                                place.disabled = true;
-                            }
-                        });
-                        model.id = results.data.name;
-                        model.disabled = true;
-                        $scope.savedPlaces.push(model);
+                let newPlace = PlacesService.createPlaceObj(model);
+                PlacesService.savePlace(newPlace).then((results) => {
+                    $scope.places.forEach((place) => {
+                        if (place.name == model.name) {
+                            place.disabled = true;
+                        }
                     });
-                // }
+                    model.id = results.data.name;
+                    model.disabled = true;
+                    $scope.savedPlaces.push(model);
+                });
             };
             $scope.showPlaceHeading = true;
             $scope.placeHeading = model.name;
