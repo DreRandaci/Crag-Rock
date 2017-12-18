@@ -122,6 +122,11 @@ app.controller('TripPlacesCtrl', function ($location, $routeParams, $scope, GOOG
     };
 
     $scope.saveToPlaceList = (index, place) => {
+
+
+        //FIRE OFF SAVE PROMISE EVERY TIME 
+
+
         $scope.showSaveHeading = true;
         if (!place.disabled) {
             place.disabled = true;
@@ -130,7 +135,7 @@ app.controller('TripPlacesCtrl', function ($location, $routeParams, $scope, GOOG
     };
 
     $scope.savePlaces = () => {
-        $scope.places.forEach((place) => {
+        $scope.savedPlaces.forEach((place) => {
             let newPlace = PlacesService.createPlaceObj(place);
             PlacesService.savePlace(newPlace).then(() => {
             }).catch((err) => {
