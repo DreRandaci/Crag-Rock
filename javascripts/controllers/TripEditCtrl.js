@@ -92,6 +92,11 @@ app.controller('TripEditCtrl', function ($location, $log, $routeParams, $scope, 
     $scope.savedRoutes = [];
 
     $scope.removeRouteFromSavedRoutes = (index, route) => {
+        $scope.routes.forEach((listRoute) => {
+            if (listRoute.id === route.routeId) {
+                listRoute.disabled = false;
+            }
+        });
         $scope.savedRoutes.splice(index, 1);
         RoutesService.deleteRoutes(route.id).then(() => {
         }).catch((err) => {
@@ -101,6 +106,11 @@ app.controller('TripEditCtrl', function ($location, $log, $routeParams, $scope, 
 
     //save each climbing route
     $scope.saveToRouteList = (route) => {
+        $scope.routes.forEach((listRoute) => {
+            if (listRoute.id === route.id) {
+                listRoute.disabled = true;
+            }
+        });
         saveUpdatedRoutes(route, $routeParams.id);
     };
 
@@ -110,7 +120,7 @@ app.controller('TripEditCtrl', function ($location, $log, $routeParams, $scope, 
     };
 
 
-    const postUpdatedTrip = (updatedTrip) => {
+    const postUpdatedTrip = (updatedTrip) => {        
         TripsService.updateTripInFirebase(updatedTrip, $routeParams.id).then((tripId) => {
             $location.path("/trips");
         }).catch((err) => {
@@ -121,7 +131,7 @@ app.controller('TripEditCtrl', function ($location, $log, $routeParams, $scope, 
     const saveUpdatedRoutes = (route, tripId) => {
         let newRoute = RoutesService.createRouteObj(route, tripId);
         RoutesService.saveTripRoutesToFirebase(newRoute).then((results) => {
-            newRoute.id = results.data.name;
+            newRoute.id = results.data.name;            
             $scope.savedRoutes.push(newRoute);
         }).catch((err) => {
             console.log('error in saveTripRoutesToFirebase:', err);
