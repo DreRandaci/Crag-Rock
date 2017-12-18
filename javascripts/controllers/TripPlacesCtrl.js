@@ -58,18 +58,17 @@ app.controller('TripPlacesCtrl', function ($location, $rootScope, $routeParams, 
 
     $scope.plotLodging = (lodging) => {
         let blueIcon = 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png';
-        // let yellowIcon = "https://cdn.cyberduck.io/img/cyberduck-icon-384.png";
         plotPlaceMarkers(lodging, blueIcon);
     };
 
     $scope.plotRestaurants = (restaurant) => {
-        let blueIcon = 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png';
-        plotPlaceMarkers(restaurant, blueIcon);
+        let orangeIcon = 'https://maps.google.com/mapfiles/ms/icons/orange-dot.png';
+        plotPlaceMarkers(restaurant, orangeIcon);
     };
 
     $scope.plotCampsites = (campground) => {
-        let blueIcon = 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png';
-        plotPlaceMarkers(campground, blueIcon);
+        let greenIcon = 'https://maps.google.com/mapfiles/ms/icons/green-dot.png';
+        plotPlaceMarkers(campground, greenIcon);
     };
 
     const plotPlaceMarkers = (type, icon) => {
