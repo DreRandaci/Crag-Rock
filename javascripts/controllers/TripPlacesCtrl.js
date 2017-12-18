@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('TripPlacesCtrl', function ($location, $routeParams, $scope, GOOGLEPLACES_CONFIG, TripsService, PlacesService) {
+app.controller('TripPlacesCtrl', function ($location, $rootScope, $routeParams, $scope, GOOGLEPLACES_CONFIG, TripsService, PlacesService) {
 
     $scope.googlePlacesUrl = `https://maps.googleapis.com/maps/api/js?key=${GOOGLEPLACES_CONFIG}&libraries=places`;
 
@@ -13,13 +13,14 @@ app.controller('TripPlacesCtrl', function ($location, $routeParams, $scope, GOOG
             latitude: 36.174465, longitude: -86.767960
         },
         zoom: 10,
-        options: { scrollwheel: true }
+        options: $scope.mapOptions,
     };
 
     // initial marker instance on page load
     $scope.markers = [{
         id: 0,
     }];
+
 
     $scope.trip = {};
 
@@ -31,7 +32,15 @@ app.controller('TripPlacesCtrl', function ($location, $routeParams, $scope, GOOG
             $scope.map = {
                 center: { latitude: trip.lat, longitude: trip.lng },
                 zoom: 10,
-                options: { scrollwheel: true }
+                options: { scrollwheel: true },
+                window: {
+                    marker: {},
+                    show: false,
+                    closeClick: function () {
+                        this.show = false;
+                    },
+                    options: {}
+                }
             };
             getUserSavedPlaces(routeParams);
             getAndFormatPlaces("lodging", trip.lat, trip.lng, "http://maps.google.com/mapfiles/ms/icons/blue-dot.png");
@@ -115,11 +124,15 @@ app.controller('TripPlacesCtrl', function ($location, $routeParams, $scope, GOOG
 
     $scope.markersEvents = {
         click: function (marker, eventName, model) {
+            $rootScope.infoWindowContent = model.name;
             $scope.showPlaceHeading = true;
             $scope.placeHeading = model.name;
             $scope.grabMarker = model;
+            $scope.map.window.model = model;
+            $scope.map.window.show = true;
         }
     };
+
 
     $scope.saveToPlaceList = (index, place) => {
         $scope.showSaveHeading = true;
@@ -133,7 +146,7 @@ app.controller('TripPlacesCtrl', function ($location, $routeParams, $scope, GOOG
         }
     };
 
-    $scope.routeToTrips = () => {        
+    $scope.routeToTrips = () => {
         $location.path("/trips");
     };
 
