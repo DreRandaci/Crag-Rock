@@ -13,7 +13,7 @@ app.controller('TripPlacesCtrl', function ($location, $routeParams, $scope, GOOG
             latitude: 36.174465, longitude: -86.767960
         },
         zoom: 10,
-        options: { scrollwheel: true }        
+        options: { scrollwheel: true }
     };
 
     // initial marker instance on page load
@@ -29,14 +29,12 @@ app.controller('TripPlacesCtrl', function ($location, $routeParams, $scope, GOOG
             $scope.trip = trip;
             $scope.markers.push({ id: 'trip', latitude: trip.lat, longitude: trip.lng });
             $scope.map = {
-                center: {
-                    //default nashville coords
-                    latitude: trip.lat, longitude: trip.lng
-                },
+                center: { latitude: trip.lat, longitude: trip.lng },
                 zoom: 10,
                 options: { scrollwheel: true }
             };
-            getSavedPlaces(routeParams);            
+            getSavedPlaces(routeParams);
+            getAndFormatPlaces("lodging", trip.lat, trip.lng, "http://maps.google.com/mapfiles/ms/icons/blue-dot.png");
         }).catch((err) => {
             console.log('err in getSingleTrip:', err);
         });
@@ -68,43 +66,51 @@ app.controller('TripPlacesCtrl', function ($location, $routeParams, $scope, GOOG
     const plotPlaceMarkers = (type, icon) => {
         let lat = $scope.trip.lat;
         let lng = $scope.trip.lng;
+        getAndFormatPlaces(type, lat, lng, icon);
+    };
+
+    const getAndFormatPlaces = (type, lat, lng, icon) => {
         PlacesService.getGooglePlaces(type, lat, lng).then((results) => {
-            let coords = results.data.results.map((place, i) => {
-                let places = {};
-                places.google_place_id = place.place_id;
-                places.trip_id = $routeParams.id;
-                places.type = type;
-                places.name = place.name;
-                places.latitude = place.geometry.location.lat;
-                places.longitude = place.geometry.location.lng;
-                places.id = i;
-                places.icon = icon;
-                places.vicinity = place.vicinity;
-                if (place.photos !== undefined) {
-                    places.img = place.photos[0].html_attributions[0];
-                    places.photo_reference = place.photos[0].photo_reference;
-                }
-                return places;
-            });
+            $scope.places = createPlacesObjectsArray(results, icon, type);
+            $scope.markers = createPlacesObjectsArray(results, icon, type);
             $scope.map.center = { latitude: lat, longitude: lng };
             $scope.map.zoom = 11;
-            $scope.markers = coords;
-            $scope.places = coords;
-            // ADDS DISABLED TO PREVIOUSLY SAVED PLACES
+
+            // ADDS 'DISABLED' PROPERTY TO PREVIOUSLY SAVED PLACES
             $scope.places.forEach((place) => {
                 $scope.savedPlaces.forEach((savedPlace) => {
-                    if (place.name == savedPlace.name && savedPlace.disabled) {
-                        // place.disabled = true;
-                        console.log("place:", place);
-                        console.log("savedPlace:", savedPlace);
+                    if (place.name == savedPlace.name) {
+                        place.disabled = true;
                     }
                 });
             });
+
             //TO ALSO SHOW TRIP MARKER 
             $scope.markers.push({ id: 'trip', latitude: lat, longitude: lng });
         }).catch((err) => {
             console.log('error in getGooglePlaces, TripPlacesCtrl:', err);
         });
+    };
+
+    const createPlacesObjectsArray = (results, icon, type) => {
+        let coords = results.data.results.map((place, i) => {
+            let places = {};
+            places.google_place_id = place.place_id;
+            places.trip_id = $routeParams.id;
+            places.type = type;
+            places.name = place.name;
+            places.latitude = place.geometry.location.lat;
+            places.longitude = place.geometry.location.lng;
+            places.id = i;
+            places.icon = icon;
+            places.vicinity = place.vicinity;
+            if (place.photos !== undefined) {
+                places.img = place.photos[0].html_attributions[0];
+                places.photo_reference = place.photos[0].photo_reference;
+            }
+            return places;
+        });
+        return coords;
     };
 
     $scope.markersEvents = {
@@ -115,14 +121,12 @@ app.controller('TripPlacesCtrl', function ($location, $routeParams, $scope, GOOG
         }
     };
 
-    // $scope.placesToSave = [];
-
     $scope.saveToPlaceList = (index, place) => {
         $scope.showSaveHeading = true;
         if (!place.disabled) {
             place.disabled = true;
             $scope.savedPlaces.push(place);
-        }        
+        }
     };
 
     $scope.savePlaces = () => {
