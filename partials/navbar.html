@@ -1,28 +1,35 @@
-<div id="wrapper" class="active" ng-controller="NavCtrl">
-  <div id="sidebar-wrapper">
-    <ul id="sidebar_menu" class="sidebar-nav">
-      <li class="sidebar-brand">
-        <a id="menu-toggle" ng-href="#!/trips">Menu
-          <!-- <span id="main_icon" class="glyphicon glyphicon-align-justify"></span> -->
-        </a>
-      </li>
-    </ul>
-    <ul class="sidebar-nav" id="sidebar" ng-show="!navbar">
-      <li>
-        <a ng-href="#!/auth">Login</a>
-      </li>
-    </ul>
-    <ul ng-show='navbar' class="sidebar-nav" id="sidebar">
-      <li>
-        <a ng-href="#!/trips">Trips</a>
-      </li>
-      <li>
-        <a ng-href="#!/trip/create">Create Trip</a>
-      </li>
-      <li>
-        <a ng-click="logoutUser()">Logout</a>
-      </li>
-    </ul>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-3 col-lg-2">
+      <nav class="navbar navbar-inverse navbar-fixed-side">
+        <div class="container">
+          <div class="navbar-header">
+            <a class="navbar-brand" ng-href="#!/trip/create">Weekend Send Train</a>
+          </div>
+          <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav" ng-show="!navbar">
+              <li>
+                <a ng-href="#!/auth">Login</a>
+              </li>
+            </ul>
+            <ul class="nav navbar-nav" ng-show="navbar">
+              <li>
+                <a ng-href="#!/trip/create">Create</a>
+              </li>
+              <li>
+                <a ng-href="#!/trips">Trips</a>
+              </li>
+              <li>
+                <a ng-click="logoutUser()">Logout</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+    <div class="col-sm-9 col-lg-10">
+      <!-- APP CONTENT LOADS IN HERE -->
+      <div ng-view></div>
+    </div>
   </div>
-
 </div>
