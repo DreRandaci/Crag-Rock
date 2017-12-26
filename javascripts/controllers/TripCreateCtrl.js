@@ -37,6 +37,7 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
                         $scope.map.zoom = 12;
                         $scope.map.center = formatMapCenter(results.data.routes[0].latitude, results.data.routes[0].longitude);
                         $scope.markers = formatMarkerLocations(results);
+                        $scope.routes = [{ name: "", type: "click a marker" }];
                     });
                 }
             }
@@ -46,28 +47,32 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
     // initial marker instance on page load
     $scope.markers = [{
         id: 0,
-        latitude: 36.174465, longitude: -86.767960
     }];
 
     //GRABS CURRENT LOCATION, PLOTS CLIMBS WITHIN 100 MILES
-    $window.navigator.geolocation.getCurrentPosition(function (position) {
-        let lat = position.coords.latitude;
-        let lng = position.coords.longitude;
-        $scope.map = {
-            center: formatMapCenter(lat, lng),
-            events: {
-                //FOR CLICK QUERIES
-                click: function (a, click, c) {
-                    $scope.map.zoom = 8;
-                    $scope.map.center = formatMapCenter(c[0].latLng.lat(), c[0].latLng.lng());
-                    getClimbingRadius50Miles(c[0].latLng.lat(), c[0].latLng.lng());
-                }
-            },
-            zoom: 6,
-            options: { scrollwheel: true }
-        };
-        getClimbingRadius100Miles(lat, lng);
-    });
+    const plotCurrentPositionMarker = () => {
+        $window.navigator.geolocation.getCurrentPosition(function (position) {
+            $scope.currentPosition = position;
+            let lat = position.coords.latitude;
+            let lng = position.coords.longitude;
+            $scope.map = {
+                center: formatMapCenter(lat, lng),
+                events: {
+                    //FOR CLICK QUERIES
+                    click: function (a, click, c) {
+                        $scope.map.zoom = 8;
+                        $scope.map.center = formatMapCenter(c[0].latLng.lat(), c[0].latLng.lng());
+                        getClimbingRadius50Miles(c[0].latLng.lat(), c[0].latLng.lng());
+                        $scope.markers.push({ id: 'trip', latitude: lat, longitude: lng });                        
+                    }
+                },
+                zoom: 6,
+                options: { scrollwheel: true }
+            };
+            getClimbingRadius100Miles(lat, lng);
+        });
+    };
+    plotCurrentPositionMarker();
 
     const formatMapCenter = (lat, lng) => {
         return { latitude: lat, longitude: lng };
@@ -126,7 +131,7 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
         $scope.allRoutes = [];
         $scope.routes = [];
         MountainProjService.getClimbingRoutesByLatLng(lat, lng).then((climbs) => {
-            climbs = climbs.data.routes;            
+            climbs = climbs.data.routes;
             let area = climbs.filter(function (route) {
                 if (route.latitude === $scope.map.center.latitude && route.longitude === $scope.map.center.longitude) {
                     return route.location[1].indexOf($scope.map.center.latitude) + ', ' + route.location[0].indexOf($scope.map.center.latitude);
@@ -158,6 +163,10 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
                 return a;
             }
         });
+        if ($scope.routes.length == 0) {
+            $scope.routes = [{ name: "None", type: "search again" }];
+        }
+
     };
 
     $scope.filterRoutesType = (type) => {

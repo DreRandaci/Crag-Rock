@@ -24,6 +24,7 @@
     "angular-feather": "^3.2.2",
     "angular-google-maps": "^2.4.1",
     "angular-moment": "^1.2.0",
+    "angular-rateit": "^4.0.2",
     "angular-route": "^1.6.7",
     "angular-sanitize": "^1.6.7",
     "angular-ui-bootstrap": "^2.5.6",
