@@ -2,7 +2,7 @@
 
     <div class="angular-google-map-container map">
 
-        <ui-gmap-google-map id="map" center='map.center' zoom='map.zoom' draggable='true' events="map.events">
+        <ui-gmap-google-map id="map" options='map.options' center='map.center' zoom='map.zoom' draggable='true' events="map.events">
 
             <ui-gmap-search-box options="map.searchbox.options" template="map.searchbox.template" events="map.searchbox.events" position="map.searchbox.position"></ui-gmap-search-box>
 
@@ -28,15 +28,15 @@
 
             <div class="places_and_routes_list list-group add_shadow">
                 <a ng-show="routes" ng-repeat="route in routes | orderBy : filterOn" ng-class="{'disabled': route.disabled}" class="list-group-item route"
-                    ng-click="saveToRouteList($index, route)">{{route.name}} {{route.rating}} ({{route.type}}) {{route.stars}}<ng-rate-it ng-model="route.stars" max="5" step="0.1" read-only="true"></ng-rate-it></a>
+                    ng-click="saveToRouteList($index, route)">{{route.name}} {{route.rating}} ({{route.type}})
+                    <ng-rate-it ng-show="routes" ng-model="route.stars" max="5" step="0.1" read-only="true"></ng-rate-it>
+                </a>
             </div>
+            <button class="btn btn-success" data-toggle="modal" data-target="#create_trip">Done</button>
         </div>
     </div>
 
-    <div class="col-md-12">
-        <!-- <h1 ng-show="routes.length">{{area}}</h1>
-        <h1 ng-show="updateHeadingBeforeUserClicksMarker">Click a Marker to Find Routes</h1> -->
-        <!-- <h4>{{address}}</h4> -->
+    <!-- <div class="col-md-12">
         <div ng-show="!updateHeadingBeforeUserClicksMarker" class="add_border add_shadow">
             <form name="createTripForm">
                 <div class="form-group">
@@ -44,10 +44,10 @@
                 </div>
                 <div class="form-group">
                     <input class="form-control" type="text" placeholder="Trip Description" ng-model="trip.description" ng-required="true">
-                </div>
+                </div> -->
 
-                <!-- DATEPICKER -->
-                <p class="input-group">
+    <!-- DATEPICKER -->
+    <!-- <p class="input-group">
                     <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" datepicker-options="dateOptions"
                         ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
                     <span class="input-group-btn">
@@ -71,7 +71,72 @@
                     <button ng-show="!createTripForm.$invalid" class="btn btn-success" ng-click="createTrip(trip, dt)">Save</button>
                 </div>
             </form>
+        </div> -->
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="create_trip">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header text-center">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h2 class="modal-title">Create Trip</h2>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form name="createTripForm">
+                            <div class="form-group">
+                                <input class="form-control" type="text" placeholder="Trip Name" ng-model="trip.name" ng-required="true">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" type="text" placeholder="Trip Description" ng-model="trip.description" ng-required="true">
+                            </div>
+
+                            <!-- DATEPICKER -->
+                            <p class="input-group">
+                                <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" datepicker-options="dateOptions"
+                                    ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="open1()">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </button>
+                                </span>
+                            </p>
+
+                            <h4 class="text-center">Routes</h4>
+                            <h5>{{area}}:</h5>
+                            <ul>
+                                <li ng-repeat="route in savedRoutes" ng-model="routes">
+                                    <a class="route_links">{{route.name}} {{route.rating}} ({{route.type}})
+                                        <ng-rate-it ng-model="route.stars" max="5" step="0.1" read-only="true"></ng-rate-it>
+                                        <a class="trash_modal" ng-click="removeRouteFromSavedRoutes($index, route)">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </a>
+
+                                </li>
+                            </ul>
+                            <div class="text-center">
+                                <button ng-show="!createTripForm.$invalid" class="btn btn-success" ng-click="createTrip(trip, dt)">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="modal-footer">
+                    
+                </div> -->
         </div>
     </div>
+
+
+
+
+
 
 </div>
