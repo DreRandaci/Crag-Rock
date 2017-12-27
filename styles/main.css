@@ -58,8 +58,7 @@ li {
 .flex_container {
   display: flex;
   margin: 5px;
-  flex-wrap: wrap;
-  margin-left: 310px; }
+  flex-wrap: wrap; }
 
 .places_and_routes_list {
   overflow: scroll;
@@ -77,8 +76,8 @@ li {
 .trip {
   margin: 1em;
   box-shadow: 0px 10px 35px -13px rgba(63, 63, 63, 0.75);
-  width: 360px;
-  height: 360px;
+  width: 350px;
+  height: 350px;
   box-shadow: 0px 10px 35px -13px rgba(63, 63, 63, 0.75);
   position: relative;
   color: #ffffff42;
@@ -101,9 +100,8 @@ li {
   background: linear-gradient(to bottom, #7d7e7d -17%, #0e0e0e 96%); }
 
 .trip_cover_text {
-  position: absolute;
-  top: 130px;
-  left: 78px; }
+  position: relative;
+  top: 130px; }
 
 .trip_area_heading_position {
   position: absolute;

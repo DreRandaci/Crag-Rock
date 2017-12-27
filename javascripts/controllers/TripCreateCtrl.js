@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, GOOGLEMAPS_CONFIG, MapsService, MountainProjService, RoutesService, TripsService) {
+app.controller('TripCreateCtrl', function ($location, $scope, $timeout, $window, GOOGLEMAPS_CONFIG, moment, MapsService, MountainProjService, RoutesService, TripsService) {
 
     //inject google maps script
     $scope.googleUrl = `https://maps.google.com/maps/api/js?key=${GOOGLEMAPS_CONFIG}`;
@@ -63,7 +63,7 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
                         $scope.map.zoom = 8;
                         $scope.map.center = formatMapCenter(c[0].latLng.lat(), c[0].latLng.lng());
                         getClimbingRadius50Miles(c[0].latLng.lat(), c[0].latLng.lng());
-                        $scope.markers.push({ id: 'trip', latitude: lat, longitude: lng });                        
+                        $scope.markers.push({ id: 'trip', latitude: lat, longitude: lng });
                     }
                 },
                 zoom: 6,
@@ -159,7 +159,7 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
         $scope.filterOn = "-stars";
         getAllRoutes();
         $scope.routes = $scope.routes.filter((a) => {
-            if (4.5 <= a.stars) {
+            if (4 <= a.stars) {
                 return a;
             }
         });
@@ -169,12 +169,19 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
 
     };
 
-    $scope.filterRoutesType = (type) => {
+    $scope.filterRoutesType = (type, TR) => {
         $scope.filterOn = "name";
         getAllRoutes();
-        $scope.routes = $scope.routes.filter((route) => {
-            return route.type.indexOf(type) > -1;
-        });
+        if (TR) {
+            $scope.routes = $scope.routes.filter((route) => {
+                return route.type.indexOf(TR) > -1;
+            });
+        } else {
+            getAllRoutes();
+            $scope.routes = $scope.routes.filter((route) => {
+                return route.type.indexOf(type) > -1;
+            });
+        }
         if ($scope.routes.length == 0) {
             $scope.routes = [{ name: "None", type: "search again" }];
         }
@@ -202,7 +209,17 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
 
     //save each climbing route
     $scope.saveToRouteList = (index, route) => {
-        if (!route.disabled) {
+        if ($scope.savedRoutes.length > 0) {
+            $scope.savedRoutes.forEach((savedRoute, i) => {
+                if (savedRoute.id !== route.id) {
+                    savedRoute.disabled = true;
+                    $scope.savedRoutes.push(route);
+                } else {
+                    route.disabled = false;
+                    $scope.savedRoutes.splice(i, 1);
+                }
+            });
+        } else {
             route.disabled = true;
             $scope.savedRoutes.push(route);
         }
@@ -223,7 +240,9 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
         TripsService.saveTripToFirebase(newTrip).then((results) => {
             let tripId = results.data.name;
             saveRoutes($scope.savedRoutes, tripId);
-            $location.path("/trips");
+            $timeout(function () {
+                $location.path("/trips");
+            }, 500);
         }).catch((err) => {
             console.log('error in saveTripToFirebase:', err);
         });

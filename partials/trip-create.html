@@ -17,12 +17,12 @@
         <h1 ng-show="updateHeadingBeforeUserClicksMarker">Click a Marker to Find Routes</h1>
         <h4>{{address}}</h4>
         <div ng-show="routes.length">
-            <uib-tabset active="active">
+            <uib-tabset active="active" justified="true">
                 <uib-tab index="0" heading="All" ng-click="getAllRoutes()"></uib-tab>
                 <uib-tab index="1" heading="Classics" ng-click="filterRoutesClassic()"></uib-tab>
                 <uib-tab index="2" heading="Sport" ng-click="filterRoutesType('Sport')"></uib-tab>
                 <uib-tab index="3" heading="Boulder" ng-click="filterRoutesType('Boulder')"></uib-tab>
-                <uib-tab index="4" heading="Trad" ng-click="filterRoutesType('Trad')"></uib-tab>
+                <uib-tab index="4" heading="Trad/TR" ng-click="filterRoutesType('Trad', 'TR')"></uib-tab>
             </uib-tabset>
 
 
@@ -30,48 +30,12 @@
                 <a ng-show="routes" ng-repeat="route in routes | orderBy : filterOn" ng-class="{'disabled': route.disabled}" class="list-group-item route"
                     ng-click="saveToRouteList($index, route)">{{route.name}} {{route.rating}} ({{route.type}})
                     <ng-rate-it ng-show="routes" ng-model="route.stars" max="5" step="0.1" read-only="true"></ng-rate-it>
+                    <a ng-href="{{route.url}}"></a>
                 </a>
             </div>
-            <button class="btn btn-success" data-toggle="modal" data-target="#create_trip">Done</button>
+            <button ng-show="savedRoutes.length" class="btn btn-success" data-toggle="modal" data-target="#create_trip">Done</button>
         </div>
-    </div>
-
-    <!-- <div class="col-md-12">
-        <div ng-show="!updateHeadingBeforeUserClicksMarker" class="add_border add_shadow">
-            <form name="createTripForm">
-                <div class="form-group">
-                    <input class="form-control" type="text" placeholder="Trip Name" ng-model="trip.name" ng-required="true">
-                </div>
-                <div class="form-group">
-                    <input class="form-control" type="text" placeholder="Trip Description" ng-model="trip.description" ng-required="true">
-                </div> -->
-
-    <!-- DATEPICKER -->
-    <!-- <p class="input-group">
-                    <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" datepicker-options="dateOptions"
-                        ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
-                    <span class="input-group-btn">
-                        <button type="button" class="btn btn-default" ng-click="open1()">
-                            <i class="glyphicon glyphicon-calendar"></i>
-                        </button>
-                    </span>
-                </p>
-
-                <h4 class="text-center">Your Trip Routes</h4>
-                <h5 ng-show="savedRoutes.length">{{area}}:</h5>
-                <ul>
-                    <li ng-repeat="route in savedRoutes" ng-model="routes">
-                        <a class="route_links">{{route.name}} {{route.rating}} ({{route.type}}) {{route.stars}}</a>
-                        <a class="trash_float" ng-click="removeRouteFromSavedRoutes($index, route)">
-                            <i class="fas fa-trash"></i>
-                        </a>
-                    </li>
-                </ul>
-                <div class="text-center">
-                    <button ng-show="!createTripForm.$invalid" class="btn btn-success" ng-click="createTrip(trip, dt)">Save</button>
-                </div>
-            </form>
-        </div> -->
+    </div>    
 </div>
 
 <!-- MODAL -->
@@ -122,7 +86,7 @@
                                 </li>
                             </ul>
                             <div class="text-center">
-                                <button ng-show="!createTripForm.$invalid" class="btn btn-success" ng-click="createTrip(trip, dt)">Save</button>
+                                <button ng-show="!createTripForm.$invalid" class="btn btn-success" ng-click="createTrip(trip, dt)" data-dismiss="modal">Save</button>
                             </div>
                         </form>
                     </div>

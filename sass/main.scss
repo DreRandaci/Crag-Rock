@@ -66,7 +66,6 @@ li {
     display: flex;
     margin: 5px;
     flex-wrap: wrap; 
-    margin-left: 310px;
 }
 .places_and_routes_list {
     overflow: scroll; 
@@ -84,8 +83,8 @@ li {
 .trip {
     margin: 1em;
     box-shadow: $light-box-shadow;
-    width: 360px;
-    height: 360px;    
+    width: 350px;
+    height: 350px;    
     box-shadow: $light-box-shadow;    
     position: relative;
     color: $trip-card-cover-text;
@@ -103,9 +102,9 @@ li {
     background: linear-gradient(to bottom, #7d7e7d -17%,#0e0e0e 96%);
 }
 .trip_cover_text {
-    position: absolute;
+    position: relative;
     top: 130px;
-    left: 78px;
+    // left: 78px;
 }
 .trip_area_heading_position {
     position: absolute;

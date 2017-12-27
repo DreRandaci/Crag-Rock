@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid" ng-controller="NavCtrl">
   <div class="row">
     <div class="col-sm-3 col-lg-2">
       <nav class="navbar navbar-inverse navbar-fixed-side">
@@ -23,13 +23,15 @@
                 <a ng-click="logoutUser()">Logout</a>
               </li>
             </ul>
+            <img src="../img/send-train-logo.png" alt="App Logo">
           </div>
         </div>
       </nav>
     </div>
     <div class="col-sm-9 col-lg-10">
+      <div ng-view>
       <!-- APP CONTENT LOADS IN HERE -->
-      <div ng-view></div>
+      </div>
     </div>
   </div>
 </div>
