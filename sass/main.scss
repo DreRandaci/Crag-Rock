@@ -4,11 +4,13 @@
 ////////////* GENERAL STYLES *////////////
 body {    
     font-family: "Roboto", "Open Sans";
-    background-color: rgb(240, 240, 240);
+    background-color: #3f4144;
+    color: #da961afc;
 }
 
 a {    
     color: $anchor-color;
+    text-decoration: none !important;
 }
 a:hover {
     color: $anchor-hover; 
@@ -29,12 +31,14 @@ li {
     box-shadow: $light-box-shadow;
 }
 .angular-google-map {
-    // box-shadow: $light-box-shadow;
-    margin-top: 20px;
+    margin-top: 30px;
+    margin-left: 30px;
+    margin-right: 30px;
 }
 .angular-google-map-container {
     width: 100%;
     height: 450px;    
+    margin-bottom: 42px;
 }
 .btn_margin {
     margin-top: 5px;
@@ -104,7 +108,6 @@ li {
 .trip_cover_text {
     position: relative;
     top: 130px;
-    // left: 78px;
 }
 .trip_area_heading_position {
     position: absolute;
@@ -120,4 +123,21 @@ li {
     position: absolute;
     bottom: 20px;
     right: 32px;
+}
+.remove_modal {
+    position: relative;
+    bottom: 36px;
+    left: 465px;     
+}
+.remove_modal:hover {
+    color: red; 
+}
+.background_container {
+    background-color: #303643;
+    border: 1px solid #303642;
+    border-radius: 8px;
+    margin-top: 15px;
+}
+.add_container_shadow {
+    box-shadow: 0px 0px 27px 0px rgba(87, 102, 133, 0.41)
 }
