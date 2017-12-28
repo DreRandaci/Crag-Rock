@@ -207,22 +207,18 @@ app.controller('TripCreateCtrl', function ($location, $scope, $timeout, $window,
         $scope.savedRoutes.splice(index, 1);
     };
 
-    //save each climbing route
+    // SAVE/REMOVE EACH CLIMBING ROUTE TO AN ARRAY FROM MAIN ROUTE LIST UNDER MAP
     $scope.saveToRouteList = (index, route) => {
-        if ($scope.savedRoutes.length > 0) {
+        route.disabled = route.disabled ? false : true; 
+        if (route.disabled) {
+            $scope.savedRoutes.push(route);
+        } else {
             $scope.savedRoutes.forEach((savedRoute, i) => {
-                if (savedRoute.id !== route.id) {
-                    savedRoute.disabled = true;
-                    $scope.savedRoutes.push(route);
-                } else {
-                    route.disabled = false;
+                if (savedRoute.id == route.id) {
                     $scope.savedRoutes.splice(i, 1);
                 }
             });
-        } else {
-            route.disabled = true;
-            $scope.savedRoutes.push(route);
-        }
+        }        
     };
 
     $scope.createTrip = (trip, dt) => {
@@ -242,7 +238,7 @@ app.controller('TripCreateCtrl', function ($location, $scope, $timeout, $window,
             saveRoutes($scope.savedRoutes, tripId);
             $timeout(function () {
                 $location.path("/trips");
-            }, 500);
+            }, 250);
         }).catch((err) => {
             console.log('error in saveTripToFirebase:', err);
         });
