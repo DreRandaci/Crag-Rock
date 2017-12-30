@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, GOOGLEMAPS_CONFIG, MapsService, MountainProjService, RoutesService, TripsService) {
+app.controller('TripCreateCtrl', function ($location, $scope, $timeout, $window, GOOGLEMAPS_CONFIG, moment, MapsService, MountainProjService, RoutesService, TripsService) {
 
     //inject google maps script
     $scope.googleUrl = `https://maps.google.com/maps/api/js?key=${GOOGLEMAPS_CONFIG}`;
@@ -34,9 +34,11 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
                     let lat = places[0].geometry.location.lat();
                     let lng = places[0].geometry.location.lng();
                     MountainProjService.getClimbingAreas15(lat, lng).then((results) => {
+                        $scope.updateHeadingBeforeUserClicksMarker = true;
                         $scope.map.zoom = 12;
                         $scope.map.center = formatMapCenter(results.data.routes[0].latitude, results.data.routes[0].longitude);
                         $scope.markers = formatMarkerLocations(results);
+                        $scope.routes = [{ name: "", type: "click a marker" }];
                     });
                 }
             }
@@ -46,28 +48,33 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
     // initial marker instance on page load
     $scope.markers = [{
         id: 0,
-        latitude: 36.174465, longitude: -86.767960
     }];
 
     //GRABS CURRENT LOCATION, PLOTS CLIMBS WITHIN 100 MILES
-    $window.navigator.geolocation.getCurrentPosition(function (position) {
-        let lat = position.coords.latitude;
-        let lng = position.coords.longitude;
-        $scope.map = {
-            center: formatMapCenter(lat, lng),
-            events: {
-                //FOR CLICK QUERIES
-                click: function (a, click, c) {
-                    $scope.map.zoom = 8;
-                    $scope.map.center = formatMapCenter(c[0].latLng.lat(), c[0].latLng.lng());
-                    getClimbingRadius50Miles(c[0].latLng.lat(), c[0].latLng.lng());
-                }
-            },
-            zoom: 6,
-            options: { scrollwheel: true }
-        };
-        getClimbingRadius100Miles(lat, lng);
-    });
+    const plotCurrentPositionMarker = () => {
+        $window.navigator.geolocation.getCurrentPosition(function (position) {
+            $scope.currentPosition = position;
+            let lat = position.coords.latitude;
+            let lng = position.coords.longitude;
+            $scope.markers.push({ id: 'crntPos', latitude: lat, longitude: lng });
+            $scope.map = {
+                center: formatMapCenter(lat, lng),
+                events: {
+                    //FOR CLICK QUERIES
+                    click: function (a, click, c) {
+                        $scope.map.zoom = 8;
+                        $scope.map.center = formatMapCenter(c[0].latLng.lat(), c[0].latLng.lng());
+                        getClimbingRadius50Miles(c[0].latLng.lat(), c[0].latLng.lng());
+                        $scope.markers.push({ id: 'trip', latitude: lat, longitude: lng });
+                    }
+                },
+                zoom: 6,
+                options: { scrollwheel: true }
+            };
+            getClimbingRadius100Miles(lat, lng);
+        });
+    };
+    plotCurrentPositionMarker();
 
     const formatMapCenter = (lat, lng) => {
         return { latitude: lat, longitude: lng };
@@ -79,6 +86,7 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
             locations.latitude = route.latitude;
             locations.longitude = route.longitude;
             locations.id = i;
+            locations.icon = 'https://maps.google.com/mapfiles/ms/icons/orange-dot.png';
             return locations;
         });
         return coords;
@@ -87,6 +95,7 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
     const getClimbingRadius100Miles = (lat, lng) => {
         MountainProjService.getClimbingAreas100(lat, lng).then((results) => {
             $scope.markers = formatMarkerLocations(results);
+            $scope.markers.push({ id: 'crntPos', latitude: lat, longitude: lng });
         }).catch((err) => {
             console.log("err in getClimbingAreas100:", err);
         });
@@ -95,6 +104,7 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
     const getClimbingRadius50Miles = (lat, lng) => {
         MountainProjService.getClimbingAreas50(lat, lng).then((results) => {
             $scope.markers = formatMarkerLocations(results);
+            $scope.markers.push({ id: 'crntPos', latitude: lat, longitude: lng });
         }).catch((err) => {
             console.log("err in getClimbingAreas100:", err);
         });
@@ -126,7 +136,7 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
         $scope.allRoutes = [];
         $scope.routes = [];
         MountainProjService.getClimbingRoutesByLatLng(lat, lng).then((climbs) => {
-            climbs = climbs.data.routes;            
+            climbs = climbs.data.routes;
             let area = climbs.filter(function (route) {
                 if (route.latitude === $scope.map.center.latitude && route.longitude === $scope.map.center.longitude) {
                     return route.location[1].indexOf($scope.map.center.latitude) + ', ' + route.location[0].indexOf($scope.map.center.latitude);
@@ -154,20 +164,31 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
         $scope.filterOn = "-stars";
         getAllRoutes();
         $scope.routes = $scope.routes.filter((a) => {
-            if (4.5 <= a.stars) {
+            if (4 <= a.stars) {
                 return a;
             }
         });
-    };
-
-    $scope.filterRoutesType = (type) => {
-        $scope.filterOn = "name";
-        getAllRoutes();
-        $scope.routes = $scope.routes.filter((route) => {
-            return route.type.indexOf(type) > -1;
-        });
         if ($scope.routes.length == 0) {
             $scope.routes = [{ name: "None", type: "search again" }];
+        }
+
+    };
+
+    $scope.filterRoutesType = (type, TR) => {
+        $scope.filterOn = "name";
+        getAllRoutes();
+        if (TR) {
+            $scope.routes = $scope.routes.filter((route) => {
+                return route.type.indexOf(TR) > -1;
+            });
+        } else {
+            getAllRoutes();
+            $scope.routes = $scope.routes.filter((route) => {
+                return route.type.indexOf(type) > -1;
+            });
+        }
+        if ($scope.routes.length == 0) {
+            $scope.routes = [{ name: "None", type: "search again", disabled: true }];
         }
     };
 
@@ -191,11 +212,17 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
         $scope.savedRoutes.splice(index, 1);
     };
 
-    //save each climbing route
-    $scope.saveToRouteList = (index, route) => {
-        if (!route.disabled) {
-            route.disabled = true;
+    // SAVE/REMOVE EACH CLIMBING ROUTE TO AN ARRAY FROM MAIN ROUTE LIST UNDER MAP
+    $scope.saveToRouteList = (route) => {
+        route.disabled = route.disabled ? false : true;
+        if (route.disabled) {
             $scope.savedRoutes.push(route);
+        } else {
+            $scope.savedRoutes.forEach((savedRoute, i) => {
+                if (savedRoute.id == route.id) {
+                    $scope.savedRoutes.splice(i, 1);
+                }
+            });
         }
     };
 
@@ -206,6 +233,17 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
         let lng = $scope.map.center.longitude;
         let mapsAddress = $scope.address;
 
+        // IF NO TEXT IS ENTERED IN TRIP NAME OR DESCRIPTION FIELDS
+        if (!trip) {
+            trip = {};
+            trip.name = area;
+            trip.description = 'add notes';
+        } else if (!trip.name) {
+            trip.name = area;
+        } else if (!trip.description) {
+            trip.description = 'add notes';
+        }
+
         let newTrip = TripsService.createTripObj(trip, mapsAddress, lat, lng, date, area);
         saveTrip(newTrip);
     };
@@ -214,7 +252,9 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
         TripsService.saveTripToFirebase(newTrip).then((results) => {
             let tripId = results.data.name;
             saveRoutes($scope.savedRoutes, tripId);
-            $location.path("/trips");
+            $timeout(function () {
+                $location.path("/trips");
+            }, 250);
         }).catch((err) => {
             console.log('error in saveTripToFirebase:', err);
         });
@@ -231,8 +271,10 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
     };
 
     // ////////////////////////////////////////
-    // DATEPICKER
+    // UIB elements
     // ////////////////////////////////////////
+
+    // DATEPICKER
     $scope.today = function () {
         $scope.dt = new Date();
     };
@@ -310,6 +352,14 @@ app.controller('TripCreateCtrl', function (moment, $location, $scope, $window, G
         return '';
     }
 
-    //////////////////////////////////////////////////
+    ////////////// END DATE PICKER
+
+    // ACCORDIAN
+    $scope.oneAtATime = true;
+    $scope.status = {
+        isCustomHeaderOpen: false,
+        isFirstOpen: true,
+        isFirstDisabled: false
+    };
 
 });

@@ -1,9 +1,14 @@
-<div class="container">
-    <h1>Create a Climbing Trip</h1>
+<div class="container background_container add_container_shadow">
 
-    <div class="angular-google-map-container col-md-12">
+    <div class="text-center">
+        <h1 ng-show="routes.length">{{area}}</h1>
+        <h1 ng-show="updateHeadingBeforeUserClicksMarker">Click a Marker to Find Routes</h1>
+        <h4>{{address}}</h4>
+    </div>
 
-        <ui-gmap-google-map id="map" center='map.center' zoom='map.zoom' draggable='true' events="map.events">
+    <div class="angular-google-map-container map">
+
+        <ui-gmap-google-map id="map" options='map.options' center='map.center' zoom='map.zoom' draggable='true' events="map.events">
 
             <ui-gmap-search-box options="map.searchbox.options" template="map.searchbox.template" events="map.searchbox.events" position="map.searchbox.position"></ui-gmap-search-box>
 
@@ -13,65 +18,98 @@
         </ui-gmap-google-map>
     </div>
 
-    <div class='col-md-6 routes'>
+    <div class='col-md-12 routes'>
         <div ng-show="routes.length">
-            <h4>Add Routes</h4>
-
-            <uib-tabset active="active">
+            <uib-tabset active="active" justified="true">
                 <uib-tab index="0" heading="All" ng-click="getAllRoutes()"></uib-tab>
                 <uib-tab index="1" heading="Classics" ng-click="filterRoutesClassic()"></uib-tab>
                 <uib-tab index="2" heading="Sport" ng-click="filterRoutesType('Sport')"></uib-tab>
                 <uib-tab index="3" heading="Boulder" ng-click="filterRoutesType('Boulder')"></uib-tab>
-                <uib-tab index="4" heading="Trad" ng-click="filterRoutesType('Trad')"></uib-tab>
+                <uib-tab index="4" heading="Trad/TR" ng-click="filterRoutesType('Trad', 'TR')"></uib-tab>
             </uib-tabset>
 
 
             <div class="places_and_routes_list list-group add_shadow">
                 <a ng-show="routes" ng-repeat="route in routes | orderBy : filterOn" ng-class="{'disabled': route.disabled}" class="list-group-item route"
-                    ng-click="saveToRouteList($index, route)">{{route.name}} {{route.rating}} ({{route.type}}) {{route.stars}}</a>
+                    ng-click="saveToRouteList(route)">{{route.name}} {{route.rating}} ({{route.type}})
+                    <ng-rate-it ng-show="routes" ng-model="route.stars" max="5" step="0.1" read-only="true"></ng-rate-it>
+                    <a ng-href="{{route.url}}"></a>
+                </a>
+            </div>
+            <div class="toggleCreateModalBtn">
+                <button ng-show="savedRoutes.length" class="btn btn-success" data-toggle="modal" data-target="#create_trip">Done</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--- MODAL -->
+<div class="modal" id="create_trip">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header text-center">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h2 class="modal-title">Create Trip</h2>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <!-- TRIP INFO -->
+                        <form name="createTripForm">
+                            <div class="form-group">
+                                <input class="form-control" type="text" placeholder="{{area}}" ng-model="trip.name">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" type="text" placeholder="Trip Description" ng-model="trip.description">
+                            </div>
+
+                            <!-- DATEPICKER -->
+                            <p class="input-group">
+                                <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" datepicker-options="dateOptions"
+                                    ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="open1()">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </button>
+                                </span>
+                            </p>
+
+                            <!-- ACCORDIAN -->
+                            <uib-accordion close-others="oneAtATime">
+
+                                <!-- ROUTES -->
+                                <div uib-accordion-group class="panel-default" heading="Routes">
+                                    <p>{{area}}:</p>
+                                    <div ng-repeat="route in savedRoutes" ng-model="routes">{{route.name}} {{route.rating}} ({{route.type}})
+                                        <ng-rate-it ng-model="route.stars" max="5" step="0.1" read-only="true"></ng-rate-it>
+                                        <a class="remove_route_modal" ng-click="removeRouteFromSavedRoutes($index, route)">
+                                            remove
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </uib-accordion>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="text-center">
+                    <button class="btn btn-success" ng-click="createTrip(trip, dt)" data-dismiss="modal">Save</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="col-md-6">
-        <h1 ng-show="routes.length">{{area}}</h1>
-        <h1 ng-show="updateHeadingBeforeUserClicksMarker">Click a Marker to Find Routes</h1>
-        <h4>{{address}}</h4>
-        <div ng-show="!updateHeadingBeforeUserClicksMarker" class="add_border add_shadow">
-            <form name="createTripForm">
-                <div class="form-group">
-                    <input class="form-control" type="text" placeholder="Trip Name" ng-model="trip.name" ng-required="true">
-                </div>
-                <div class="form-group">
-                    <input class="form-control" type="text" placeholder="Trip Description" ng-model="trip.description" ng-required="true">
-                </div>
 
-                <!-- DATEPICKER -->
-                <p class="input-group">
-                    <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" datepicker-options="dateOptions"
-                        ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
-                    <span class="input-group-btn">
-                        <button type="button" class="btn btn-default" ng-click="open1()">
-                            <i class="glyphicon glyphicon-calendar"></i>
-                        </button>
-                    </span>
-                </p>
 
-                <h4 class="text-center">Your Trip Routes</h4>
-                <h5 ng-show="savedRoutes.length">{{area}}:</h5>
-                <ul>
-                    <li ng-repeat="route in savedRoutes" ng-model="routes">
-                        <a class="route_links">{{route.name}} {{route.rating}} ({{route.type}}) {{route.stars}}</a>
-                        <a class="trash_float" ng-click="removeRouteFromSavedRoutes($index, route)">
-                            <i class="fas fa-trash"></i>
-                        </a>
-                    </li>
-                </ul>
-                <div class="text-center">
-                    <button ng-show="!createTripForm.$invalid" class="btn btn-success" ng-click="createTrip(trip, dt)">Save</button>
-                </div>
-            </form>
-        </div>
-    </div>
+
+
 
 </div>

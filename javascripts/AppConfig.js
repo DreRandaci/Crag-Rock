@@ -10,7 +10,7 @@ let isAuth = (AuthService) => new Promise((resolve, reject) => {
 
 app.run(function ($location, $rootScope, $templateCache, FIREBASE_CONFIG, AuthService) {
     firebase.initializeApp(FIREBASE_CONFIG);
-    $templateCache.put('searchbox.tpl.html', '<input id="pac-input" class="pac-controls" type="text" placeholder="Search">');
+    $templateCache.put('searchbox.tpl.html', '<input id="pac-input" class="pac-controls form-control" type="text" placeholder="Search">');
     $templateCache.put('window.tpl.html', '<div ng-controller="WindowCtrl" ng-init="showPlaceDetails(parameter)">{{place.name}}</div>');
 
     //watch method that fires on change of a route.  3 inputs. 
@@ -20,10 +20,8 @@ app.run(function ($location, $rootScope, $templateCache, FIREBASE_CONFIG, AuthSe
     $rootScope.$on('$routeChangeStart', function (event, currRoute, prevRoute) {
         // checks to see if there is a cookie with a uid for this app in localstorage
         let logged = AuthService.isAuthenticated();
-        // var logged = AuthService.isAuthenticated();
 
         let appTo;
-        // var appTo;
 
         // to keep error from being thrown on page refresh
         if (currRoute.originalPath) {

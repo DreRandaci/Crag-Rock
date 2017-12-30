@@ -1,26 +1,36 @@
 @import 'variables';
 @import 'colors';
 
-////////////* GENERAL STYLES *////////////
-body {
+////////////* GENERAL ELEMENT STYLES *////////////
+body {    
     font-family: "Roboto", "Open Sans";
-    background-color: rgb(240, 240, 240);
+    background-color: #3f4144;
+    color: #da961afc;
 }
 
 a {    
     color: $anchor-color;
+    text-decoration: none !important;
 }
 a:hover {
     color: $anchor-hover; 
+}
+img {
+    vertical-align: middle;
+    width: 100%;
 }
 li {
     list-style: none;
 }
 
+////////////* CLASSES *////////////
 .add_border {
     border: 1px solid $light-border-color;
     border-radius: 4px;
     padding: 10px;
+}
+.add_container_shadow {
+    box-shadow: 0px 0px 27px 0px rgba(0, 0, 0, 0.543)
 }
 .add_margin_bottom {
     margin-bottom: 15px;
@@ -28,12 +38,25 @@ li {
 .add_shadow {
     box-shadow: $light-box-shadow;
 }
+.alert_shadow {
+    box-shadow: $dark-box-shadow;
+}
 .angular-google-map {
-    box-shadow: $light-box-shadow;
+    margin-top: 9px;
+    margin-left: 30px;
+    margin-right: 30px;
 }
 .angular-google-map-container {
     width: 100%;
     height: 450px;    
+    margin-bottom: 110px;
+}
+.background_container {
+    background-color: #303643;
+    border: 1px solid #303642;
+    border-radius: 8px;
+    margin-top: 25px;
+    margin-bottom: 30px;
 }
 .btn_margin {
     margin-top: 5px;
@@ -65,11 +88,24 @@ li {
     display: flex;
     margin: 5px;
     flex-wrap: wrap; 
-    margin-left: 310px;
+    justify-content: center;
+}
+.nav-tabs.nav-justified {
+    width: 100%;
+    border-bottom: 0;
+    background-color: #dadada;
 }
 .places_and_routes_list {
     overflow: scroll; 
     height:400px;    
+}
+.remove_route_modal {
+    position: relative;
+    bottom: 36px;
+    left: 465px;     
+}
+.remove_route_modal:hover {
+    color: red; 
 }
 .route_links:hover {
     text-decoration: none;
@@ -77,17 +113,22 @@ li {
 .save_btn_margin {
     margin-top: 10px;
 }
+.toggleCreateModalBtn {
+    margin-bottom: 15px;
+}
 .trash_float {
     float: right;   
 }
 .trip {
     margin: 1em;
     box-shadow: $light-box-shadow;
-    width: 360px;
-    height: 360px;    
+    width: 350px;
+    height: 350px;    
     box-shadow: $light-box-shadow;    
     position: relative;
     color: $trip-card-cover-text;
+    border: 1px solid #3f4144;
+    border-radius: 6px;
     background: #7d7e7d; /* Old browsers */
     background: -moz-linear-gradient(top, #7d7e7d -17%, #0e0e0e 96%); /* FF3.6-15 */
     background: -webkit-linear-gradient(top, #7d7e7d -17%,#0e0e0e 96%); /* Chrome10-25,Safari5.1-6 */
@@ -102,143 +143,22 @@ li {
     background: linear-gradient(to bottom, #7d7e7d -17%,#0e0e0e 96%);
 }
 .trip_cover_text {
-    position: absolute;
+    position: relative;
     top: 130px;
-    left: 78px;
 }
 .trip_area_heading_position {
     position: absolute;
     top: 125px;
     left: 45px;
 }
-
-// SIDE NAVE
-#wrapper {
-    padding-left: 70px;
-    transition: all .4s ease 0s;
-    height: 100%
+.trash_modal {
+    position: absolute;
+    bottom: 20px;
+    right: 32px;
 }
 
-#sidebar-wrapper {
-    margin-left: -150px;
-    left: 70px;
-    width: 200px;
-    background: #222;
-    position: fixed;
-    height: 100%;
-    z-index: 10000;
-    transition: all .4s ease 0s;
-}
-
-.sidebar-nav {
-    display: block;
-    float: left;
-    width: 150px;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-#wrapper.active {
-    padding-left: 150px;
-}
-#wrapper.active #sidebar-wrapper {
-    left: 150px;
-}
-#sidebar_menu li a, .sidebar-nav li a {
-    color: #999;
-    display: block;
-    float: left;
-    text-decoration: none;
-    width: 200px;
-    background: #252525;
-    border-top: 1px solid #373737;
-    border-bottom: 1px solid #1A1A1A;
-    -webkit-transition: background .5s;
-    -moz-transition: background .5s;
-    -o-transition: background .5s;
-    -ms-transition: background .5s;
-    transition: background .5s;
-}
-.sidebar_name {
-    padding-top: 25px;
-    color: #fff;
-    opacity: .7;
-}
-
-.sidebar-nav li {
-  line-height: 40px;
-  text-indent: 20px;
-}
-
-.sidebar-nav li a {
-  color: #999999;
-  display: block;
-  text-decoration: none;
-}
-
-.sidebar-nav li a:hover {
-  color: #fff;
-  background: rgba(255,255,255,0.2);
-  text-decoration: none;
-}
-
-.sidebar-nav li a:active,
-.sidebar-nav li a:focus {
-  text-decoration: none;
-}
-
-.sidebar-nav > .sidebar-brand {
-  height: 65px;
-  line-height: 60px;
-  font-size: 18px;
-}
-
-.sidebar-nav > .sidebar-brand a {
-  color: #999999;
-}
-
-.sidebar-nav > .sidebar-brand a:hover {
-  color: #fff;
-  background: none;
-}
-
-#main_icon {
-    float: right;
-    padding-right: 35px;
-    padding-top:20px;
-}
-.sub_icon
-{
-    float:right;
-   padding-right: 65px;
-   padding-top:10px;
-}
-.content-header {
-  height: 65px;
-  line-height: 65px;
-}
-
-.content-header h1 {
-  margin: 0;
-  margin-left: 20px;
-  line-height: 65px;
-  display: inline-block;
-}
-
-@media (max-width:767px) {
-    #wrapper {
-        padding-left: 70px;
-        transition: all .4s ease 0s;
-    }
-    #sidebar-wrapper {
-        left: 70px;
-    }
-    #wrapper.active {
-        padding-left: 150px;
-    }
-    #wrapper.active #sidebar-wrapper {
-        left: 150px;
-        width: 150px;
-        transition: all .4s ease 0s;
-    }
+////////////* ID'S *////////////
+#pac-input {    
+    top: 7px !important;
+    width: 25% !important;
 }

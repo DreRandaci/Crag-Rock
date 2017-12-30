@@ -25,7 +25,7 @@ app.controller('TripsViewCtrl', function (moment, $location, $scope, $timeout, A
     $scope.currentTrip = {};
 
     $scope.seeTrip = (trip) => {
-        $scope.tripId = trip.id;
+        $scope.tripId = trip.id;        
         $scope.currentTrip = trip;
     };
 

@@ -7,17 +7,18 @@
     <title>Weekend Send Train</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Maven+Pro|Prompt|Open+Sans|Roboto">
     <link rel="stylesheet" href="lib/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="lib/node_modules/angular-rateit/dist/ng-rateit.css">
+    <link rel="stylesheet" href="vendor/navbar-fixed-side.css" rel="stylesheet">
     <link rel="stylesheet" href="lib/node_modules/angular-ui-bootstrap/dist/ui-bootstrap-csp.css">
     <link rel="stylesheet" href="lib/node_modules/bootstrap-social/bootstrap-social.css">
     <link rel="stylesheet" type="text/css" href="./styles/main.css">
 </head>
-<body ng-app="SendTrainApp">
+<body class="gradient" ng-app="SendTrainApp">
 
-        <div ng-include="'./partials/navbar.html'" id='nav_container'></div>
-        <div ng-view></div>
+        <div ng-include="'./partials/navbar.html'" id='nav_container'></div>        
+        <!-- APP CONTENT IN NG-VIEW IN NAVBAR PARTIAL -->
 
-
-        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>        
+        <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>             
         <script ng-src="{{googleUrl}}"></script>        
         <script ng-src="{{googlePlacesUrl}}"></script>        
         <script defer src="https://use.fontawesome.com/releases/v5.0.1/js/all.js"></script>        
@@ -34,6 +35,7 @@
         <script type="text/javascript" src="lib/node_modules/angular-google-maps/dist/angular-google-maps.min.js"></script>                    
         <script type="text/javascript" src="lib/node_modules/moment/moment.js"></script>                    
         <script type="text/javascript" src="lib/node_modules/angular-moment/angular-moment.min.js"></script>                    
+        <script type="text/javascript" src="lib/node_modules/angular-rateit/dist/ng-rateit.min.js"></script>                    
 
         <script type="text/javascript" src="javascripts/angular-simple-logger.js"></script>
         <script type="text/javascript" src="javascripts/app.js"></script>
