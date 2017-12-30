@@ -213,7 +213,7 @@ app.controller('TripCreateCtrl', function ($location, $scope, $timeout, $window,
 
     // SAVE/REMOVE EACH CLIMBING ROUTE TO AN ARRAY FROM MAIN ROUTE LIST UNDER MAP
     $scope.saveToRouteList = (index, route) => {
-        route.disabled = route.disabled ? false : true; 
+        route.disabled = route.disabled ? false : true;
         if (route.disabled) {
             $scope.savedRoutes.push(route);
         } else {
@@ -222,7 +222,7 @@ app.controller('TripCreateCtrl', function ($location, $scope, $timeout, $window,
                     $scope.savedRoutes.splice(i, 1);
                 }
             });
-        }        
+        }
     };
 
     $scope.createTrip = (trip, dt) => {
@@ -259,8 +259,10 @@ app.controller('TripCreateCtrl', function ($location, $scope, $timeout, $window,
     };
 
     // ////////////////////////////////////////
-    // DATEPICKER
+    // UIB elements
     // ////////////////////////////////////////
+
+    // DATEPICKER
     $scope.today = function () {
         $scope.dt = new Date();
     };
@@ -338,6 +340,21 @@ app.controller('TripCreateCtrl', function ($location, $scope, $timeout, $window,
         return '';
     }
 
-    //////////////////////////////////////////////////
+    // END DATE PICKER
+
+    // ACCORDIAN
+    $scope.oneAtATime = true;
+    $scope.items = ['Item 1', 'Item 2', 'Item 3'];
+
+    $scope.addItem = function () {
+        var newItemNo = $scope.items.length + 1;
+        $scope.items.push('Item ' + newItemNo);
+    };
+
+    $scope.status = {
+        isCustomHeaderOpen: false,
+        isFirstOpen: true,
+        isFirstDisabled: false
+    };
 
 });
