@@ -187,7 +187,7 @@ app.controller('TripCreateCtrl', function ($location, $scope, $timeout, $window,
             });
         }
         if ($scope.routes.length == 0) {
-            $scope.routes = [{ name: "None", type: "search again" }];
+            $scope.routes = [{ name: "None", type: "search again", disabled: true }];
         }
     };
 
@@ -231,7 +231,11 @@ app.controller('TripCreateCtrl', function ($location, $scope, $timeout, $window,
         let lat = $scope.map.center.latitude;
         let lng = $scope.map.center.longitude;
         let mapsAddress = $scope.address;
-
+        if (!trip) {
+            trip = {};
+            trip.name = area;
+            trip.description = 'Description';
+        }
         let newTrip = TripsService.createTripObj(trip, mapsAddress, lat, lng, date, area);
         saveTrip(newTrip);
     };
