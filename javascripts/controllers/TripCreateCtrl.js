@@ -34,6 +34,7 @@ app.controller('TripCreateCtrl', function ($location, $scope, $timeout, $window,
                     let lat = places[0].geometry.location.lat();
                     let lng = places[0].geometry.location.lng();
                     MountainProjService.getClimbingAreas15(lat, lng).then((results) => {
+                        $scope.updateHeadingBeforeUserClicksMarker = true;
                         $scope.map.zoom = 12;
                         $scope.map.center = formatMapCenter(results.data.routes[0].latitude, results.data.routes[0].longitude);
                         $scope.markers = formatMarkerLocations(results);

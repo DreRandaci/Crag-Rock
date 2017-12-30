@@ -1,5 +1,11 @@
 <div class="container background_container add_container_shadow">
 
+    <div class="text-center">
+        <h1 ng-show="routes.length">{{area}}</h1>
+        <h1 ng-show="updateHeadingBeforeUserClicksMarker">Click a Marker to Find Routes</h1>
+        <h4>{{address}}</h4>
+    </div>
+
     <div class="angular-google-map-container map">
 
         <ui-gmap-google-map id="map" options='map.options' center='map.center' zoom='map.zoom' draggable='true' events="map.events">
@@ -13,9 +19,6 @@
     </div>
 
     <div class='col-md-12 routes'>
-        <h1 ng-show="routes.length">{{area}}</h1>
-        <h1 ng-show="updateHeadingBeforeUserClicksMarker">Click a Marker to Find Routes</h1>
-        <h4>{{address}}</h4>
         <div ng-show="routes.length">
             <uib-tabset active="active" justified="true">
                 <uib-tab index="0" heading="All" ng-click="getAllRoutes()"></uib-tab>
@@ -33,7 +36,9 @@
                     <a ng-href="{{route.url}}"></a>
                 </a>
             </div>
-            <button ng-show="savedRoutes.length" class="btn btn-success" data-toggle="modal" data-target="#create_trip">Done</button>
+            <div class="toggleCreateModalBtn">
+                <button ng-show="savedRoutes.length" class="btn btn-success" data-toggle="modal" data-target="#create_trip">Done</button>
+            </div>
         </div>
     </div>
 </div>
@@ -53,7 +58,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-                        
+
                         <!-- TRIP INFO -->
                         <form name="createTripForm">
                             <div class="form-group">
