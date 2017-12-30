@@ -62,7 +62,7 @@ app.controller('TripPlacesCtrl', function ($location, $rootScope, $routeParams, 
     };
 
     $scope.plotRestaurants = (restaurant) => {
-        let orangeIcon = 'https://maps.google.com/mapfiles/ms/icons/orange-dot.png';
+        let orangeIcon = 'https://maps.google.com/mapfiles/ms/icons/yellow-dot.png';
         plotPlaceMarkers(restaurant, orangeIcon);
     };
 

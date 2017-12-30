@@ -55,6 +55,7 @@ app.controller('TripCreateCtrl', function ($location, $scope, $timeout, $window,
             $scope.currentPosition = position;
             let lat = position.coords.latitude;
             let lng = position.coords.longitude;
+            $scope.markers.push({ id: 'crntPos', latitude: lat, longitude: lng });
             $scope.map = {
                 center: formatMapCenter(lat, lng),
                 events: {
@@ -84,6 +85,7 @@ app.controller('TripCreateCtrl', function ($location, $scope, $timeout, $window,
             locations.latitude = route.latitude;
             locations.longitude = route.longitude;
             locations.id = i;
+            locations.icon = 'https://maps.google.com/mapfiles/ms/icons/orange-dot.png';
             return locations;
         });
         return coords;
@@ -92,6 +94,7 @@ app.controller('TripCreateCtrl', function ($location, $scope, $timeout, $window,
     const getClimbingRadius100Miles = (lat, lng) => {
         MountainProjService.getClimbingAreas100(lat, lng).then((results) => {
             $scope.markers = formatMarkerLocations(results);
+            $scope.markers.push({ id: 'crntPos', latitude: lat, longitude: lng });
         }).catch((err) => {
             console.log("err in getClimbingAreas100:", err);
         });
@@ -100,6 +103,7 @@ app.controller('TripCreateCtrl', function ($location, $scope, $timeout, $window,
     const getClimbingRadius50Miles = (lat, lng) => {
         MountainProjService.getClimbingAreas50(lat, lng).then((results) => {
             $scope.markers = formatMarkerLocations(results);
+            $scope.markers.push({ id: 'crntPos', latitude: lat, longitude: lng });
         }).catch((err) => {
             console.log("err in getClimbingAreas100:", err);
         });
