@@ -1,7 +1,7 @@
 @import 'variables';
 @import 'colors';
 
-////////////* GENERAL STYLES *////////////
+////////////* GENERAL ELEMENT STYLES *////////////
 body {    
     font-family: "Roboto", "Open Sans";
     background-color: #3f4144;
@@ -23,16 +23,23 @@ li {
     list-style: none;
 }
 
+////////////* CLASSES *////////////
 .add_border {
     border: 1px solid $light-border-color;
     border-radius: 4px;
     padding: 10px;
+}
+.add_container_shadow {
+    box-shadow: 0px 0px 27px 0px rgba(0, 0, 0, 0.543)
 }
 .add_margin_bottom {
     margin-bottom: 15px;
 }
 .add_shadow {
     box-shadow: $light-box-shadow;
+}
+.alert_shadow {
+    box-shadow: $dark-box-shadow;
 }
 .angular-google-map {
     margin-top: 9px;
@@ -43,6 +50,13 @@ li {
     width: 100%;
     height: 450px;    
     margin-bottom: 110px;
+}
+.background_container {
+    background-color: #303643;
+    border: 1px solid #303642;
+    border-radius: 8px;
+    margin-top: 25px;
+    margin-bottom: 30px;
 }
 .btn_margin {
     margin-top: 5px;
@@ -76,15 +90,31 @@ li {
     flex-wrap: wrap; 
     justify-content: center;
 }
+.nav-tabs.nav-justified {
+    width: 100%;
+    border-bottom: 0;
+    background-color: #dadada;
+}
 .places_and_routes_list {
     overflow: scroll; 
     height:400px;    
+}
+.remove_route_modal {
+    position: relative;
+    bottom: 36px;
+    left: 465px;     
+}
+.remove_route_modal:hover {
+    color: red; 
 }
 .route_links:hover {
     text-decoration: none;
 }
 .save_btn_margin {
     margin-top: 10px;
+}
+.toggleCreateModalBtn {
+    margin-bottom: 15px;
 }
 .trash_float {
     float: right;   
@@ -121,42 +151,14 @@ li {
     top: 125px;
     left: 45px;
 }
-
-#pac-input {    
-    top: 7px !important;
-    width: 25% !important;
-}
 .trash_modal {
     position: absolute;
     bottom: 20px;
     right: 32px;
 }
-.remove_modal {
-    position: relative;
-    bottom: 36px;
-    left: 465px;     
-}
-.remove_modal:hover {
-    color: red; 
-}
-.background_container {
-    background-color: #303643;
-    border: 1px solid #303642;
-    border-radius: 8px;
-    margin-top: 25px;
-    margin-bottom: 30px;
-}
-.add_container_shadow {
-    box-shadow: 0px 0px 27px 0px rgba(0, 0, 0, 0.543)
-}
-.nav-tabs.nav-justified {
-    width: 100%;
-    border-bottom: 0;
-    background-color: #dadada;
-}
-.toggleCreateModalBtn {
-    margin-bottom: 15px;
-}
-.alert_shadow {
-    box-shadow: $dark-box-shadow;
+
+////////////* ID'S *////////////
+#pac-input {    
+    top: 7px !important;
+    width: 25% !important;
 }

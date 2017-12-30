@@ -87,7 +87,7 @@
                                     <p>{{area}}:</p>
                                     <div ng-repeat="route in savedRoutes" ng-model="routes">{{route.name}} {{route.rating}} ({{route.type}})
                                         <ng-rate-it ng-model="route.stars" max="5" step="0.1" read-only="true"></ng-rate-it>
-                                        <a class="remove_modal" ng-click="removeRouteFromSavedRoutes($index, route)">
+                                        <a class="remove_route_modal" ng-click="removeRouteFromSavedRoutes($index, route)">
                                             remove
                                         </a>
                                     </div>
@@ -95,16 +95,15 @@
 
                             </uib-accordion>
 
-                            <div class="text-center">
-                                <button class="btn btn-success" ng-click="createTrip(trip, dt)" data-dismiss="modal">Save</button>
-                            </div>
                         </form>
                     </div>
                 </div>
             </div>
-            <!-- <div class="modal-footer">
-                    
-                </div> -->
+            <div class="modal-footer">
+                <div class="text-center">
+                    <button class="btn btn-success" ng-click="createTrip(trip, dt)" data-dismiss="modal">Save</button>
+                </div>
+            </div>
         </div>
     </div>
 

@@ -237,11 +237,11 @@ app.controller('TripCreateCtrl', function ($location, $scope, $timeout, $window,
         if (!trip) {
             trip = {};
             trip.name = area;
-            trip.description = '(details)';
+            trip.description = 'add notes';
         } else if (!trip.name) {
             trip.name = area;
         } else if (!trip.description) {
-            trip.description = '(details)';
+            trip.description = 'add notes';
         }
 
         let newTrip = TripsService.createTripObj(trip, mapsAddress, lat, lng, date, area);
@@ -352,17 +352,10 @@ app.controller('TripCreateCtrl', function ($location, $scope, $timeout, $window,
         return '';
     }
 
-    // END DATE PICKER
+    ////////////// END DATE PICKER
 
     // ACCORDIAN
     $scope.oneAtATime = true;
-    $scope.items = ['Item 1', 'Item 2', 'Item 3'];
-
-    $scope.addItem = function () {
-        var newItemNo = $scope.items.length + 1;
-        $scope.items.push('Item ' + newItemNo);
-    };
-
     $scope.status = {
         isCustomHeaderOpen: false,
         isFirstOpen: true,
