@@ -31,7 +31,7 @@
 
             <div class="places_and_routes_list list-group add_shadow">
                 <a ng-show="routes" ng-repeat="route in routes | orderBy : filterOn" ng-class="{'disabled': route.disabled}" class="list-group-item route"
-                    ng-click="saveToRouteList($index, route)">{{route.name}} {{route.rating}} ({{route.type}})
+                    ng-click="saveToRouteList(route)">{{route.name}} {{route.rating}} ({{route.type}})
                     <ng-rate-it ng-show="routes" ng-model="route.stars" max="5" step="0.1" read-only="true"></ng-rate-it>
                     <a ng-href="{{route.url}}"></a>
                 </a>
@@ -43,7 +43,7 @@
     </div>
 </div>
 
-<!-- MODAL -->
+<!--- MODAL -->
 <div class="modal" id="create_trip">
     <div class="modal-dialog">
         <div class="modal-content">

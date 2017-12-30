@@ -213,7 +213,7 @@ app.controller('TripCreateCtrl', function ($location, $scope, $timeout, $window,
     };
 
     // SAVE/REMOVE EACH CLIMBING ROUTE TO AN ARRAY FROM MAIN ROUTE LIST UNDER MAP
-    $scope.saveToRouteList = (index, route) => {
+    $scope.saveToRouteList = (route) => {
         route.disabled = route.disabled ? false : true;
         if (route.disabled) {
             $scope.savedRoutes.push(route);
@@ -232,11 +232,18 @@ app.controller('TripCreateCtrl', function ($location, $scope, $timeout, $window,
         let lat = $scope.map.center.latitude;
         let lng = $scope.map.center.longitude;
         let mapsAddress = $scope.address;
+
+        // IF NO TEXT IS ENTERED IN TRIP NAME OR DESCRIPTION FIELDS
         if (!trip) {
             trip = {};
             trip.name = area;
-            trip.description = 'Description';
+            trip.description = '(details)';
+        } else if (!trip.name) {
+            trip.name = area;
+        } else if (!trip.description) {
+            trip.description = '(details)';
         }
+
         let newTrip = TripsService.createTripObj(trip, mapsAddress, lat, lng, date, area);
         saveTrip(newTrip);
     };
