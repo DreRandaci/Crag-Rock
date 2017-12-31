@@ -164,7 +164,6 @@ li {
     width: 25% !important;
 }
 #auth {        
-    // background: linear-gradient(to bottom, rgba(255,202,138,1) 0%, rgba(255,202,138,0.75) 32%, rgba(255,246,235,0.54) 60%, rgba(255,246,235,0.23) 100%);
     background: linear-gradient(to bottom, #ffa335 0%, rgba(255, 202, 138, 0.75) 32%, rgba(255, 241, 224, 0.9) 60%, rgba(255, 229, 191, 0.82) 100%);
     border: 1px solid rgba(46, 46, 46, 0.495);
     border-radius: 250px;;
@@ -194,11 +193,4 @@ li {
 #auth_title {
     font-size: 50px;
     font-family: 'Montserrat';
-}
-#test_title {
-    position: absolute;
-    top: 480px;
-    left: 591px;
-    font-size: 60px;
-    color: #73ba30;
 }

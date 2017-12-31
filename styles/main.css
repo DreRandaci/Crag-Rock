@@ -189,10 +189,3 @@ li {
 #auth_title {
   font-size: 50px;
   font-family: 'Montserrat'; }
-
-#test_title {
-  position: absolute;
-  top: 480px;
-  left: 591px;
-  font-size: 60px;
-  color: #73ba30; }
