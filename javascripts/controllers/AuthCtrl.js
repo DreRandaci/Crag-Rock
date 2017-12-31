@@ -13,7 +13,7 @@ app.controller("AuthCtrl", function ($location, $rootScope, $scope, AuthService)
     };
 
     $scope.openAuth = () => {
-        console.log('click');
+        
     };
 
 });

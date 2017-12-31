@@ -182,10 +182,9 @@ li {
 }
 #auth_title_container:hover {
     box-shadow: $dark-box-shadow;
-    background-color: #313231;
+    background-color: #1d2326;
     opacity: 1;
-    transition:all 0.5s ease; 
-    background: linear-gradient(to bottom, #7d7e7d -17%,#0e0e0e 96%);
+    transition:all 0.5s ease;     
 }
 #auth_title {
     font-size: 60px;
