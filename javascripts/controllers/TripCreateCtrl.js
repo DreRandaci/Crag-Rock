@@ -146,6 +146,7 @@ app.controller('TripCreateCtrl', function ($location, $scope, $timeout, $window,
                         $scope.map.center = formatMapCenter(c[0].latLng.lat(), c[0].latLng.lng());
                         getClimbingRadius50Miles(c[0].latLng.lat(), c[0].latLng.lng());
                         $scope.markers.push({ id: 'trip', latitude: lat, longitude: lng });
+                        $scope.routes = [{ name: "", type: "click a marker" }];
                     }
                 },
                 zoom: 6,
@@ -166,7 +167,7 @@ app.controller('TripCreateCtrl', function ($location, $scope, $timeout, $window,
             locations.latitude = route.latitude;
             locations.longitude = route.longitude;
             locations.id = i;
-            locations.icon = 'https://maps.google.com/mapfiles/ms/icons/orange-dot.png';
+            locations.icon = 'https://maps.google.com/mapfiles/ms/icons/green-dot.png';
             return locations;
         });
         return coords;
@@ -201,6 +202,7 @@ app.controller('TripCreateCtrl', function ($location, $scope, $timeout, $window,
             $scope.map.center = formatMapCenter(markerLat, markerLng);
             getMapByLatLng(markerLat, markerLng);
             getClimbingRoutes(markerLat, markerLng);
+            $scope.routes = [{ name: "", type: "click a marker" }];
         }
     };
 
@@ -259,7 +261,7 @@ app.controller('TripCreateCtrl', function ($location, $scope, $timeout, $window,
         getAllRoutes();
         if (TR) {
             $scope.routes = $scope.routes.filter((route) => {
-                return route.type.indexOf(TR) > -1;
+                return route.type.toUpperCase().indexOf(TR.toUpperCase()) > -1;
             });
         } else {
             getAllRoutes();

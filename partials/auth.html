@@ -1,10 +1,11 @@
-<div id='auth' class="container-fluid text-center">
+<div id='auth' class="container text-center">
 
     <img id="auth_app_img" src="../img/send-train-logo.png" alt="App Logo">
 
     <div id="auth_title_container" class="well well-lg" data-toggle="modal" data-target="#auth_modal">
-        <h1 id="auth_title">Weekend Send Train</h1>
+        <div id="auth_title">Weekend Send Train</div>
     </div>
+    <!-- <div id="test_title">Weekend Send Train</div> -->
 
     <!-- MODAL -->
     <div class="modal" id="auth_modal">
@@ -38,14 +39,14 @@
                         </div>
 
                         <div class="col-md-12">
-                            <button ng-hide="createUser.$invalid" class="btn btn-default" ng-click="createUserAccount(userInfo)">Create Account</button>
+                            <button ng-hide="createUser.$invalid" class="btn btn-default" ng-click="createUserAccount(userInfo)" data-dismiss="modal">Create Account</button>
                         </div>
 
                         <p>or</p>
 
                         <div class="col-md-12">
                             <div class="col-md-4 col-md-offset-4">
-                                <a ng-click='authenticate(userInfo)' class="btn btn-block btn-social btn-google">
+                                <a ng-click='authenticate(userInfo)' data-dismiss="modal" class="btn btn-block btn-social btn-google">
                                     <span class="fab fa-google"></span> Google Sign In
                                 </a>
                             </div>
