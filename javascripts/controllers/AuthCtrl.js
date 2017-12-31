@@ -12,8 +12,8 @@ app.controller("AuthCtrl", function ($location, $rootScope, $scope, AuthService)
         });
     };
 
-    $scope.openAuth = () => {
-        
+    $scope.createUserAccount = (userInfo) => {
+        console.log(userInfo);
     };
 
 });
