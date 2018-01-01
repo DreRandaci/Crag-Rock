@@ -63,18 +63,6 @@ app.config(function ($qProvider, $routeProvider, uiGmapGoogleMapApiProvider, GOO
             templateUrl: 'partials/auth.html',
             controller: 'AuthCtrl'
         })
-        .when("/chat", {
-            templateUrl: 'partials/chat.html',
-            controller: 'ChatCtrl',
-        })
-        .when("/friend/detail/:id", {
-            templateUrl: 'partials/friend-detail.html',
-            controller: 'FriendDetailCtrl',
-        })
-        .when("/friends", {
-            templateUrl: 'partials/friends.html',
-            controller: 'FriendsCtrl',
-        })
         .when("/profile", {
             templateUrl: 'partials/profile.html',
             controller: 'ProfileCtrl',

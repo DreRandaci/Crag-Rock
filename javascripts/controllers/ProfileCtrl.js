@@ -1,5 +1,8 @@
 'use strict';
 
-app.controller("ProfileCtrl", function( $scope ) {
-    $scope.test = 'ProfileCtrl';
+app.controller("ProfileCtrl", function( $rootScope, $scope, AuthService ) {
+    // console.log($rootScope.user);
+
+    $scope.user = AuthService.getCurrentUserInfo();
+    
 });

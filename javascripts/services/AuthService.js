@@ -24,5 +24,20 @@ app.service("AuthService", function ($window, FIREBASE_CONFIG) {
         return false;
     };
 
-    return { authenticateGoogle, isAuthenticated, logout, getCurrentUid };
+    const getCurrentUserInfo = () => {
+        const localStorageKey = `firebase:authUser:${FIREBASE_CONFIG.apiKey}:[DEFAULT]`;
+        const localStorageValue = $window.localStorage[localStorageKey];
+        if (localStorageValue) {
+            let formatUser = {};
+            formatUser.first_name = JSON.parse(localStorageValue).displayName.split(' ')[0];            
+            formatUser.last_name = JSON.parse(localStorageValue).displayName.split(' ')[1];            
+            formatUser.full_name = JSON.parse(localStorageValue).displayName;            
+            formatUser.email = JSON.parse(localStorageValue).email;            
+            formatUser.picture = JSON.parse(localStorageValue).photoURL;            
+            return formatUser;
+        }
+        return false;
+    };
+
+    return { authenticateGoogle, getCurrentUserInfo, getCurrentUid, isAuthenticated, logout };
 });
