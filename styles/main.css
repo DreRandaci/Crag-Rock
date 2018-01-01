@@ -50,7 +50,8 @@ li {
   border: 1px solid #303642;
   border-radius: 8px;
   margin-top: 25px;
-  margin-bottom: 30px; }
+  margin-bottom: 30px;
+  margin-left: 60px; }
 
 .btn_margin {
   margin-top: 5px; }
