@@ -1,51 +1,53 @@
-<div class="container">
-    <h1>Add Accommodations</h1>
+<div class="col-sm-3 col-lg-2">
+    <div class="container background_container add_container_shadow">
 
-    <div class='col-md-4 routes'>
-        <div ng-show="places.length || savedPlaces.length">
+        <div class='col-md-4 routes'>
+            <h3>Add Accommodations</h3>
+            <div ng-show="places.length || savedPlaces.length">
 
-            <uib-tabset active="active">
-                <uib-tab index="1" heading="Hotels" ng-click="plotLodging('lodging')"></uib-tab>
-                <uib-tab index="2" heading="Restaurants" ng-click="plotRestaurants('restaurant')"></uib-tab>
-                <uib-tab index="3" heading="Campgrounds" ng-click="plotCampsites('campground')"></uib-tab>
-            </uib-tabset>
+                <uib-tabset active="active" justified="true">
+                    <uib-tab index="1" heading="Hotels" ng-click="plotLodging('lodging')"></uib-tab>
+                    <uib-tab index="2" heading="Restaurants" ng-click="plotRestaurants('restaurant')"></uib-tab>
+                    <uib-tab index="3" heading="Campgrounds" ng-click="plotCampsites('campground')"></uib-tab>
+                </uib-tabset>
 
 
-            <div class="places_and_routes_list list-group add_shadow">
-                <a ng-show="places" ng-repeat="place in places | orderBy : 'name'" ng-class="{'disabled': place.disabled}" class="list-group-item route"
-                    ng-click="saveToPlaceList($index, place)">{{place.name}} ({{place.type}})</a>
+                <div class="places_and_routes_list list-group add_shadow">
+                    <a ng-show="places" ng-repeat="place in places | orderBy : 'name'" ng-class="{'disabled': place.disabled}" class="list-group-item route"
+                        ng-click="saveToPlaceList($index, place)">{{place.name}} ({{place.type}})</a>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="col-md-8">
-        <ui-gmap-google-map id="map" center='map.center' zoom='map.zoom' draggable='true'>
+        <div class="col-md-8 map ">
+            <ui-gmap-google-map id="map" styles="map.styles" center='map.center' zoom='map.zoom' draggable='true'>
 
-            <ui-gmap-window show="map.window.show" coords="map.window.model" options="map.window.options" closeClick="map.window.closeClick()"
-                templateUrl="'partials/infowindow.tpl.html'" templateParameter="map.window">
-            </ui-gmap-window>
+                <ui-gmap-window show="map.window.show" coords="map.window.model" options="map.window.options" closeClick="map.window.closeClick()"
+                    templateUrl="'partials/infowindow.tpl.html'" templateParameter="map.window">
+                </ui-gmap-window>
 
-            <ui-gmap-markers events="markersEvents" coords="'self'" options="'options'" models="markers" icon="'icon'">
-            </ui-gmap-markers>
+                <ui-gmap-markers events="markersEvents" coords="'self'" options="'options'" models="markers" icon="'icon'">
+                </ui-gmap-markers>
 
-        </ui-gmap-google-map>
-    </div>
-
-
-
-    <div ng-show="savedPlaces.length" class="col-md-8 col-md-offset-2">
-        <h4>Saved Places</h4>
-        <div>
-            <ul class="list-group">
-                <li class="list-group-item" ng-repeat="place in savedPlaces">{{place.name}} ({{place.type}})
-                    <a class="trash_float" ng-click="removePlaceFromSavedPlacesList($index, place)">
-                        <i class="fas fa-trash"></i>
-                    </a>
-                </li>
-            </ul>
-            <button class="btn btn-success" ng-click="routeToTrips()">Done</button>
+            </ui-gmap-google-map>
         </div>
+
+
+
+        <div ng-show="savedPlaces.length" class="col-md-8 col-md-offset-2">
+            <h4>Saved Places</h4>
+            <div>
+                <ul class="list-group">
+                    <li class="list-group-item" ng-repeat="place in savedPlaces">{{place.name}} ({{place.type}})
+                        <a class="trash_float" ng-click="removePlaceFromSavedPlacesList($index, place)">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </li>
+                </ul>
+                <button class="btn btn-success" ng-click="routeToTrips()">Done</button>
+            </div>
+        </div>
+
+
     </div>
-
-
 </div>

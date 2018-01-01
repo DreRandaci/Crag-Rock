@@ -1,18 +1,13 @@
 <div class="container-fluid" ng-controller="NavCtrl">
   <div class="row">
-    <div class="col-sm-3 col-lg-2">
+    <div class="col-sm-3 col-lg-2" ng-show="navbar">
       <nav class="navbar navbar-inverse navbar-fixed-side">
         <div class="container">
           <div class="navbar-header">
             <a class="navbar-brand" ng-href="#!/trip/create">Weekend Send Train</a>
           </div>
-          <div class="collapse navbar-collapse">
-            <ul class="nav navbar-nav" ng-show="!navbar">
-              <li>
-                <a ng-href="#!/auth">Login</a>
-              </li>
-            </ul>
-            <ul class="nav navbar-nav" ng-show="navbar">
+          <div class="collapse navbar-collapse">            
+            <ul class="nav navbar-nav">
               <li>
                 <a ng-href="#!/trip/create">Create</a>
               </li>
@@ -28,10 +23,8 @@
         </div>
       </nav>
     </div>
-    <div class="col-sm-9 col-lg-10">
       <div ng-view>
       <!-- APP CONTENT LOADS IN HERE -->
       </div>
-    </div>
   </div>
 </div>

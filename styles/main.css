@@ -25,8 +25,9 @@ li {
 .add_container_shadow {
   box-shadow: 0px 0px 27px 0px rgba(0, 0, 0, 0.543); }
 
-.add_margin_bottom {
-  margin-bottom: 15px; }
+.add_margin {
+  margin-bottom: 15px;
+  margin-top: 15px; }
 
 .add_shadow {
   box-shadow: 0px 10px 35px -13px rgba(63, 63, 63, 0.75); }
@@ -45,11 +46,12 @@ li {
   margin-bottom: 110px; }
 
 .background_container {
-  background-color: #303643;
+  background-color: rgba(0, 0, 0, 0.39);
   border: 1px solid #303642;
   border-radius: 8px;
   margin-top: 25px;
-  margin-bottom: 30px; }
+  margin-bottom: 30px;
+  margin-left: 60px; }
 
 .btn_margin {
   margin-top: 5px; }
@@ -157,3 +159,34 @@ li {
 #pac-input {
   top: 7px !important;
   width: 25% !important; }
+
+#auth {
+  background: linear-gradient(to bottom, #ffa335 0%, rgba(255, 202, 138, 0.75) 32%, rgba(255, 241, 224, 0.9) 60%, rgba(255, 229, 191, 0.82) 100%);
+  border: 1px solid rgba(46, 46, 46, 0.495);
+  border-radius: 250px;
+  margin-top: 40px; }
+
+#auth_app_img {
+  margin-top: -230px;
+  width: 75%; }
+
+#auth_title_container {
+  width: 60%;
+  position: relative;
+  left: 230px;
+  bottom: 155px;
+  color: #96bd3c;
+  box-shadow: 0px 10px 40px 7px rgba(124, 127, 121, 0.94);
+  background-color: #313231;
+  border: 1px solid #313231;
+  border-radius: 38px; }
+
+#auth_title_container:hover {
+  box-shadow: 0px 10px 100px -13px rgba(0, 0, 0, 0.75);
+  background-color: #1d2326;
+  opacity: 1;
+  transition: all 0.5s ease; }
+
+#auth_title {
+  font-size: 50px;
+  font-family: 'Montserrat'; }

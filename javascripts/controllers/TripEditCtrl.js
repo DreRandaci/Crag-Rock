@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('TripEditCtrl', function ($location, $log, $routeParams, $scope, moment, AuthService, MapsService, MountainProjService, RoutesService, TripsService) {
+app.controller('TripEditCtrl', function ($location, $log, $rootScope, $routeParams, $scope, moment, AuthService, MapsService, MountainProjService, RoutesService, TripsService) {
 
     // initial map instance on page load
     $scope.map = {
@@ -9,6 +9,7 @@ app.controller('TripEditCtrl', function ($location, $log, $routeParams, $scope, 
             latitude: 36.174465, longitude: -86.767960
         },
         zoom: 4,
+        styles: $rootScope.mapStyles,
         options: { scrollwheel: true }
     };
 

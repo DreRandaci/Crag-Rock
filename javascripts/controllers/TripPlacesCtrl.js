@@ -13,6 +13,7 @@ app.controller('TripPlacesCtrl', function ($location, $rootScope, $routeParams, 
             latitude: 36.174465, longitude: -86.767960
         },
         zoom: 10,
+        styles: $rootScope.mapStyles,
         options: $scope.mapOptions,
     };
 
@@ -20,7 +21,6 @@ app.controller('TripPlacesCtrl', function ($location, $rootScope, $routeParams, 
     $scope.markers = [{
         id: 0,
     }];
-
 
     $scope.trip = {};
 
