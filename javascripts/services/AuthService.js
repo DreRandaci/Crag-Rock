@@ -6,7 +6,7 @@ app.service("AuthService", function ($window, FIREBASE_CONFIG) {
         const provider = new firebase.auth.GoogleAuthProvider();
         return firebase.auth().signInWithPopup(provider);
     };
-
+    
     const isAuthenticated = () => {
         return getCurrentUid() ? true : false;
     };
