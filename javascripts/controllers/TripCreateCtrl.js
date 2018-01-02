@@ -31,6 +31,7 @@ app.controller('TripCreateCtrl', function ($location, $rootScope, $scope, $timeo
             events: {
                 //FOR SEARCH QUERIES
                 places_changed: function (searchBox) {
+                    $scope.showRoutes = false;
                     let places = searchBox.getPlaces();
                     let lat = places[0].geometry.location.lat();
                     let lng = places[0].geometry.location.lng();
@@ -63,6 +64,7 @@ app.controller('TripCreateCtrl', function ($location, $rootScope, $scope, $timeo
                 events: {
                     //FOR CLICK QUERIES
                     click: function (a, click, c) {
+                        $scope.showRoutes = false;
                         $scope.map.zoom = 8;
                         $scope.map.center = formatMapCenter(c[0].latLng.lat(), c[0].latLng.lng());
                         getClimbingRadius50Miles(c[0].latLng.lat(), c[0].latLng.lng());
@@ -115,6 +117,7 @@ app.controller('TripCreateCtrl', function ($location, $rootScope, $scope, $timeo
     $scope.markersEvents = {
         click: function (marker, eventName, model) {
             $scope.updateHeadingBeforeUserClicksMarker = false;
+            $scope.showRoutes = false;
             model.show = !model.show;
 
             let markerLat = model.latitude;
@@ -172,10 +175,6 @@ app.controller('TripCreateCtrl', function ($location, $rootScope, $scope, $timeo
             userPrefs.forEach((pref) => {
                 if (pref.type == "Sport") {
                     $scope.showSportRoutes = true;
-                    // FILTERING ON 'SPORT' TO START FOR DEMO PURPOSES
-                    $scope.routes = $scope.routes.filter((route) => {
-                        return route.type.indexOf("Sport") > -1;
-                    });
                 } else if (pref.type == "Boulder") {
                     $scope.showBoulderRoutes = true;
                 } else if (pref.type == "Trad") {
@@ -187,7 +186,7 @@ app.controller('TripCreateCtrl', function ($location, $rootScope, $scope, $timeo
         }).catch((err) => {
             console.log('err in getUserPrefs', err);
         });
-    };    
+    };
 
     $scope.filterRoutesClassic = () => {
         $scope.filterOn = "-stars";
@@ -206,6 +205,7 @@ app.controller('TripCreateCtrl', function ($location, $rootScope, $scope, $timeo
     const enableRouteFiltering = () => {
         $scope.filterRoutesType = (type, TR) => {
             $scope.filterOn = "name";
+            $scope.showRoutes = true;
             getAllRoutes();
             if (TR) {
                 $scope.routes = $scope.routes.filter((route) => {
