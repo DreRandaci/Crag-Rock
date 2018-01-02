@@ -92,6 +92,10 @@ app.controller("ProfileCtrl", function ($rootScope, $scope, AuthService, Profile
         });
     };    
 
+    $scope.updateDropdown = () => {
+        getUserPrefs();
+    };
+
     // DROPDOWN BUTTON
     $scope.status = {
         isopen: false
