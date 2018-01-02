@@ -172,6 +172,7 @@ app.controller('TripCreateCtrl', function ($location, $rootScope, $scope, $timeo
             userPrefs.forEach((pref) => {
                 if (pref.type == "Sport") {
                     $scope.showSportRoutes = true;
+                    // FILTERING ON 'SPORT' TO START FOR DEMO PURPOSES
                     $scope.routes = $scope.routes.filter((route) => {
                         return route.type.indexOf("Sport") > -1;
                     });
