@@ -1,22 +1,26 @@
 <div class="col-sm-3 col-lg-2">
 
     <div class="container background_container add_container_shadow">
-        <div class="col-md-4">
+        <div class="col-md-6">
             <img id="user_profile_pic" ng-src="{{user.picture}}" alt="User Picture">
-        </div>
-        <div class="col-md-4">
-            <h1>{{user.full_name}}</h1>  
+            <h1>{{user.full_name}}</h1>
             <p>{{user.email}}</p>
         </div>
 
-        <div class="col-md-4">
-            <ul>
-                <li>{{user.route_preferences}}</li>
-                <li>{{user.route_preferences}}</li>
-                <li>{{user.route_preferences}}</li>
-                <li>{{user.route_preferences}}</li>
-            </ul>
-            <button class="btn btn-default">Edit Route Preferences</button>
+        <div class="col-md-6">
+            <div class="btn-group" uib-dropdown is-open="status.isopen">
+                <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
+                    Route Preferences
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                    <li role="menuitem" ng-repeat="pref in user_prefs"><a>{{pref.type}}</a></li>
+                    <li class="divider"></li>
+                    <li role="menuitem">
+                        <a href="#">Separated link</a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 

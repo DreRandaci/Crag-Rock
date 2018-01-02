@@ -1,26 +1,70 @@
 'use strict';
 
-app.controller("ProfileCtrl", function ($rootScope, $scope, AuthService) {
-    // console.log($rootScope.user);
+app.controller("ProfileCtrl", function ($rootScope, $scope, AuthService, ProfileService) {
 
     $scope.user = AuthService.getCurrentUserInfo();
 
-    $scope.preferences = [{ type: 'Sport' }, { type: 'Boulder' }, { type: 'Trad' }, { type: 'Alpine' }];
-    $scope.selectAll = [{ disabled: false }];
+    // MODAL USER PREFS
+    $rootScope.savedPrefs = [];
+    $scope.preferences = [{ type: 'Sport', id: 'user_sport' }, { type: 'Boulder', id: 'user_boulder' }, { type: 'Trad', id: 'user_trad' }, { type: 'Alpine', id: 'user_alpine' }];
+    $scope.allPref = [{ disabled: false }];
     $scope.togglePreference = (index, pref) => {
         $scope.preferences[index].disabled = $scope.preferences[index].disabled ? false : true;
+        if (pref.disabled) {
+            let newPref = createPrefObj(pref);
+            $rootScope.savedPrefs.push(newPref);
+        } else {
+            $rootScope.savedPrefs.forEach((savedPref, i) => {
+                if (savedPref.id == pref.id) {
+                    $rootScope.savedPrefs.splice(i, 1);
+                }
+            });
+        }
     };
 
-    $scope.toggleAllPreferences = (all) => {
-        $scope.selectAll[0].disabled = all.disabled ? false : true;
-        if (all.disabled) {
+    const createPrefObj = (pref) => {
+        return {
+            "type": pref.type,
+            "id": pref.id
+        };
+    };
+
+    $scope.toggleAllPreferences = () => {
+        // WHEN THE 'ALL' OPTION IS CLICKED, TOGGLE THE DISABLE CLASS ON/OFF
+        $scope.allPref.disabled = $scope.allPref.disabled ? false : true;
+        if ($scope.allPref.disabled) {
+            $rootScope.savedPrefs = [];
             $scope.preferences.forEach((pref) => {
                 pref.disabled = true;
+                let newPref = createPrefObj(pref);
+                $rootScope.savedPrefs.push(newPref);
             });
         } else {
+            $rootScope.savedPrefs = [];
             $scope.preferences.forEach((pref) => {
                 pref.disabled = false;
             });
         }
     };
+
+    const getUserPrefs = () => {
+        ProfileService.getUserPrefs(AuthService.getCurrentUid()).then((res) => {
+            $scope.user_prefs = res;
+        }).catch((err) => {
+            console.log('err in getUserPrefs', err);
+        });
+    };
+
+    // FIRES ONLY ONCE USERS ARE AUTHENTICATED
+    const userPrefsReady = () => {
+        if ($rootScope.navbar) {
+            getUserPrefs();
+        }
+    };
+    userPrefsReady();
+
+    $scope.status = {
+        isopen: false
+    };
+
 });

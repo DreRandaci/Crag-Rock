@@ -28,7 +28,7 @@
                             <h4>Route Preferences:</h4>
                             <div class="list-group">
                                 <a ng-repeat="preference in preferences" ng-click="togglePreference($index, preference)" ng-class="{'disabled': preference.disabled}" class="list-group-item">{{preference.type}}</a>
-                                <a ng-repeat="all in selectAll" ng-click="toggleAllPreferences(all)" ng-class="{'disabled': all.disabled}" class="list-group-item">All</a>
+                                <a ng-click="toggleAllPreferences()" ng-class="{'disabled': allPref.disabled}" class="list-group-item">All</a>
                             </div>
                         </div>
                         <div class="col-md-12">

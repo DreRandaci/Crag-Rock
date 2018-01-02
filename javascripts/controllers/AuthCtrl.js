@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller("AuthCtrl", function ($location, $rootScope, $scope, AuthService) {
+app.controller("AuthCtrl", function ($location, $rootScope, $scope, AuthService, ProfileService) {
     $scope.authenticate = (email, password) => {
         AuthService.authenticateGoogle().then((result) => {
             $rootScope.userAutheticatedWithGoogle = true;
@@ -12,7 +12,7 @@ app.controller("AuthCtrl", function ($location, $rootScope, $scope, AuthService)
             formatUser.email = profile.email;
             formatUser.picture = profile.picture;
             $scope.user = formatUser;
-
+            saveUserPrefs($rootScope.savedPrefs);
             $rootScope.navbar = true;
             $scope.$apply(() => {
                 $location.url("/trip/create");
@@ -22,16 +22,22 @@ app.controller("AuthCtrl", function ($location, $rootScope, $scope, AuthService)
         });
     };
 
+    const saveUserPrefs = (prefs) => {
+        prefs.forEach((pref) => {
+            pref.uid = AuthService.getCurrentUid();
+            ProfileService.saveUserPrefs(pref);
+        });        
+    };
+
     $scope.createUserAccount = (email, name) => {
         firebase.auth().createUserWithEmailAndPassword(email, name).then((result) => {
             $rootScope.navbar = true;
             $scope.$apply(() => {
                 $location.url("/trip/create");
             });
-        }).catch(function(error) {
-            console.log('error code in createUserWithEmailAndPassword:', error.code);
-            console.log('error message in createUserWithEmailAndPassword:', error.message);
-          });
+        }).catch(function (err) {
+            console.log('error in createUserWithEmailAndPassword:', err);
+        });
     };
 
 });
