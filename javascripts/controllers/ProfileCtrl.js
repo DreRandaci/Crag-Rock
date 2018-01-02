@@ -8,6 +8,7 @@ app.controller("ProfileCtrl", function ($rootScope, $scope, AuthService, Profile
     $rootScope.savedPrefs = [];
     $scope.preferences = [{ type: 'Sport', id: 'user_sport' }, { type: 'Boulder', id: 'user_boulder' }, { type: 'Trad', id: 'user_trad' }, { type: 'Alpine', id: 'user_alpine' }];
     $scope.allPref = [{ disabled: false }];
+
     $scope.togglePreference = (index, pref) => {
         $scope.preferences[index].disabled = $scope.preferences[index].disabled ? false : true;
         if (pref.disabled) {
@@ -25,7 +26,8 @@ app.controller("ProfileCtrl", function ($rootScope, $scope, AuthService, Profile
     const createPrefObj = (pref) => {
         return {
             "type": pref.type,
-            "id": pref.id
+            "id": pref.id,
+            "uid" : AuthService.getCurrentUid()
         };
     };
 
@@ -48,20 +50,47 @@ app.controller("ProfileCtrl", function ($rootScope, $scope, AuthService, Profile
     };
 
     const getUserPrefs = () => {
-        ProfileService.getUserPrefs(AuthService.getCurrentUid()).then((res) => {            
-            $rootScope.user_prefs = res;
-        }).catch((err) => {
-            console.log('err in getUserPrefs', err);
+        if ($rootScope.navbar) {
+            ProfileService.getUserPrefs(AuthService.getCurrentUid()).then((res) => {
+                $rootScope.user_prefs = res;
+            }).catch((err) => {
+                console.log('err in getUserPrefs', err);
+            });
+        }
+    };
+    // FIRES ONCE USERS ARE AUTHENTICATED
+    getUserPrefs();
+
+
+    $scope.addDisabledToSavedPrefs = () => {
+        $scope.preferences.forEach((pref) => {
+            $rootScope.user_prefs.forEach((user_pref) => {
+                if (pref.type == user_pref.type) {
+                    pref.disabled = true;
+                }
+            });
         });
     };
 
-    // FIRES ONCE USERS ARE AUTHENTICATED
-    const userPrefsReady = () => {
-        if ($rootScope.navbar) {
-            getUserPrefs();
-        }
-    };
-    userPrefsReady();
+    $scope.editPref = (index, pref) => {
+        $scope.preferences[index].disabled = $scope.preferences[index].disabled ? false : true;
+        ProfileService.getUserPrefs(AuthService.getCurrentUid()).then((res) => {
+            if (pref.disabled) {
+                let newPref = createPrefObj(pref);
+                ProfileService.saveUserPrefs(newPref);
+            } else {
+                ProfileService.getUserPrefs(AuthService.getCurrentUid()).then((res) => {
+                    res.forEach((saved_pref) => {
+                        if (pref.type == saved_pref.type) {
+                            ProfileService.deletePref(saved_pref.id);
+                        }
+                    });
+                });
+            }
+        }).catch((err) => {
+            console.log('err in getUserPrefs', err);
+        });
+    };    
 
     // DROPDOWN BUTTON
     $scope.status = {

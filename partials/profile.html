@@ -18,7 +18,7 @@
                     </li>
                     <li class="divider"></li>
                     <li role="menuitem">
-                        <a data-toggle="modal" data-target="#prefs_modal">Edit</a>
+                        <a ng-click="addDisabledToSavedPrefs()" data-toggle="modal" data-target="#prefs_modal">Edit</a>
                     </li>
                 </ul>
             </div>
@@ -29,32 +29,36 @@
 
 <!-- MODAL -->
 <div class="modal" id="prefs_modal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header text-center">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
 
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                <!-- HEADER -->
+                <h2 class="modal-title">Edit Preferences</h2>
+            </div>
 
-                    <!-- HEADER -->
-                    <h2 class="modal-title">Edit Preferences</h2>
-
-                </div>
-
-                <!-- CONTENT -->
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h4>Route Preferences:</h4>
-                            <div class="list-group">
-                                <a ng-repeat="preference in preferences" ng-click="togglePreference($index, preference)" ng-class="{'disabled': preference.disabled}" class="list-group-item">{{preference.type}}</a>
-                                <a ng-click="toggleAllPreferences()" ng-class="{'disabled': allPref.disabled}" class="list-group-item">All</a>
-                            </div>
-                        </div>                        
+            <!-- CONTENT -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>Route Preferences:</h4>
+                        <div class="list-group">
+                            <a ng-repeat="preference in preferences" ng-click="editPref($index, preference)" ng-class="{'disabled': preference.disabled}"
+                                class="list-group-item">{{preference.type}}</a>
+                            <a ng-click="toggleAllPreferences()" ng-class="{'disabled': allPref.disabled}" class="list-group-item">All</a>
+                        </div>
                     </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="text-center">
+                    <button class="btn btn-success" data-dismiss="modal">Done</button>
                 </div>
             </div>
         </div>
     </div>
-    <!-- END MODAL -->
+</div>
+<!-- END MODAL -->

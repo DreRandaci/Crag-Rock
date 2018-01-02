@@ -25,7 +25,7 @@ app.service("ProfileService", function ($http, $q, FIREBASE_CONFIG, AuthService)
     };
 
     const deletePref = (prefId) => {
-
+        return $http.delete(`${FIREBASE_CONFIG.databaseURL}/userPreferences/${prefId}.json`);
     };
 
     return { deletePref, getUserPrefs, saveUserPrefs };
