@@ -24,11 +24,11 @@
         <div class='col-md-12 routes'>
             <div ng-show="routes.length">
                 <uib-tabset active="active" justified="true">
-                    <uib-tab index="0" heading="All" ng-click="getAllRoutes()"></uib-tab>
-                    <uib-tab index="1" heading="Classics" ng-click="filterRoutesClassic()"></uib-tab>
-                    <uib-tab index="2" heading="Sport" ng-click="filterRoutesType('Sport')"></uib-tab>
-                    <uib-tab index="3" heading="Boulder" ng-click="filterRoutesType('Boulder')"></uib-tab>
-                    <uib-tab index="4" heading="Trad/TR" ng-click="filterRoutesType('Trad', 'TR')"></uib-tab>
+                    <uib-tab select="filterRoutesType('Sport')" ng-show="showSportRoutes" index="2" heading="Sport"></uib-tab>
+                    <uib-tab select="filterRoutesType('Boulder')" ng-show="showBoulderRoutes" index="3" heading="Boulder"></uib-tab>
+                    <uib-tab select="filterRoutesType('Trad', 'TR')" ng-show="showTradRoutes" index="4" heading="Trad/TR"></uib-tab>
+                    <uib-tab select="filterRoutesClassic()" index="1" heading="Classics"></uib-tab>
+                    <uib-tab select="getAllRoutes()" index="0" heading="All"></uib-tab>
                 </uib-tabset>
 
 

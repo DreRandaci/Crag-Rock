@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('TripCreateCtrl', function ($location, $rootScope, $scope, $timeout, $window, GOOGLEMAPS_CONFIG, moment, MapsService, MountainProjService, RoutesService, TripsService) {
+app.controller('TripCreateCtrl', function ($location, $rootScope, $scope, $timeout, $window, GOOGLEMAPS_CONFIG, moment, AuthService, MapsService, MountainProjService, ProfileService, RoutesService, TripsService) {
 
     //inject google maps script
     $scope.googleUrl = `https://maps.google.com/maps/api/js?key=${GOOGLEMAPS_CONFIG}`;
@@ -158,10 +158,35 @@ app.controller('TripCreateCtrl', function ($location, $rootScope, $scope, $timeo
             //SAVING A COPY OF THE ROUTES ARRAY FOR FILTERING
             $scope.allRoutes = routes;
             $scope.routes = routes;
+            // SHOWS TABS BASED ON SAVED USER PREFS WHEN MARKER IS CLICKED
+            filterUserPrefs();
+            enableRouteFiltering();
         }).catch((err) => {
             console.log('error in getClimbingRoutesByLatLng:', err);
         });
     };
+
+    const filterUserPrefs = () => {
+        ProfileService.getUserPrefs(AuthService.getCurrentUid()).then((res) => {
+            let userPrefs = res;
+            userPrefs.forEach((pref) => {
+                if (pref.type == "Sport") {
+                    $scope.showSportRoutes = true;
+                    $scope.routes = $scope.routes.filter((route) => {
+                        return route.type.indexOf("Sport") > -1;
+                    });
+                } else if (pref.type == "Boulder") {
+                    $scope.showBoulderRoutes = true;
+                } else if (pref.type == "Trad") {
+                    $scope.showTradRoutes = true;
+                } else if (pref.type == "Alpine") {
+                    $scope.showAlpineRoutes = true;
+                }
+            });
+        }).catch((err) => {
+            console.log('err in getUserPrefs', err);
+        });
+    };    
 
     $scope.filterRoutesClassic = () => {
         $scope.filterOn = "-stars";
@@ -177,22 +202,24 @@ app.controller('TripCreateCtrl', function ($location, $rootScope, $scope, $timeo
 
     };
 
-    $scope.filterRoutesType = (type, TR) => {
-        $scope.filterOn = "name";
-        getAllRoutes();
-        if (TR) {
-            $scope.routes = $scope.routes.filter((route) => {
-                return route.type.toUpperCase().indexOf(TR.toUpperCase()) > -1;
-            });
-        } else {
+    const enableRouteFiltering = () => {
+        $scope.filterRoutesType = (type, TR) => {
+            $scope.filterOn = "name";
             getAllRoutes();
-            $scope.routes = $scope.routes.filter((route) => {
-                return route.type.indexOf(type) > -1;
-            });
-        }
-        if ($scope.routes.length == 0) {
-            $scope.routes = [{ name: "None", type: "search again", disabled: true }];
-        }
+            if (TR) {
+                $scope.routes = $scope.routes.filter((route) => {
+                    return route.type.toUpperCase().indexOf(TR.toUpperCase()) > -1;
+                });
+            } else {
+                getAllRoutes();
+                $scope.routes = $scope.routes.filter((route) => {
+                    return route.type.indexOf(type) > -1;
+                });
+            }
+            if ($scope.routes.length == 0) {
+                $scope.routes = [{ name: "None", type: "search again", disabled: true }];
+            }
+        };
     };
 
     $scope.getAllRoutes = () => {

@@ -48,14 +48,14 @@ app.controller("ProfileCtrl", function ($rootScope, $scope, AuthService, Profile
     };
 
     const getUserPrefs = () => {
-        ProfileService.getUserPrefs(AuthService.getCurrentUid()).then((res) => {
-            $scope.user_prefs = res;
+        ProfileService.getUserPrefs(AuthService.getCurrentUid()).then((res) => {            
+            $rootScope.user_prefs = res;
         }).catch((err) => {
             console.log('err in getUserPrefs', err);
         });
     };
 
-    // FIRES ONLY ONCE USERS ARE AUTHENTICATED
+    // FIRES ONCE USERS ARE AUTHENTICATED
     const userPrefsReady = () => {
         if ($rootScope.navbar) {
             getUserPrefs();
@@ -63,6 +63,7 @@ app.controller("ProfileCtrl", function ($rootScope, $scope, AuthService, Profile
     };
     userPrefsReady();
 
+    // DROPDOWN BUTTON
     $scope.status = {
         isopen: false
     };

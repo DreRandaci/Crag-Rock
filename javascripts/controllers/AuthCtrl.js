@@ -24,6 +24,7 @@ app.controller("AuthCtrl", function ($location, $rootScope, $scope, AuthService,
 
     const saveUserPrefs = (prefs) => {
         prefs.forEach((pref) => {
+            pref.toggle = true;
             pref.uid = AuthService.getCurrentUid();
             ProfileService.saveUserPrefs(pref);
         });        
