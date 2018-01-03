@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('TripCreateCtrl', function ($location, $rootScope, $scope, $timeout, $window, GOOGLEMAPS_CONFIG, moment, MapsService, MountainProjService, RoutesService, TripsService) {
+app.controller('TripCreateCtrl', function ($location, $rootScope, $scope, $timeout, $window, GOOGLEMAPS_CONFIG, moment, AuthService, MapsService, MountainProjService, RoutesService, TripsService) {
 
     //inject google maps script
     $scope.googleUrl = `https://maps.google.com/maps/api/js?key=${GOOGLEMAPS_CONFIG}`;
@@ -179,6 +179,7 @@ app.controller('TripCreateCtrl', function ($location, $rootScope, $scope, $timeo
 
     $scope.filterRoutesType = (type, TR) => {
         $scope.filterOn = "name";
+        $scope.showRoutes = true;
         getAllRoutes();
         if (TR) {
             $scope.routes = $scope.routes.filter((route) => {
@@ -196,6 +197,7 @@ app.controller('TripCreateCtrl', function ($location, $rootScope, $scope, $timeo
     };
 
     $scope.getAllRoutes = () => {
+        // ORDER BY
         $scope.filterOn = "name";
         getAllRoutes();
     };

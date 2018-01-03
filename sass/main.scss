@@ -195,3 +195,23 @@ li {
     font-size: 50px;
     font-family: 'Montserrat';
 }
+#user_profile_pic {
+    width: 50%;
+    border-radius: 50%;
+}
+#user_name_heading {
+    margin-top: 58px;
+}
+#profile_container {
+    width: 850px;
+}
+#MP_url {
+    color: chocolate;
+}
+#MP_url:hover {
+    color: rgb(232, 120, 40);
+}
+.modal-dialog {
+    width: 600px;
+    margin: 190px auto;
+}
