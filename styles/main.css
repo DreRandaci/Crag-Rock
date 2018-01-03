@@ -102,6 +102,12 @@ li {
 .remove_route_modal:hover {
   color: red; }
 
+.remove_lodging_modal {
+  float: right; }
+
+.remove_lodging_modal:hover {
+  color: red; }
+
 .route_links:hover {
   text-decoration: none; }
 
