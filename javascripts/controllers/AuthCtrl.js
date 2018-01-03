@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller("AuthCtrl", function ($location, $rootScope, $scope, AuthService, MountainProjService, ProfileService) {
+app.controller("AuthCtrl", function ($location, $rootScope, $scope, AuthService, MountainProjService) {
     $scope.authenticate = (email, password) => {
         AuthService.authenticateGoogle().then((result) => {
             let profile = result.additionalUserInfo.profile;

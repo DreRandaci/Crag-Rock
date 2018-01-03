@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller("ProfileCtrl", function ($rootScope, $scope, AuthService, ProfileService, MountainProjService) {
+app.controller("ProfileCtrl", function ($rootScope, $scope, AuthService, MountainProjService) {
 
     const getUserFromMountProj = () => {
         if ($rootScope.userAutheticatedWithGoogle) {

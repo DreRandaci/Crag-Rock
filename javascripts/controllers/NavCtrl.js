@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller("NavCtrl", function( $location, $rootScope, $scope, $window, AuthService, MountainProjService, ProfileService ) {
+app.controller("NavCtrl", function( $location, $rootScope, $scope, $window, AuthService, MountainProjService ) {
     $scope.logoutUser = () => {
         $window.localStorage.clear();
         AuthService.logout();
