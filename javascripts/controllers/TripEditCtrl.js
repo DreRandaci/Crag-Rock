@@ -106,7 +106,8 @@ app.controller('TripEditCtrl', function ($location, $log, $rootScope, $routePara
     };
 
     //save each climbing route
-    $scope.saveToRouteList = (route) => {
+    $scope.saveToRouteList = (index, route) => {
+
         $scope.routes.forEach((listRoute) => {
             if (listRoute.id === route.id) {
                 listRoute.disabled = true;

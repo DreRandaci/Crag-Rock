@@ -58,7 +58,7 @@
                             <!-- FOOD -->
                             <div uib-accordion-group ng-show="places.length" class="panel-default" heading="Food">
                                 <div ng-repeat="place in places" ng-if="tripId == place.trip_id && place.type == 'restaurant'">{{place.name}}
-                                    <a class="" ng-click="deletePlace($index, place.id)">
+                                    <a class="remove_thing_modal_float" ng-click="deletePlace($index, place.id)">
                                         remove
                                     </a>
                                 </div>
@@ -67,7 +67,7 @@
                             <!-- LODGING -->
                             <div uib-accordion-group ng-show="places.length" class="panel-default" heading="Lodging">
                                 <div ng-repeat="place in places" ng-if="tripId == place.trip_id && place.type == 'lodging' || tripId == place.trip_id && place.type == 'campground'">{{place.name}}
-                                    <a class="remove_lodging_modal" ng-click="deletePlace($index, place.id)">
+                                    <a class="remove_thing_modal_float" ng-click="deletePlace($index, place.id)">
                                         remove
                                     </a>
                                 </div>

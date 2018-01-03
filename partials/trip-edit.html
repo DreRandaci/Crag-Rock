@@ -20,7 +20,7 @@
         <h4>Routes</h4>
         <div class='col-md-6'>
             <div class="places_and_routes_list" ng-show="routes.length" class="list-group">
-                <a ng-repeat="route in routes | orderBy: 'name'" ng-class="{'disabled': route.disabled}" class="list-group-item" ng-click="saveToRouteList(route)">{{route.name}} {{route.rating}}</a>
+                <a ng-repeat="route in routes | orderBy: 'name'" ng-class="{'disabled': route.disabled}" class="list-group-item" ng-click="saveToRouteList($index, route)">{{route.name}} {{route.rating}}</a>
             </div>
         </div>
         <div class="col-md-6">
@@ -46,7 +46,7 @@
                         </button>
                     </span>
                 </p>
-                <h4>Your Trip Routes:</h4>
+                <!-- <h4>Your Trip Routes:</h4>
                 <ul>
                     <li ng-repeat="route in savedRoutes" ng-model="routes">
                         <a>{{route.name}} {{route.rating}}, {{route.wall}}</a>
@@ -54,7 +54,7 @@
                             <i class="fas fa-trash"></i>
                         </a>
                     </li>
-                </ul>
+                </ul> -->
                 <button class="btn btn-success" ng-click="createTrip(trip, savedRoutes, dt)">Update</button>
             </div>
         </div>

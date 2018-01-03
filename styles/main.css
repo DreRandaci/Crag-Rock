@@ -102,10 +102,10 @@ li {
 .remove_route_modal:hover {
   color: red; }
 
-.remove_lodging_modal {
+.remove_thing_modal_float {
   float: right; }
 
-.remove_lodging_modal:hover {
+.remove_thing_modal_float:hover {
   color: red; }
 
 .route_links:hover {
@@ -216,3 +216,8 @@ li {
 .modal-dialog {
   width: 600px;
   margin: 190px auto; }
+
+.panel-group .panel {
+  margin-bottom: 0;
+  margin-top: 3px;
+  border-radius: 4px; }
