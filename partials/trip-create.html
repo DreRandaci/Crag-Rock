@@ -25,9 +25,9 @@
             <div ng-show="routes.length">
                 <uib-tabset active="active" justified="true">
                     <uib-tab select="getAllRoutes()" index="0" heading="All"></uib-tab>
-                    <uib-tab select="filterRoutesType('Sport')" ng-show="showSportRoutes" index="2" heading="Sport"></uib-tab>
-                    <uib-tab select="filterRoutesType('Boulder')" ng-show="showBoulderRoutes" index="3" heading="Boulder"></uib-tab>
-                    <uib-tab select="filterRoutesType('Trad', 'TR')" ng-show="showTradRoutes" index="4" heading="Trad/TR"></uib-tab>
+                    <uib-tab select="filterRoutesType('Sport')" index="2" heading="Sport"></uib-tab>
+                    <uib-tab select="filterRoutesType('Boulder')" index="3" heading="Boulder"></uib-tab>
+                    <uib-tab select="filterRoutesType('Trad', 'TR')" index="4" heading="Trad/TR"></uib-tab>
                     <uib-tab select="filterRoutesClassic()" index="1" heading="Classics"></uib-tab>
                 </uib-tabset>
 

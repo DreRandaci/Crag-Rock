@@ -31,7 +31,6 @@ app.controller('TripCreateCtrl', function ($location, $rootScope, $scope, $timeo
             events: {
                 //FOR SEARCH QUERIES
                 places_changed: function (searchBox) {
-                    $scope.showRoutes = false;
                     let places = searchBox.getPlaces();
                     let lat = places[0].geometry.location.lat();
                     let lng = places[0].geometry.location.lng();
@@ -64,7 +63,6 @@ app.controller('TripCreateCtrl', function ($location, $rootScope, $scope, $timeo
                 events: {
                     //FOR CLICK QUERIES
                     click: function (a, click, c) {
-                        $scope.showRoutes = false;
                         $scope.map.zoom = 8;
                         $scope.map.center = formatMapCenter(c[0].latLng.lat(), c[0].latLng.lng());
                         getClimbingRadius50Miles(c[0].latLng.lat(), c[0].latLng.lng());
@@ -117,7 +115,6 @@ app.controller('TripCreateCtrl', function ($location, $rootScope, $scope, $timeo
     $scope.markersEvents = {
         click: function (marker, eventName, model) {
             $scope.updateHeadingBeforeUserClicksMarker = false;
-            $scope.showRoutes = false;
             model.show = !model.show;
 
             let markerLat = model.latitude;
@@ -161,29 +158,8 @@ app.controller('TripCreateCtrl', function ($location, $rootScope, $scope, $timeo
             //SAVING A COPY OF THE ROUTES ARRAY FOR FILTERING
             $scope.allRoutes = routes;
             $scope.routes = routes;
-            // SHOWS TABS BASED ON SAVED USER PREFS WHEN MARKER IS CLICKED
-            filterUserPrefs();
-            enableRouteFiltering();
         }).catch((err) => {
             console.log('error in getClimbingRoutesByLatLng:', err);
-        });
-    };
-
-    const filterUserPrefs = () => {
-        ProfileService.getUserPrefs(AuthService.getCurrentUid()).then((userPrefs) => {            
-            userPrefs.forEach((pref) => {
-                if (pref.type == "Sport") {
-                    $scope.showSportRoutes = true;
-                } else if (pref.type == "Boulder") {
-                    $scope.showBoulderRoutes = true;
-                } else if (pref.type == "Trad") {
-                    $scope.showTradRoutes = true;
-                } else if (pref.type == "Alpine") {
-                    $scope.showAlpineRoutes = true;
-                }
-            });
-        }).catch((err) => {
-            console.log('err in getUserPrefs', err);
         });
     };
 
@@ -201,25 +177,23 @@ app.controller('TripCreateCtrl', function ($location, $rootScope, $scope, $timeo
 
     };
 
-    const enableRouteFiltering = () => {
-        $scope.filterRoutesType = (type, TR) => {
-            $scope.filterOn = "name";
-            $scope.showRoutes = true;
+    $scope.filterRoutesType = (type, TR) => {
+        $scope.filterOn = "name";
+        $scope.showRoutes = true;
+        getAllRoutes();
+        if (TR) {
+            $scope.routes = $scope.routes.filter((route) => {
+                return route.type.toUpperCase().indexOf(TR.toUpperCase()) > -1;
+            });
+        } else {
             getAllRoutes();
-            if (TR) {
-                $scope.routes = $scope.routes.filter((route) => {
-                    return route.type.toUpperCase().indexOf(TR.toUpperCase()) > -1;
-                });
-            } else {
-                getAllRoutes();
-                $scope.routes = $scope.routes.filter((route) => {
-                    return route.type.indexOf(type) > -1;
-                });
-            }
-            if ($scope.routes.length == 0) {
-                $scope.routes = [{ name: "None", type: "search again", disabled: true }];
-            }
-        };
+            $scope.routes = $scope.routes.filter((route) => {
+                return route.type.indexOf(type) > -1;
+            });
+        }
+        if ($scope.routes.length == 0) {
+            $scope.routes = [{ name: "None", type: "search again", disabled: true }];
+        }
     };
 
     $scope.getAllRoutes = () => {

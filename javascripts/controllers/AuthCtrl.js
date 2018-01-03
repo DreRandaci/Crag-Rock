@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller("AuthCtrl", function ($location, $rootScope, $scope, AuthService, ProfileService) {
+app.controller("AuthCtrl", function ($location, $rootScope, $scope, AuthService, MountainProjService, ProfileService) {
     $scope.authenticate = (email, password) => {
         AuthService.authenticateGoogle().then((result) => {
             let profile = result.additionalUserInfo.profile;
@@ -12,6 +12,7 @@ app.controller("AuthCtrl", function ($location, $rootScope, $scope, AuthService,
             formatUser.picture = profile.picture;
             $scope.user = formatUser;
             $rootScope.user = formatUser;
+            getMPUser();
             $rootScope.navbar = true;
             $rootScope.userAutheticatedWithGoogle = true;
             $scope.$apply(() => {
@@ -19,6 +20,14 @@ app.controller("AuthCtrl", function ($location, $rootScope, $scope, AuthService,
             });
         }).catch((error) => {
             console.log("error in authenticateGoogle", error);
+        });
+    };
+
+    const getMPUser = () => {
+        MountainProjService.getUser($rootScope.user.email).then((res) => {
+            $rootScope.MPlocation = res.data.location;
+        }).catch((err) => {
+            console.log('err in getUserFromMountProj', err);
         });
     };
 
