@@ -196,7 +196,7 @@ li {
     font-family: 'Montserrat';
 }
 #user_profile_pic {
-    width: 100%;
+    width: 50%;
     border-radius: 50%;
 }
 #user_name_heading {
@@ -204,4 +204,14 @@ li {
 }
 #profile_container {
     width: 850px;
+}
+#MP_url {
+    color: chocolate;
+}
+#MP_url:hover {
+    color: rgb(232, 120, 40);
+}
+.modal-dialog {
+    width: 600px;
+    margin: 190px auto;
 }

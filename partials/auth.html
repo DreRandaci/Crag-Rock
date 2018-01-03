@@ -24,13 +24,6 @@
                 <!-- CONTENT -->
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-12" ng-controller="ProfileCtrl">
-                            <h4>Route Preferences:</h4>
-                            <div class="list-group">
-                                <a ng-repeat="preference in preferences" ng-click="togglePreference($index, preference)" ng-class="{'disabled': preference.disabled}" class="list-group-item">{{preference.type}}</a>
-                                <a ng-click="toggleAllPreferences()" ng-class="{'disabled': allPref.disabled}" class="list-group-item">All</a>
-                            </div>
-                        </div>
                         <div class="col-md-12">
                             <p>Create an Account</p>
                             <form name='createUser' class="form-inline add_margin">

@@ -170,8 +170,7 @@ app.controller('TripCreateCtrl', function ($location, $rootScope, $scope, $timeo
     };
 
     const filterUserPrefs = () => {
-        ProfileService.getUserPrefs(AuthService.getCurrentUid()).then((res) => {
-            let userPrefs = res;
+        ProfileService.getUserPrefs(AuthService.getCurrentUid()).then((userPrefs) => {            
             userPrefs.forEach((pref) => {
                 if (pref.type == "Sport") {
                     $scope.showSportRoutes = true;
@@ -224,6 +223,7 @@ app.controller('TripCreateCtrl', function ($location, $rootScope, $scope, $timeo
     };
 
     $scope.getAllRoutes = () => {
+        // ORDER BY
         $scope.filterOn = "name";
         getAllRoutes();
     };

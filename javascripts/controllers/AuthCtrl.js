@@ -3,7 +3,6 @@
 app.controller("AuthCtrl", function ($location, $rootScope, $scope, AuthService, ProfileService) {
     $scope.authenticate = (email, password) => {
         AuthService.authenticateGoogle().then((result) => {
-            $rootScope.userAutheticatedWithGoogle = true;
             let profile = result.additionalUserInfo.profile;
             let formatUser = {};
             formatUser.first_name = profile.given_name;
@@ -12,22 +11,15 @@ app.controller("AuthCtrl", function ($location, $rootScope, $scope, AuthService,
             formatUser.email = profile.email;
             formatUser.picture = profile.picture;
             $scope.user = formatUser;
-            saveUserPrefs($rootScope.savedPrefs);
+            $rootScope.user = formatUser;
             $rootScope.navbar = true;
+            $rootScope.userAutheticatedWithGoogle = true;
             $scope.$apply(() => {
                 $location.url("/trip/create");
             });
         }).catch((error) => {
             console.log("error in authenticateGoogle", error);
         });
-    };
-
-    const saveUserPrefs = (prefs) => {
-        prefs.forEach((pref) => {
-            pref.toggle = true;
-            pref.uid = AuthService.getCurrentUid();
-            ProfileService.saveUserPrefs(pref);
-        });        
     };
 
     $scope.createUserAccount = (email, name) => {
