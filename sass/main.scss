@@ -88,9 +88,9 @@ li {
 }
 .flex_container {
     display: flex;
-    margin: 5px;
     flex-wrap: wrap; 
-    justify-content: center;
+    justify-content: space-between;
+    align-content: flex-start;
 }
 .nav-tabs.nav-justified {
     width: 100%;
@@ -131,8 +131,8 @@ li {
 .trip {
     margin: 1em;
     box-shadow: $light-box-shadow;
-    width: 350px;
-    height: 350px;    
+    width: 330px;
+    height: 325px; 
     box-shadow: $light-box-shadow;    
     position: relative;
     color: $trip-card-cover-text;
@@ -233,4 +233,7 @@ li {
 #margin_update_btn {
     margin-top: 20px;
     margin-bottom: 20px;
+}
+.trips_title {
+    margin-left: 15px;
 }

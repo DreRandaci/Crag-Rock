@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('TripPlacesCtrl', function ($location, $rootScope, $routeParams, $scope, GOOGLEPLACES_CONFIG, TripsService, PlacesService) {
+app.controller('TripPlacesCtrl', function ($location, $rootScope, $routeParams, $scope, $timeout, GOOGLEPLACES_CONFIG, TripsService, PlacesService) {
 
     $scope.googlePlacesUrl = `https://maps.googleapis.com/maps/api/js?key=${GOOGLEPLACES_CONFIG}&libraries=places`;
 
@@ -159,7 +159,9 @@ app.controller('TripPlacesCtrl', function ($location, $rootScope, $routeParams, 
     };
 
     $scope.routeToTrips = () => {
-        $location.path("/trips");
+        $timeout(function () {
+            $location.path("/trips");
+        }, 250);
     };
 
     $scope.removePlaceFromSavedPlacesList = (index, place) => {

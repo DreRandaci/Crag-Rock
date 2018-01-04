@@ -17,6 +17,7 @@
                         ng-click="saveToPlaceList($index, place)">{{place.name}} ({{place.type}})</a>
                 </div>
             </div>
+            <button class="btn btn-success" data-toggle="modal" data-target="#places_modal">Done</button>
         </div>
 
         <div class="col-md-8 map ">
@@ -32,9 +33,48 @@
             </ui-gmap-google-map>
         </div>
 
+        <!--- MODAL -->
+        <div class="modal" id="places_modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
 
+                    <div class="modal-header text-center">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h2 class="modal-title">Create Trip</h2>
+                    </div>
 
-        <div ng-show="savedPlaces.length" class="col-md-8 col-md-offset-2">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <!-- ACCORDIAN -->
+                                <uib-accordion close-others="oneAtATime">
+
+                                    <!-- PLACES -->
+                                    <div uib-accordion-group class="panel-default" heading="Saved Places">
+                                        <div>
+                                            <ul class="list-group">
+                                                <li class="list-group-item" ng-repeat="place in savedPlaces">{{place.name}} ({{place.type}})
+                                                    <a class="trash_float" ng-click="removePlaceFromSavedPlacesList($index, place)">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                </uib-accordion>
+                                <button class="btn btn-success" ng-click="routeToTrips()" data-dismiss="modal">Done</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div ng-show="savedPlaces.length" class="col-md-8 col-md-offset-2">
             <h4>Saved Places</h4>
             <div>
                 <ul class="list-group">
@@ -48,8 +88,8 @@
                     <button class="btn btn-success" ng-click="routeToTrips()">Done</button>
                 </div>
             </div>
-        </div>
-
+        </div> -->
 
     </div>
+
 </div>

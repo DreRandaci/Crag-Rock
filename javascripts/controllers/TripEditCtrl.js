@@ -76,6 +76,7 @@ app.controller('TripEditCtrl', function ($location, $log, $rootScope, $routePara
         MountainProjService.getClimbingRoutesByLatLng(lat, lng).then((climbs) => {
             let areaName = climbs.data.routes[0].location[1] + ', ' + climbs.data.routes[0].location[0];
             $scope.routes = climbs.data.routes;
+            $scope.allRoutes = $scope.routes;
             
             // ADDS 'DISABLED' PROPERTY AND FIREBASE ID TO PREVIOUSLY SAVED ROUTES
             $scope.routes.forEach((route) => {
@@ -154,6 +155,50 @@ app.controller('TripEditCtrl', function ($location, $log, $rootScope, $routePara
         }).catch((err) => {
             console.log('error in saveTripRoutesToFirebase:', err);
         });
+    };
+
+
+    $scope.filterRoutesClassic = () => {
+        $scope.filterOn = "-stars";
+        getAllRoutes();
+        $scope.routes = $scope.routes.filter((a) => {
+            if (4 <= a.stars) {
+                return a;
+            }
+        });
+        if ($scope.routes.length == 0) {
+            $scope.routes = [{ name: "None", type: "search again" }];
+        }
+
+    };
+
+    $scope.filterRoutesType = (type, TR) => {
+        $scope.filterOn = "name";
+        $scope.showRoutes = true;
+        getAllRoutes();
+        if (TR) {
+            $scope.routes = $scope.routes.filter((route) => {
+                return route.type.toUpperCase().indexOf(TR.toUpperCase()) > -1;
+            });
+        } else {
+            getAllRoutes();
+            $scope.routes = $scope.routes.filter((route) => {
+                return route.type.indexOf(type) > -1;
+            });
+        }
+        if ($scope.routes.length == 0) {
+            $scope.routes = [{ name: "None", type: "search again", disabled: true }];
+        }
+    };
+
+    $scope.getAllRoutes = () => {
+        // ORDER BY
+        $scope.filterOn = "name";
+        getAllRoutes();
+    };
+
+    const getAllRoutes = () => {
+        $scope.routes = $scope.allRoutes;
     };
 
     //DATEPICKER
