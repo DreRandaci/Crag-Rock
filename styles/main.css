@@ -200,7 +200,8 @@ li {
 
 #user_profile_pic {
   width: 50%;
-  border-radius: 50%; }
+  border-radius: 50%;
+  margin-top: 20px; }
 
 #user_name_heading {
   margin-top: 58px; }
