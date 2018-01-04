@@ -77,11 +77,12 @@ app.controller('TripEditCtrl', function ($location, $log, $rootScope, $routePara
             let areaName = climbs.data.routes[0].location[1] + ', ' + climbs.data.routes[0].location[0];
             $scope.routes = climbs.data.routes;
             
-            // ADDS 'DISABLED' PROPERTY TO PREVIOUSLY SAVED ROUTES
+            // ADDS 'DISABLED' PROPERTY AND FIREBASE ID TO PREVIOUSLY SAVED ROUTES
             $scope.routes.forEach((route) => {
                 $scope.savedRoutes.forEach((savedRoute) => {
                     if (route.name == savedRoute.name) {
                         route.disabled = true;
+                        route.fbId = savedRoute.id;
                     }
                 });
             });
@@ -98,35 +99,40 @@ app.controller('TripEditCtrl', function ($location, $log, $rootScope, $routePara
                 listRoute.disabled = false;
             }
         });
-        $scope.savedRoutes.splice(index, 1);
-        RoutesService.deleteRoutes(route.id).then(() => {
+        $scope.savedRoutes.splice(index, 1);        
+        deleteRoute(route.id);
+    };
+
+    const deleteRoute = (routeId) => {
+        RoutesService.deleteRoutes(routeId).then(() => {
         }).catch((err) => {
             console.log('error in deleteSingleRouteFromFirebase:', err);
         });
     };
 
     //save each climbing route
-    $scope.saveToRouteList = (index, route) => {
+    $scope.saveToRouteList = (route) => {
         route.disabled = route.disabled ? false : true;
         if (route.disabled) {
             $scope.savedRoutes.push(route);
+            saveUpdatedRoutes(route, $routeParams.id);
         } else {
             $scope.savedRoutes.forEach((savedRoute, i) => {
-                if (savedRoute.id == route.id) {
+                if (savedRoute.routeId == route.id) {
                     $scope.savedRoutes.splice(i, 1);
                 }
             });
+            deleteRoute(route.fbId);
         }
-        
+
         $scope.routes.forEach((listRoute) => {
-            if (listRoute.id === route.id) {
+            if (listRoute.routeId === route.id) {
                 listRoute.disabled = true;
             }
         });
-        saveUpdatedRoutes(route, $routeParams.id);
     };
 
-    $scope.createTrip = (trip, savedRoutes, dt) => {
+    $scope.createTrip = (trip, dt) => {
         trip.date = dt.toString();
         postUpdatedTrip(trip);
     };
