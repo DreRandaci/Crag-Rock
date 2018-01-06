@@ -122,7 +122,6 @@ li {
 
 .trip {
   margin: 1em;
-  box-shadow: 0px 10px 35px -13px rgba(63, 63, 63, 0.75);
   width: 330px;
   height: 325px;
   box-shadow: 0px 10px 35px -13px rgba(63, 63, 63, 0.75);
@@ -136,17 +135,14 @@ li {
   /* FF3.6-15 */
   background: -webkit-linear-gradient(top, #7d7e7d -17%, #0e0e0e 96%);
   /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to bottom, #7d7e7d -17%, #0e0e0e 96%);
-  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  background: linear-gradient(to bottom, #3f4144 -17%, #0e0e0e 96%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7d7e7d', endColorstr='#0e0e0e',GradientType=0 );
   /* IE6-9 */ }
 
 .trip:hover {
   box-shadow: 0px 10px 100px -13px rgba(0, 0, 0, 0.75);
   opacity: 1;
-  transition: all 0.5s ease;
-  color: #fffffff0;
-  background: linear-gradient(to bottom, #7d7e7d -17%, #0e0e0e 96%); }
+  color: #fffffff0; }
 
 .trip_cover_text {
   position: relative;
@@ -232,3 +228,9 @@ li {
 
 .trips_title {
   margin-left: 15px; }
+
+.link_chocolate {
+  color: chocolate; }
+
+.link_blue {
+  color: #1e7ed2; }

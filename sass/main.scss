@@ -129,7 +129,6 @@ li {
 }
 .trip {
     margin: 1em;
-    box-shadow: $light-box-shadow;
     width: 330px;
     height: 325px; 
     box-shadow: $light-box-shadow;    
@@ -140,15 +139,13 @@ li {
     background: #7d7e7d; /* Old browsers */
     background: -moz-linear-gradient(top, #7d7e7d -17%, #0e0e0e 96%); /* FF3.6-15 */
     background: -webkit-linear-gradient(top, #7d7e7d -17%,#0e0e0e 96%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom, #7d7e7d -17%,#0e0e0e 96%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    background: linear-gradient(to bottom, #3f4144 -17%, #0e0e0e 96%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7d7e7d', endColorstr='#0e0e0e',GradientType=0 ); /* IE6-9 */
 }
 .trip:hover {
     box-shadow: $dark-box-shadow;
-    opacity: 1;
-    transition:all 0.5s ease; 
+    opacity: 1;    
     color: $trip-card-cover-text-hover;
-    background: linear-gradient(to bottom, #7d7e7d -17%,#0e0e0e 96%);
 }
 .trip_cover_text {
     position: relative;
@@ -213,7 +210,7 @@ li {
     width: 850px;
 }
 #MP_url {
-    color: chocolate;
+    color: $link-color-chocolate;
 }
 #MP_url:hover {
     color: rgb(232, 120, 40);
@@ -236,4 +233,10 @@ li {
 }
 .trips_title {
     margin-left: 15px;
+}
+.link_chocolate {
+    color: $link-color-chocolate;
+}
+.link_blue {
+    color: $link-color-blue;
 }

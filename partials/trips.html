@@ -1,18 +1,20 @@
 <div class="container">
 
-    <div ng-if="!trips.length" class="text-center container col-md-4 col-md-offset-3">
-        <div class="center_create_trip_btn alert alert_shadow">
-            <h1>Lets get started on your next trip</h1>
-            <button class="btn btn-success" ng-click="routeToCreateTrip()">Create a Trip Here</button>
-        </div>
-    </div>
 
     <div class="container">
     </div>
     <div class="background_container add_container_shadow">
-        <div class="trips_title">            
+        <div class="trips_title">
             <h1>Trips</h1>
         </div>
+        <div ng-if="!trips.length" class="text-center container col-md-4 col-md-offset-3">
+            <div class="center_create_trip_btn alert alert_shadow">
+                <h1>Lets get started on your next trip</h1>
+                <button class="btn btn-success" ng-click="routeToCreateTrip()">Create a Trip Here</button>
+            </div>
+        </div>
+
+        <!-- FLEX CONTAINER -->
         <div class="flex_container">
 
 
@@ -42,7 +44,9 @@
                 </button>
 
                 <h2 class="modal-title">{{currentTrip.name}}</h2>
-                <p>{{currentTrip.area}}</p>
+                <a ng-href="https://www.google.com/maps/dir/?api=1&origin={{userCurrentPos}}&destination={{currentTrip.area}}" target="_blank">
+                    <h4 class="link_chocolate">Directions to {{currentTrip.area}}</h4>
+                </a>
                 <p>{{currentTrip.date}}</p>
 
             </div>
@@ -65,16 +69,18 @@
 
                             <!-- FOOD -->
                             <div uib-accordion-group ng-show="places.length" class="panel-default" heading="Food">
-                                <div ng-repeat="place in places" ng-if="tripId == place.trip_id && place.type == 'restaurant'">{{place.name}}
+                                <a class="link_chocolate" ng-repeat="place in places" ng-if="tripId == place.trip_id && place.type == 'restaurant'" ng-href="https://www.google.com/maps/dir/?api=1&origin={{userCurrentPos}}&destination={{place.vicinity}}" target="_blank">{{place.name}}
                                     <a class="remove_thing_modal_float" ng-click="deletePlace($index, place.id)">
                                         remove
                                     </a>
-                                </div>
+                                </a>
                             </div>
 
                             <!-- LODGING -->
                             <div uib-accordion-group ng-show="places.length" class="panel-default" heading="Lodging">
-                                <div ng-repeat="place in places" ng-if="tripId == place.trip_id && place.type == 'lodging' || tripId == place.trip_id && place.type == 'campground'"><a ng-href="https://www.google.com/maps/dir/?api=1&origin={{userCurrentPos}}&destination={{place.vicinity}}" target="_blank">{{place.name}}</a>
+                                <div ng-repeat="place in places" ng-if="tripId == place.trip_id && place.type == 'lodging' || tripId == place.trip_id && place.type == 'campground'">
+                                    <a class="link_chocolate" ng-href="https://www.google.com/maps/dir/?api=1&origin={{userCurrentPos}}&destination={{place.vicinity}}"
+                                        target="_blank">{{place.name}}</a>
                                     <a class="remove_thing_modal_float" ng-click="deletePlace($index, place.id)">
                                         remove
                                     </a>
