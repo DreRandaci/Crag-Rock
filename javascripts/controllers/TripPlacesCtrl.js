@@ -12,7 +12,7 @@ app.controller('TripPlacesCtrl', function ($location, $rootScope, $routeParams, 
             //default nashville coords
             latitude: 36.174465, longitude: -86.767960
         },
-        zoom: 10,
+        zoom: 7,
         styles: $rootScope.mapStyles,
         options: $scope.mapOptions,
     };
@@ -31,7 +31,7 @@ app.controller('TripPlacesCtrl', function ($location, $rootScope, $routeParams, 
             $scope.markers.push({ id: 'trip', latitude: trip.lat, longitude: trip.lng });
             $scope.map = {
                 center: { latitude: trip.lat, longitude: trip.lng },
-                zoom: 10,
+                zoom: 8,
                 options: { scrollwheel: true },
                 window: {
                     marker: {},
@@ -82,7 +82,7 @@ app.controller('TripPlacesCtrl', function ($location, $rootScope, $routeParams, 
             $scope.places = createPlacesObjectsArray(results, icon, type);
             $scope.markers = createPlacesObjectsArray(results, icon, type);
             $scope.map.center = { latitude: lat, longitude: lng };
-            $scope.map.zoom = 11;
+            $scope.map.zoom = 8;
 
             // ADDS 'DISABLED' PROPERTY TO PREVIOUSLY SAVED PLACES
             $scope.places.forEach((place) => {
