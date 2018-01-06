@@ -57,6 +57,10 @@ app.controller('TripCreateCtrl', function ($location, $rootScope, $scope, $timeo
             $scope.currentPosition = position;
             let lat = position.coords.latitude;
             let lng = position.coords.longitude;
+            // SAVES USERS CURRENT POS
+            MapsService.getMapByLatLngQuery(lat,lng).then((res) => {
+                $rootScope.userCurrentPos = res.data.results[0].formatted_address;
+            });
             $scope.markers.push({ id: 'crntPos', latitude: lat, longitude: lng });
             $scope.map = {
                 center: formatMapCenter(lat, lng),

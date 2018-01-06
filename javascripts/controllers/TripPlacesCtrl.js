@@ -79,6 +79,7 @@ app.controller('TripPlacesCtrl', function ($location, $rootScope, $routeParams, 
 
     const getAndFormatPlaces = (type, lat, lng, icon) => {
         PlacesService.getGooglePlaces(type, lat, lng).then((results) => {
+            console.log(results);
             $scope.places = createPlacesObjectsArray(results, icon, type);
             $scope.markers = createPlacesObjectsArray(results, icon, type);
             $scope.map.center = { latitude: lat, longitude: lng };

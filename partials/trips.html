@@ -74,7 +74,7 @@
 
                             <!-- LODGING -->
                             <div uib-accordion-group ng-show="places.length" class="panel-default" heading="Lodging">
-                                <div ng-repeat="place in places" ng-if="tripId == place.trip_id && place.type == 'lodging' || tripId == place.trip_id && place.type == 'campground'">{{place.name}}
+                                <div ng-repeat="place in places" ng-if="tripId == place.trip_id && place.type == 'lodging' || tripId == place.trip_id && place.type == 'campground'"><a ng-href="https://www.google.com/maps/dir/?api=1&origin={{userCurrentPos}}&destination={{place.vicinity}}" target="_blank">{{place.name}}</a>
                                     <a class="remove_thing_modal_float" ng-click="deletePlace($index, place.id)">
                                         remove
                                     </a>
