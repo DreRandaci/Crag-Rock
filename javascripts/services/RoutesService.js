@@ -11,6 +11,7 @@ app.service("RoutesService", function ($http, $q, FIREBASE_CONFIG, AuthService) 
             "stars": route.stars,
             "area": route.area, 
             "trip_id": tripId,
+            "url" : route.url,
             "uid": AuthService.getCurrentUid()
         };
     };

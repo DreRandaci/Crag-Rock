@@ -224,7 +224,7 @@ app.controller('TripCreateCtrl', function ($location, $rootScope, $scope, $timeo
     // SAVE/REMOVE EACH CLIMBING ROUTE TO AN ARRAY FROM MAIN ROUTE LIST UNDER MAP
     $scope.saveToRouteList = (route) => {
         route.disabled = route.disabled ? false : true;
-        if (route.disabled) {
+        if (route.disabled) {            
             $scope.savedRoutes.push(route);
         } else {
             $scope.savedRoutes.forEach((savedRoute, i) => {
@@ -260,7 +260,7 @@ app.controller('TripCreateCtrl', function ($location, $rootScope, $scope, $timeo
     const saveTrip = (newTrip) => {
         TripsService.saveTripToFirebase(newTrip).then((results) => {
             let tripId = results.data.name;
-            saveRoutes($scope.savedRoutes, tripId);
+            saveRoutes($scope.savedRoutes, tripId);            
             $timeout(function () {
                 $location.path("/trips");
             }, 250);

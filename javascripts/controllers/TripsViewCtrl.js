@@ -38,14 +38,14 @@ app.controller('TripsViewCtrl', function (moment, $location, $scope, $timeout, A
                 trip.date = moment(date, dateFormat).format(dateFormat);
                 return trip;
             });
-            getRoutes();
+            getUserRoutes();
         }).catch((err) => {
             console.log('err in getRoutes:', err);
         });
     };
     getTrips();
 
-    const getRoutes = () => {
+    const getUserRoutes = () => {
         RoutesService.getRoutes(AuthService.getCurrentUid()).then((routes) => {
             $scope.routes = routes;
             getPlaces();
