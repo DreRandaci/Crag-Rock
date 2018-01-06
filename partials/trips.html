@@ -59,7 +59,8 @@
                             <uib-accordion close-others="oneAtATime">
 
                                 <div uib-accordion-group class="panel-default" heading="Routes">
-                                    <div ng-repeat="route in routes" ng-if="tripId === route.trip_id"><a ng-href="{{route.url}}" class="link_chocolate" target="_blank">{{route.name}} {{route.rating}} ({{route.type}})</a>
+                                    <div ng-repeat="route in routes" ng-if="tripId === route.trip_id">
+                                        <a ng-href="{{route.url}}" class="link_chocolate" target="_blank">{{route.name}} {{route.rating}} ({{route.type}})</a>
                                         <ng-rate-it ng-model="route.stars" max="5" step="0.1" read-only="true"></ng-rate-it>
                                         <a class="remove_route_modal" ng-click="deleteRoute($index, route.id)">
                                             remove
@@ -69,12 +70,14 @@
 
                                 <!-- FOOD -->
                                 <div uib-accordion-group ng-show="places.length" class="panel-default" heading="Food">
-                                    <a class="link_chocolate" ng-repeat="place in places" ng-if="tripId == place.trip_id && place.type == 'restaurant'" ng-href="https://www.google.com/maps/dir/?api=1&origin={{userCurrentPos}}&destination={{place.vicinity}}"
-                                        target="_blank">{{place.name}}
+                                    <div ng-repeat="place in places" ng-if="tripId == place.trip_id && place.type == 'restaurant'">
+                                        <a class="link_chocolate" ng-href="https://www.google.com/maps/dir/?api=1&origin={{userCurrentPos}}&destination={{place.vicinity}}"
+                                            target="_blank">{{place.name}}
+                                        </a>
                                         <a class="remove_thing_modal_float" ng-click="deletePlace($index, place.id)">
                                             remove
                                         </a>
-                                    </a>
+                                    </div>
                                 </div>
 
                                 <!-- LODGING -->
