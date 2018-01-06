@@ -17,7 +17,7 @@
                         ng-click="saveToPlaceList($index, place)">{{place.name}} ({{place.type}})</a>
                 </div>
             </div>
-            <button class="btn btn-success" data-toggle="modal" data-target="#places_modal">Done</button>
+            <button ng-show="places.length" class="btn btn-success" data-toggle="modal" data-target="#places_modal">Done</button>
         </div>
 
         <div class="col-md-8 map ">
