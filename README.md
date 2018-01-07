@@ -1,5 +1,6 @@
-# Crag Rock - NSS Front-End Capstone
-
+# Crag Rock - NSS Front-End Capstone 
+>By Dre Randaci
+<br>
 
 **Summary**: A simple way to find and display rock climbing areas close to you wherever you are. *Crag* is defined as "a steep or rugged cliff". It utilizes a few Google maps API's for location and maps display, Mountain Project API for finding climbing routes, AngularJS 1.6 client side JavaScript framework, Bootstrap 3.3.7 CSS helper classes and grid, Flexbox, Angular UI-Bootstrap for additional UI components such as modals and date selection, Firebase with Google Authentication and Firebase Storage. 
 
@@ -54,3 +55,5 @@ alt="Dre Randaci Capstone Demo" width="240" height="180" border="10" /></a>
 **Or**
 
 [Try it here](https://weekend-send-train-46ba3.firebaseapp.com/)
+
+
