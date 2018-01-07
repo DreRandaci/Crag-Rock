@@ -25,7 +25,6 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
-                            <p>Create an Account</p>
                             <form name='createUser' class="form-inline add_margin">
                                 <div class="form-group">
                                     <input type="text" class="form-control" id="user_name" placeholder="Name" ng-model="user.full_name" ng-required="true">
@@ -37,7 +36,8 @@
                         </div>
 
                         <div class="col-md-12">
-                            <button ng-show="user.full_name.length > 6" class="btn btn-default" ng-click="createUserAccount(user.email, user.full_name)" data-dismiss="modal">Create Account</button>
+                            <button class="btn btn-default" ng-click="createUserAccount(user.email, user.full_name)" data-dismiss="modal">Create</button>
+                            <button class="btn btn-default" ng-click="createUserAccount(user.email, user.full_name)" data-dismiss="modal">Login</button>
                         </div>
 
                         <p>or</p>

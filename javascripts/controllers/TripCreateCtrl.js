@@ -54,7 +54,6 @@ app.controller('TripCreateCtrl', function ($location, $rootScope, $scope, $timeo
     //GRABS CURRENT LOCATION, PLOTS CLIMBS WITHIN 100 MILES
     const plotCurrentPositionMarker = () => {
         $window.navigator.geolocation.getCurrentPosition(function (position) {
-            $scope.currentPosition = position;
             let lat = position.coords.latitude;
             let lng = position.coords.longitude;
             // SAVES USERS CURRENT POS

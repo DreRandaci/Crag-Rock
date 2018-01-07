@@ -10,9 +10,7 @@ app.controller("AuthCtrl", function ($location, $rootScope, $scope, AuthService,
             formatUser.full_name = profile.name;
             formatUser.email = profile.email;
             formatUser.picture = profile.picture;
-            $scope.user = formatUser;
             $rootScope.user = formatUser;
-            getMPUser();
             $rootScope.navbar = true;
             $rootScope.userAutheticatedWithGoogle = true;
             $scope.$apply(() => {
@@ -23,16 +21,11 @@ app.controller("AuthCtrl", function ($location, $rootScope, $scope, AuthService,
         });
     };
 
-    const getMPUser = () => {
-        MountainProjService.getUser($rootScope.user.email).then((res) => {
-            $rootScope.MPlocation = res.data.location;
-        }).catch((err) => {
-            console.log('err in getUserFromMountProj', err);
-        });
-    };
-
     $scope.createUserAccount = (email, name) => {
         firebase.auth().createUserWithEmailAndPassword(email, name).then((result) => {
+            $rootScope.user = {};
+            $rootScope.user.full_name = name;
+            $rootScope.user.email = email;
             $rootScope.navbar = true;
             $scope.$apply(() => {
                 $location.url("/trip/create");
