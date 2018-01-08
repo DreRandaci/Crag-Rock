@@ -2,18 +2,29 @@
 
 app.controller("AuthCtrl", function ($location, $rootScope, $scope, AuthService, MountainProjService) {
 
+    // CREATES OBJECT TO BUILD USER
     $rootScope.user = {};
 
+    // BUILDS USER OBJECT
+    const createUserObject = (email, name) => {
+        $rootScope.user.full_name = name;
+        $rootScope.user.email = email;
+        $rootScope.user.MPChecked = $scope.MPChecked;
+    };
+
+    $scope.getChecked = () => {
+
+    };    
+
+    // GOOGLE AUTHETICATION THROUGH FIREBASE
     $scope.authenticate = (email, password) => {
-        AuthService.authenticateGoogle().then((result) => {
-            let profile = result.additionalUserInfo.profile;
-            let formatUser = {};
-            formatUser.first_name = profile.given_name;
-            formatUser.last_name = profile.family_name;
-            formatUser.full_name = profile.name;
-            formatUser.email = profile.email;
-            formatUser.picture = profile.picture;
-            $rootScope.user = formatUser;
+        AuthService.authenticateGoogle().then((result) => {        
+            let profile = result.additionalUserInfo.profile;            
+            $rootScope.user.first_name = profile.given_name;
+            $rootScope.user.last_name = profile.family_name;
+            $rootScope.user.full_name = profile.name;
+            $rootScope.user.email = profile.email;
+            $rootScope.user.picture = profile.picture;
             $rootScope.navbar = true;
             $rootScope.userAutheticatedWithGoogle = true;
             $scope.$apply(() => {
@@ -24,10 +35,10 @@ app.controller("AuthCtrl", function ($location, $rootScope, $scope, AuthService,
         });
     };
 
+    // NEW ACCOUNT CREATION THROUGH FIREBASE 
     $scope.createUserAccount = (email, name) => {
-        firebase.auth().createUserWithEmailAndPassword(email, name).then((result) => {            
-            $rootScope.user.full_name = name;
-            $rootScope.user.email = email;
+        firebase.auth().createUserWithEmailAndPassword(email, name).then((result) => {
+            createUserObject(email, name);
             $rootScope.navbar = true;
             $scope.$apply(() => {
                 $location.url("/trip/create");
@@ -37,17 +48,17 @@ app.controller("AuthCtrl", function ($location, $rootScope, $scope, AuthService,
         });
     };
 
+    // RETURNING USER LOGIN THROUGH FIREBASE
     $scope.loginUserAccount = (email, name) => {
         firebase.auth().signInWithEmailAndPassword(email, name).then((result) => {
-            $rootScope.user.full_name = name;
-            $rootScope.user.email = email;
+            createUserObject(email, name);
             $rootScope.navbar = true;
             $scope.$apply(() => {
                 $location.url("/trip/create");
             });
         }).catch((err) => {
             console.log('error in signInWithEmailAndPassword:', err);
-        });  
+        });
     };
 
 });
