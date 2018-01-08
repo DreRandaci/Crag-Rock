@@ -50,10 +50,9 @@ Allows users to see climbing areas around them, search for crags, filter route t
 - Mountain Projects Data API
 - SASS
 
-## Watch Demo
-<a href="https://youtu.be/-jmjOgrTwJ0
-" target="_blank"><img src="http://img.youtube.com/vi/-jmjOgrTwJ0&feature=youtu.be/0.jpg" 
-alt="Dre Randaci Capstone Demo" width="240" height="180" border="10" /></a>
+## Demo
+
+[Watch on YouTube](https://youtu.be/-jmjOgrTwJ0)
 
 **Or**
 
