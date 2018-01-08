@@ -1,6 +1,9 @@
 'use strict';
 
 app.controller("AuthCtrl", function ($location, $rootScope, $scope, AuthService, MountainProjService) {
+
+    $rootScope.user = {};
+
     $scope.authenticate = (email, password) => {
         AuthService.authenticateGoogle().then((result) => {
             let profile = result.additionalUserInfo.profile;
@@ -22,17 +25,29 @@ app.controller("AuthCtrl", function ($location, $rootScope, $scope, AuthService,
     };
 
     $scope.createUserAccount = (email, name) => {
-        firebase.auth().createUserWithEmailAndPassword(email, name).then((result) => {
-            $rootScope.user = {};
+        firebase.auth().createUserWithEmailAndPassword(email, name).then((result) => {            
             $rootScope.user.full_name = name;
             $rootScope.user.email = email;
             $rootScope.navbar = true;
             $scope.$apply(() => {
                 $location.url("/trip/create");
             });
-        }).catch(function (err) {
+        }).catch((err) => {
             console.log('error in createUserWithEmailAndPassword:', err);
         });
+    };
+
+    $scope.loginUserAccount = (email, name) => {
+        firebase.auth().signInWithEmailAndPassword(email, name).then((result) => {
+            $rootScope.user.full_name = name;
+            $rootScope.user.email = email;
+            $rootScope.navbar = true;
+            $scope.$apply(() => {
+                $location.url("/trip/create");
+            });
+        }).catch((err) => {
+            console.log('error in signInWithEmailAndPassword:', err);
+        });  
     };
 
 });
