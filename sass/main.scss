@@ -4,8 +4,8 @@
 ////////////* GENERAL ELEMENT STYLES *////////////
 body {    
     font-family: "Roboto", "Open Sans";
-    background-color: #3f4144;
-    color: #da961afc;
+    background-color: $main-app-background-color;
+    color: $main-app-text-color;
 }
 
 a {    
@@ -21,6 +21,64 @@ img {
 }
 li {
     list-style: none;
+}
+
+////////////* ID'S *////////////
+
+// FOR GOOGLE MAPS SEARCH BAR
+#pac-input {    
+    top: 7px !important;
+    width: 25% !important;
+}
+#auth {        
+    background: linear-gradient(to bottom, #ffa335 0%, rgba(255, 202, 138, 0.75) 32%, rgba(255, 241, 224, 0.9) 60%, rgba(255, 229, 191, 0.82) 100%);
+    border: 1px solid $auth-border;
+    border-radius: 250px;;
+    margin-top: 40px;
+}
+#auth_app_img {
+    margin-top: -230px;
+    width: 75%;
+}
+#auth_title_container {
+    width: 60%;
+    position: relative;
+    left: 230px;
+    bottom: 155px;
+    color: $app-auth-text;
+    box-shadow: $auth-container-shadow;
+    background-color: $dark-background;
+    border: 1px solid $dark-background;
+    border-radius: 38px;
+}
+#auth_title_container:hover {
+    box-shadow: $dark-box-shadow;
+    background-color: $app-auth-text-hover;
+    opacity: 1;
+    transition:all 0.5s ease;     
+}
+#auth_title {
+    font-size: 50px;
+    font-family: 'Montserrat';
+}
+#user_profile_pic {
+    width: 50%;
+    border-radius: 50%;
+    margin-top: 20px;
+}
+#user_name_heading {
+    margin-top: 58px;
+}
+#profile_container {
+    width: 850px;
+    min-height: 165px;
+}
+#places_done_btn {
+    margin-bottom: $add-bottom-margin;
+}
+#margin_update_btn {
+    margin-top: 20px;
+    margin-bottom: $add-bottom-margin;
 }
 
 ////////////* CLASSES *////////////
@@ -53,8 +111,8 @@ li {
     margin-bottom: 110px;
 }
 .background_container {
-    background-color: rgba(0, 0, 0, 0.39);
-    border: 1px solid #303642;
+    background-color: $main-background-container;
+    border: 1px solid $main-background-container-border;
     border-radius: 8px;
     margin-top: 25px;
     margin-bottom: 30px;
@@ -74,9 +132,9 @@ li {
     text-align: center;
     border-right: 1px solid rgba(0,0,0,0.2);
 }
-.center_create_trip_btn {
+.no_trips_btn {
     margin-top: 250px;
-    background-color: #6b6b6b;
+    background-color: $no-trips-btn-background;
 }
 .delete_btn {
     float: right;
@@ -88,18 +146,33 @@ li {
 }
 .flex_container {
     display: flex;
-    margin: 5px;
     flex-wrap: wrap; 
-    justify-content: center;
+    align-content: flex-start;
+}
+.link_chocolate {
+    color: $link-color-chocolate;
+}
+.link_blue {
+    color: $link-color-blue;
+}
+.modal-dialog {
+    width: 600px;
+    margin: 190px auto;
 }
 .nav-tabs.nav-justified {
     width: 100%;
     border-bottom: 0;
-    background-color: #dadada;
+    background-color: $nav-tabs-background;
+}
+.panel-group .panel {
+    margin-bottom: 0;
+    margin-top: 3px;
+    border-radius: 4px;
 }
 .places_and_routes_list {
     overflow: scroll; 
-    height:400px;    
+    height: 400px;    
+    margin-bottom: 20px;
 }
 .remove_route_modal {
     position: relative;
@@ -107,7 +180,13 @@ li {
     left: 465px;     
 }
 .remove_route_modal:hover {
-    color: red; 
+    color: $alert-red; 
+}
+.remove_thing_modal_float {
+    float: right;
+}
+.remove_thing_modal_float:hover {
+    color: $alert-red; 
 }
 .route_links:hover {
     text-decoration: none;
@@ -123,26 +202,23 @@ li {
 }
 .trip {
     margin: 1em;
-    box-shadow: $light-box-shadow;
-    width: 350px;
-    height: 350px;    
+    width: 330px;
+    height: 325px; 
     box-shadow: $light-box-shadow;    
     position: relative;
     color: $trip-card-cover-text;
-    border: 1px solid #3f4144;
+    border: 1px solid $trip-border-color;
     border-radius: 6px;
     background: #7d7e7d; /* Old browsers */
     background: -moz-linear-gradient(top, #7d7e7d -17%, #0e0e0e 96%); /* FF3.6-15 */
     background: -webkit-linear-gradient(top, #7d7e7d -17%,#0e0e0e 96%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom, #7d7e7d -17%,#0e0e0e 96%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    background: linear-gradient(to bottom, #3f4144 -17%, #0e0e0e 96%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7d7e7d', endColorstr='#0e0e0e',GradientType=0 ); /* IE6-9 */
 }
 .trip:hover {
     box-shadow: $dark-box-shadow;
-    opacity: 1;
-    transition:all 0.5s ease; 
+    opacity: 1;    
     color: $trip-card-cover-text-hover;
-    background: linear-gradient(to bottom, #7d7e7d -17%,#0e0e0e 96%);
 }
 .trip_cover_text {
     position: relative;
@@ -153,65 +229,11 @@ li {
     top: 125px;
     left: 45px;
 }
+.trips_title {
+    margin-left: 15px;
+}
 .trash_modal {
     position: absolute;
     bottom: 20px;
     right: 32px;
-}
-
-////////////* ID'S *////////////
-#pac-input {    
-    top: 7px !important;
-    width: 25% !important;
-}
-#auth {        
-    background: linear-gradient(to bottom, #ffa335 0%, rgba(255, 202, 138, 0.75) 32%, rgba(255, 241, 224, 0.9) 60%, rgba(255, 229, 191, 0.82) 100%);
-    border: 1px solid rgba(46, 46, 46, 0.495);
-    border-radius: 250px;;
-    margin-top: 40px;
-}
-#auth_app_img {
-    margin-top: -230px;
-    width: 75%;
-}
-#auth_title_container {
-    width: 60%;
-    position: relative;
-    left: 230px;
-    bottom: 155px;
-    color: #96bd3c;
-    box-shadow: 0px 10px 40px 7px rgba(124, 127, 121, 0.94);
-    background-color: #313231;
-    border: 1px solid #313231;
-    border-radius: 38px;
-}
-#auth_title_container:hover {
-    box-shadow: $dark-box-shadow;
-    background-color: #1d2326;
-    opacity: 1;
-    transition:all 0.5s ease;     
-}
-#auth_title {
-    font-size: 50px;
-    font-family: 'Montserrat';
-}
-#user_profile_pic {
-    width: 50%;
-    border-radius: 50%;
-}
-#user_name_heading {
-    margin-top: 58px;
-}
-#profile_container {
-    width: 850px;
-}
-#MP_url {
-    color: chocolate;
-}
-#MP_url:hover {
-    color: rgb(232, 120, 40);
-}
-.modal-dialog {
-    width: 600px;
-    margin: 190px auto;
 }

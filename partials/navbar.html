@@ -4,7 +4,7 @@
       <nav class="navbar navbar-inverse navbar-fixed-side">
         <div class="container">
           <div class="navbar-header">
-            <a class="navbar-brand" ng-href="#!/trip/create">Weekend Send Train</a>
+            <a class="navbar-brand" ng-href="#!/trip/create">Crag Rock</a>          
           </div>
           <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
@@ -25,11 +25,11 @@
           </div>
         </div>
 
-        <div class="col-md-12 text-center" ng-controller="ProfileCtrl">
-          <img id="user_profile_pic" class="add_container_shadow" ng-src="{{user.picture}}" alt="User Picture">
+        <div ng-show="user" class="col-md-12 text-center" ng-controller="ProfileCtrl">
+          <img ng-show="user.picture" id="user_profile_pic" class="add_container_shadow" ng-src="{{user.picture}}" alt="User Picture">
           <h4 id="user_name_heading">Welcome, {{user.full_name}}</h4>
-          <h5>{{MPlocation}}</h5>          
           <h5>{{user.email}}</h5>          
+          <h5 ng-show="userCurrentPos">Current Location: {{userCurrentPos}}</h5>                    
         </div>
       </nav>
 

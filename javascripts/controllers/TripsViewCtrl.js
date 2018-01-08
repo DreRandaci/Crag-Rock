@@ -29,7 +29,7 @@ app.controller('TripsViewCtrl', function (moment, $location, $scope, $timeout, A
         $scope.currentTrip = trip;
     };
 
-    const getTrips = () => {
+    const getUserTrips = () => {
         TripsService.getTrips(AuthService.getCurrentUid()).then((trips) => {
             let dateFormat = "dddd, MMMM Do YYYY";
             $scope.trips = trips.map((trip) => {
@@ -38,21 +38,21 @@ app.controller('TripsViewCtrl', function (moment, $location, $scope, $timeout, A
                 trip.date = moment(date, dateFormat).format(dateFormat);
                 return trip;
             });
-            getRoutes();
+            getUserRoutes();
         }).catch((err) => {
             console.log('err in getRoutes:', err);
         });
     };
-    getTrips();
+    getUserTrips();
 
-    const getRoutes = () => {
+    const getUserRoutes = () => {
         RoutesService.getRoutes(AuthService.getCurrentUid()).then((routes) => {
             $scope.routes = routes;
-            getPlaces();
+            getUserPlaces();
         });
     };
 
-    const getPlaces = () => {
+    const getUserPlaces = () => {
         $scope.places = [];
         $scope.trips.forEach((trip) => {
             PlacesService.getPlaces(trip.id).then((results) => {
@@ -115,7 +115,7 @@ app.controller('TripsViewCtrl', function (moment, $location, $scope, $timeout, A
         deleteRoutesFromTrip(tripId);
         deletePlacesFromTrip(tripId);
         TripsService.deleteTrip(tripId).then((results) => {
-            getTrips();
+            getUserTrips();
         }).catch((err) => {
             console.log("err in deleteTrip:", err);
         });

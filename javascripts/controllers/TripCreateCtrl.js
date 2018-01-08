@@ -54,9 +54,12 @@ app.controller('TripCreateCtrl', function ($location, $rootScope, $scope, $timeo
     //GRABS CURRENT LOCATION, PLOTS CLIMBS WITHIN 100 MILES
     const plotCurrentPositionMarker = () => {
         $window.navigator.geolocation.getCurrentPosition(function (position) {
-            $scope.currentPosition = position;
             let lat = position.coords.latitude;
             let lng = position.coords.longitude;
+            // SAVES USERS CURRENT POS
+            MapsService.getMapByLatLngQuery(lat,lng).then((res) => {
+                $rootScope.userCurrentPos = res.data.results[0].formatted_address;
+            });
             $scope.markers.push({ id: 'crntPos', latitude: lat, longitude: lng });
             $scope.map = {
                 center: formatMapCenter(lat, lng),
@@ -140,6 +143,7 @@ app.controller('TripCreateCtrl', function ($location, $rootScope, $scope, $timeo
         $scope.routes = [];
         MountainProjService.getClimbingRoutesByLatLng(lat, lng).then((climbs) => {
             climbs = climbs.data.routes;
+            // FILTERS ROUTES THAT ARE EXACT OR CLOSEST TO MAP CENTER
             let area = climbs.filter(function (route) {
                 if (route.latitude === $scope.map.center.latitude && route.longitude === $scope.map.center.longitude) {
                     return route.location[1].indexOf($scope.map.center.latitude) + ', ' + route.location[0].indexOf($scope.map.center.latitude);
@@ -148,14 +152,14 @@ app.controller('TripCreateCtrl', function ($location, $rootScope, $scope, $timeo
                 }
             });
 
-            /////ClIMBING AREA HEADING
+            //  ClIMBING AREA HEADING
             $scope.area = area[0].location[1] + ', ' + area[0].location[0];
 
             let routes = climbs.map((route) => {
                 route.area = route.location[1] + ', ' + route.location[0];
                 return route;
             });
-            //SAVING A COPY OF THE ROUTES ARRAY FOR FILTERING
+            //  SAVING A COPY OF THE ROUTES ARRAY FOR FILTERING
             $scope.allRoutes = routes;
             $scope.routes = routes;
         }).catch((err) => {
@@ -163,6 +167,7 @@ app.controller('TripCreateCtrl', function ($location, $rootScope, $scope, $timeo
         });
     };
 
+    // TABS NAVIGATION FILTERING
     $scope.filterRoutesClassic = () => {
         $scope.filterOn = "-stars";
         getAllRoutes();
@@ -177,6 +182,7 @@ app.controller('TripCreateCtrl', function ($location, $rootScope, $scope, $timeo
 
     };
 
+    // TABS NAVIGATION FILTERING
     $scope.filterRoutesType = (type, TR) => {
         $scope.filterOn = "name";
         $scope.showRoutes = true;
@@ -195,7 +201,7 @@ app.controller('TripCreateCtrl', function ($location, $rootScope, $scope, $timeo
             $scope.routes = [{ name: "None", type: "search again", disabled: true }];
         }
     };
-
+    
     $scope.getAllRoutes = () => {
         // ORDER BY
         $scope.filterOn = "name";
@@ -217,10 +223,10 @@ app.controller('TripCreateCtrl', function ($location, $rootScope, $scope, $timeo
         $scope.savedRoutes.splice(index, 1);
     };
 
-    // SAVE/REMOVE EACH CLIMBING ROUTE TO AN ARRAY FROM MAIN ROUTE LIST UNDER MAP
+    // SAVE/REMOVE EACH CLIMBING ROUTE TO AN ARRAY FROM MAIN ROUTE LIST DISPLAYED BELOW THE MAP
     $scope.saveToRouteList = (route) => {
         route.disabled = route.disabled ? false : true;
-        if (route.disabled) {
+        if (route.disabled) {            
             $scope.savedRoutes.push(route);
         } else {
             $scope.savedRoutes.forEach((savedRoute, i) => {
@@ -256,7 +262,7 @@ app.controller('TripCreateCtrl', function ($location, $rootScope, $scope, $timeo
     const saveTrip = (newTrip) => {
         TripsService.saveTripToFirebase(newTrip).then((results) => {
             let tripId = results.data.name;
-            saveRoutes($scope.savedRoutes, tripId);
+            saveRoutes($scope.savedRoutes, tripId);            
             $timeout(function () {
                 $location.path("/trips");
             }, 250);

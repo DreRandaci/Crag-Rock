@@ -2,6 +2,20 @@
 
 app.service("TripsService", function ($http, $q, FIREBASE_CONFIG, AuthService) {
 
+    // RETURNS A FORMATTED TRIP OBJECT TO SAVE TO FIREBASE
+    const createTripObj = (trip, mapAddress, lat, lng, date, area) => {
+        return {
+            "name": trip.name, 
+            "area": area ? area : trip.area,
+            "description": trip.description ? trip.description : '',
+            "date": date ? date : trip.date,
+            "googleMapsAddress": mapAddress ? mapAddress : trip.googleMapsAddress,
+            "lat": lat ? lat : trip.lat,
+            "lng": lng ? lng : trip.lng,
+            "uid": AuthService.getCurrentUid()
+        };
+    };
+
     const getTrips = (userUid) => {
         let trips = [];
         return $q((resolve, reject) => {
@@ -22,19 +36,6 @@ app.service("TripsService", function ($http, $q, FIREBASE_CONFIG, AuthService) {
 
     const getSingleTrip = (id) => {
         return $http.get(`${FIREBASE_CONFIG.databaseURL}/trips/${id}.json`);
-    };
-
-    const createTripObj = (trip, mapAddress, lat, lng, date, area) => {
-        return {
-            "name": trip.name, 
-            "area": area ? area : trip.area,
-            "description": trip.description ? trip.description : '',
-            "date": date ? date : trip.date,
-            "googleMapsAddress": mapAddress ? mapAddress : trip.googleMapsAddress,
-            "lat": lat ? lat : trip.lat,
-            "lng": lng ? lng : trip.lng,
-            "uid": AuthService.getCurrentUid()
-        };
     };
 
     const saveTripToFirebase = (newTrip) => {

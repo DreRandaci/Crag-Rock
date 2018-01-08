@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('TripPlacesCtrl', function ($location, $rootScope, $routeParams, $scope, GOOGLEPLACES_CONFIG, TripsService, PlacesService) {
+app.controller('TripPlacesCtrl', function ($location, $rootScope, $routeParams, $scope, $timeout, GOOGLEPLACES_CONFIG, TripsService, PlacesService) {
 
     $scope.googlePlacesUrl = `https://maps.googleapis.com/maps/api/js?key=${GOOGLEPLACES_CONFIG}&libraries=places`;
 
@@ -12,7 +12,7 @@ app.controller('TripPlacesCtrl', function ($location, $rootScope, $routeParams, 
             //default nashville coords
             latitude: 36.174465, longitude: -86.767960
         },
-        zoom: 10,
+        zoom: 7,
         styles: $rootScope.mapStyles,
         options: $scope.mapOptions,
     };
@@ -31,7 +31,7 @@ app.controller('TripPlacesCtrl', function ($location, $rootScope, $routeParams, 
             $scope.markers.push({ id: 'trip', latitude: trip.lat, longitude: trip.lng });
             $scope.map = {
                 center: { latitude: trip.lat, longitude: trip.lng },
-                zoom: 10,
+                zoom: 8,
                 options: { scrollwheel: true },
                 window: {
                     marker: {},
@@ -78,11 +78,11 @@ app.controller('TripPlacesCtrl', function ($location, $rootScope, $routeParams, 
     };
 
     const getAndFormatPlaces = (type, lat, lng, icon) => {
-        PlacesService.getGooglePlaces(type, lat, lng).then((results) => {
+        PlacesService.getGooglePlaces(type, lat, lng).then((results) => {            
             $scope.places = createPlacesObjectsArray(results, icon, type);
             $scope.markers = createPlacesObjectsArray(results, icon, type);
             $scope.map.center = { latitude: lat, longitude: lng };
-            $scope.map.zoom = 11;
+            $scope.map.zoom = 8;
 
             // ADDS 'DISABLED' PROPERTY TO PREVIOUSLY SAVED PLACES
             $scope.places.forEach((place) => {
@@ -100,6 +100,7 @@ app.controller('TripPlacesCtrl', function ($location, $rootScope, $routeParams, 
         });
     };
 
+    // CREATES THE GOOGLE PLACES OBJECTS
     const createPlacesObjectsArray = (results, icon, type) => {
         let coords = results.data.results.map((place, i) => {
             let places = {};
@@ -124,6 +125,7 @@ app.controller('TripPlacesCtrl', function ($location, $rootScope, $routeParams, 
     $scope.markersEvents = {
         click: function (marker, eventName, model) {
             $rootScope.infoWindowContent = { name: model.name, type: model.type };
+            // SAVES PLACES THROUGH THEIR CORRESPONDING INFO WINDOWS
             $rootScope.addPlaceToList = () => {
                 let newPlace = PlacesService.createPlaceObj(model);
                 PlacesService.savePlace(newPlace).then((results) => {
@@ -145,7 +147,7 @@ app.controller('TripPlacesCtrl', function ($location, $rootScope, $routeParams, 
         }
     };
 
-
+    // SAVE/REMOVE EACH PLACE TO AN ARRAY AND ADDS A CLASS OF 'DISABLED' 
     $scope.saveToPlaceList = (index, place) => {
         $scope.showSaveHeading = true;
         if (!place.disabled) {
@@ -159,7 +161,9 @@ app.controller('TripPlacesCtrl', function ($location, $rootScope, $routeParams, 
     };
 
     $scope.routeToTrips = () => {
-        $location.path("/trips");
+        $timeout(function () {
+            $location.path("/trips");
+        }, 250);
     };
 
     $scope.removePlaceFromSavedPlacesList = (index, place) => {

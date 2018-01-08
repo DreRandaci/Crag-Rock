@@ -1,91 +1,116 @@
-<div class="container-fluid">
+<div class="container">
 
-    <div ng-if="!trips.length" class="text-center container col-md-4 col-md-offset-3">
-        <div class="center_create_trip_btn alert alert_shadow">
-            <h1>Lets get started on your next trip</h1>
-            <button class="btn btn-success" ng-click="routeToCreateTrip()">Create a Trip Here</button>
-        </div>        
-    </div>
 
-    <div class="flex_container">
+    <div class="container">
 
-        <div ng-repeat="trip in trips | orderBy : 'orderByDate'" data-toggle="modal" data-target="#trip" ng-click="seeTrip(trip)"
-            class="trip panel">
-            <div class="text-center trip_cover_text">
-                <h4>{{trip.area}}</h4>
-                <p>{{trip.date}}</p>
+        <div class="background_container add_container_shadow">
+            <div class="trips_title" ng-show="trips.length">
+                <h1>Trips</h1>
             </div>
+            <div ng-if="!trips.length" class="text-center container col-md-4 col-md-offset-3">
+                <div class="no_trips_btn alert alert_shadow">
+                    <h1>Lets get started on your next trip</h1>
+                    <button class="btn btn-success" ng-click="routeToCreateTrip()">Create a Trip Here</button>
+                </div>
+            </div>
+
+            <!-- FLEX CONTAINER -->
+            <div class="flex_container">
+
+
+                <div ng-repeat="trip in trips | orderBy : 'orderByDate'" data-toggle="modal" data-target="#trip" ng-click="seeTrip(trip)"
+                    class="trip panel">
+                    <div class="text-center trip_cover_text">
+                        <h4>{{trip.area}}</h4>
+                        <p>{{trip.date}}</p>
+                    </div>
+                </div>
+
+            </div>
+            <!-- END FLEX CONTAINER -->
         </div>
 
-        <!-- END FLEX CONTAINER -->
     </div>
 
-</div>
 
+    <!-- MODAL -->
+    <div class="modal" id="trip">
+        <div class="modal-dialog">
+            <div class="modal-content">
 
-<!-- MODAL -->
-<div class="modal" id="trip">
-    <div class="modal-dialog">
-        <div class="modal-content">
+                <div class="modal-header text-center">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
 
-            <div class="modal-header text-center">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                    <h2 class="modal-title">{{currentTrip.name}}</h2>
+                    <a ng-href="https://www.google.com/maps/dir/?api=1&origin={{userCurrentPos}}&destination={{currentTrip.area}}" target="_blank">
+                        <h4 class="link_chocolate">Directions to {{currentTrip.area}}</h4>
+                    </a>
+                    <p>{{currentTrip.date}}</p>
 
-                <h2 class="modal-title">{{currentTrip.name}}</h2>
-                <p>{{currentTrip.area}}</p>
-                <p>{{currentTrip.date}}</p>
+                </div>
 
-            </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
 
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h4>Routes to Try:</h4>
-                        <ul>
-                            <li ng-repeat="route in routes" ng-if="tripId === route.trip_id">{{route.name}} {{route.rating}}
-                                <a class="trash_float" ng-click="deleteRoute($index, route.id)">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-md-12" ng-show="places.length">
-                        <h4>Food:</h4>
-                        <ul>
-                            <li ng-repeat="place in places" ng-if="tripId == place.trip_id && place.type == 'restaurant'">{{place.name}}
-                                <a class="trash_float" ng-click="deletePlace($index, place.id)">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </li>
-                        </ul>
-                        <h4>Lodging:</h4>
-                        <ul>
-                            <li ng-repeat="place in places" ng-if="tripId == place.trip_id && place.type == 'lodging' || tripId == place.trip_id && place.type == 'campground'">{{place.name}}
-                                <a class="trash_float" ng-click="deletePlace($index, place.id)">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-md-12">                        
-                        <label for="notes">Notes:</label>
-                        <input ng-click="showSave = true" name="notes" type="text" class="form-control" ng-model="currentTrip.description">
-                        <div class="save_btn_margin">
-                            <button class="btn btn-success" ng-show="showSave" ng-click="updateTripNote(currentTrip)">Save</button>
+                            <!-- ROUTES -->
+                            <uib-accordion close-others="oneAtATime">
+
+                                <div uib-accordion-group class="panel-default" heading="Routes">
+                                    <div ng-repeat="route in routes" ng-if="tripId === route.trip_id">
+                                        <a ng-href="{{route.url}}" class="link_chocolate" target="_blank">{{route.name}} {{route.rating}} ({{route.type}})</a>
+                                        <ng-rate-it ng-model="route.stars" max="5" step="0.1" read-only="true"></ng-rate-it>
+                                        <a class="remove_route_modal" ng-click="deleteRoute($index, route.id)">
+                                            remove
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <!-- FOOD -->
+                                <div uib-accordion-group ng-show="places.length" class="panel-default" heading="Food">
+                                    <div ng-repeat="place in places" ng-if="tripId == place.trip_id && place.type == 'restaurant'">
+                                        <a class="link_chocolate" ng-href="https://www.google.com/maps/dir/?api=1&origin={{userCurrentPos}}&destination={{place.vicinity}}"
+                                            target="_blank">{{place.name}}
+                                        </a>
+                                        <a class="remove_thing_modal_float" ng-click="deletePlace($index, place.id)">
+                                            remove
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <!-- LODGING -->
+                                <div uib-accordion-group ng-show="places.length" class="panel-default" heading="Lodging">
+                                    <div ng-repeat="place in places" ng-if="tripId == place.trip_id && place.type == 'lodging' || tripId == place.trip_id && place.type == 'campground'">
+                                        <a class="link_chocolate" ng-href="https://www.google.com/maps/dir/?api=1&origin={{userCurrentPos}}&destination={{place.vicinity}}"
+                                            target="_blank">{{place.name}}</a>
+                                        <a class="remove_thing_modal_float" ng-click="deletePlace($index, place.id)">
+                                            remove
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </uib-accordion>
+
+                        </div>
+                        <div class="col-md-12">
+                            <label for="notes">Notes:</label>
+                            <input ng-click="showSave = true" name="notes" type="text" class="form-control" ng-model="currentTrip.description">
+                            <div class="save_btn_margin">
+                                <button class="btn btn-success" ng-show="showSave" ng-click="updateTripNote(currentTrip)">Save</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class='btn btn-default' data-dismiss="modal" ng-click="addPlaces(tripId)">Add Accomedations</button>
-                <button type="button" class='btn btn-default' data-dismiss="modal" ng-click="editTrip(tripId)">Edit Trip</button>
-                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" ng-click="deleteTrip(tripId)">
-                    <i class="fas fa-trash"></i>
-                </button>
+                <div class="modal-footer">
+                    <button type="button" class='btn btn-default' data-dismiss="modal" ng-click="addPlaces(tripId)">Add Accomedations</button>
+                    <button type="button" class='btn btn-default' data-dismiss="modal" ng-click="editTrip(tripId)">Edit Trip</button>
+                    <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" ng-click="deleteTrip(tripId)">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
 
-</div>
+    </div>

@@ -3,7 +3,7 @@
     <img id="auth_app_img" src="../img/send-train-logo.png" alt="App Logo">
 
     <div id="auth_title_container" class="well well-lg" data-toggle="modal" data-target="#auth_modal">
-        <div id="auth_title">Weekend Send Train</div>
+        <div id="auth_title">Crag Rock</div>
     </div>
 
     <!-- MODAL -->
@@ -25,19 +25,19 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
-                            <p>Create an Account</p>
                             <form name='createUser' class="form-inline add_margin">
                                 <div class="form-group">
                                     <input type="text" class="form-control" id="user_name" placeholder="Name" ng-model="user.full_name" ng-required="true">
                                 </div>
                                 <div class="form-group">
-                                        <input type="email" class="form-control" id="user_email" placeholder="Email" ng-model="user.email" ng-required="true">
+                                    <input type="email" class="form-control" id="user_email" placeholder="Email" ng-model="user.email" ng-required="true">
                                 </div>
                             </form>
                         </div>
 
                         <div class="col-md-12">
-                            <button ng-show="user.full_name.length > 6" class="btn btn-default" ng-click="createUserAccount(user.email, user.full_name)" data-dismiss="modal">Create Account</button>
+                            <button class="btn btn-default" ng-click="createUserAccount(user.email, user.full_name)" data-dismiss="modal">Create</button>
+                            <button class="btn btn-default" ng-click="loginUserAccount(user.email, user.full_name)" data-dismiss="modal">Login</button>
                         </div>
 
                         <p>or</p>

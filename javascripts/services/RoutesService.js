@@ -2,6 +2,7 @@
 
 app.service("RoutesService", function ($http, $q, FIREBASE_CONFIG, AuthService) {
 
+    // RETURNS A FORMATTED ROUTE OBJECT TO SAVE TO FIREBASE
     const createRouteObj = (route, tripId) => {
         return {
             "routeId": route.id,
@@ -11,6 +12,7 @@ app.service("RoutesService", function ($http, $q, FIREBASE_CONFIG, AuthService) 
             "stars": route.stars,
             "area": route.area, 
             "trip_id": tripId,
+            "url" : route.url,
             "uid": AuthService.getCurrentUid()
         };
     };

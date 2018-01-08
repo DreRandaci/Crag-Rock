@@ -23,6 +23,7 @@
 
         <div class='col-md-12 routes'>
             <div ng-show="routes.length">
+                
                 <uib-tabset active="active" justified="true">
                     <uib-tab select="getAllRoutes()" index="0" heading="All"></uib-tab>
                     <uib-tab select="filterRoutesType('Sport')" index="2" heading="Sport"></uib-tab>
@@ -36,7 +37,6 @@
                     <a ng-show="routes.length" ng-repeat="route in routes | orderBy : filterOn" ng-class="{'disabled': route.disabled}" class="list-group-item route"
                         ng-click="saveToRouteList(route)">{{route.name}} {{route.rating}} ({{route.type}})
                         <ng-rate-it ng-show="routes" ng-model="route.stars" max="5" step="0.1" read-only="true"></ng-rate-it>
-                        <a ng-href="{{route.url}}"></a>
                     </a>
                 </div>
                 <div class="toggleCreateModalBtn">
@@ -88,7 +88,7 @@
                                     <!-- ROUTES -->
                                     <div uib-accordion-group class="panel-default" heading="Routes">
                                         <p>{{area}}:</p>
-                                        <div ng-repeat="route in savedRoutes" ng-model="routes">{{route.name}} {{route.rating}} ({{route.type}})
+                                        <div ng-repeat="route in savedRoutes" ng-model="routes"><a ng-href="{{route.url}}" class="link_chocolate" target="_blank">{{route.name}} {{route.rating}} ({{route.type}})</a>
                                             <ng-rate-it ng-model="route.stars" max="5" step="0.1" read-only="true"></ng-rate-it>
                                             <a class="remove_route_modal" ng-click="removeRouteFromSavedRoutes($index, route)">
                                                 remove

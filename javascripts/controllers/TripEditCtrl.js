@@ -24,7 +24,7 @@ app.controller('TripEditCtrl', function ($location, $log, $rootScope, $routePara
         TripsService.getSingleTrip(routeParams).then((trip) => {
             $scope.trip = trip.data;
 
-            //FOR DATEPICKER
+            // FOR DATEPICKER
             let tripDate = function () {
                 let date = $scope.trip.date;
                 $scope.dt = new Date(date);
@@ -76,12 +76,14 @@ app.controller('TripEditCtrl', function ($location, $log, $rootScope, $routePara
         MountainProjService.getClimbingRoutesByLatLng(lat, lng).then((climbs) => {
             let areaName = climbs.data.routes[0].location[1] + ', ' + climbs.data.routes[0].location[0];
             $scope.routes = climbs.data.routes;
+            $scope.allRoutes = $scope.routes;
             
-            // ADDS 'DISABLED' PROPERTY TO PREVIOUSLY SAVED ROUTES
+            // ADDS 'DISABLED' PROPERTY AND FIREBASE ID TO PREVIOUSLY SAVED ROUTES
             $scope.routes.forEach((route) => {
                 $scope.savedRoutes.forEach((savedRoute) => {
                     if (route.name == savedRoute.name) {
                         route.disabled = true;
+                        route.fbId = savedRoute.id;
                     }
                 });
             });
@@ -98,24 +100,40 @@ app.controller('TripEditCtrl', function ($location, $log, $rootScope, $routePara
                 listRoute.disabled = false;
             }
         });
-        $scope.savedRoutes.splice(index, 1);
-        RoutesService.deleteRoutes(route.id).then(() => {
+        $scope.savedRoutes.splice(index, 1);        
+        deleteRoute(route.id);
+    };
+
+    const deleteRoute = (routeId) => {
+        RoutesService.deleteRoutes(routeId).then(() => {
         }).catch((err) => {
             console.log('error in deleteSingleRouteFromFirebase:', err);
         });
     };
 
-    //save each climbing route
+    // SAVES EACH ROUTE CLICKED AND TOGGLES THE DISABLED CLASS
     $scope.saveToRouteList = (route) => {
+        route.disabled = route.disabled ? false : true;
+        if (route.disabled) {
+            $scope.savedRoutes.push(route);
+            saveUpdatedRoutes(route, $routeParams.id);
+        } else {
+            $scope.savedRoutes.forEach((savedRoute, i) => {
+                if (savedRoute.routeId == route.id) {
+                    $scope.savedRoutes.splice(i, 1);
+                }
+            });
+            deleteRoute(route.fbId);
+        }
+
         $scope.routes.forEach((listRoute) => {
-            if (listRoute.id === route.id) {
+            if (listRoute.routeId === route.id) {
                 listRoute.disabled = true;
             }
         });
-        saveUpdatedRoutes(route, $routeParams.id);
     };
 
-    $scope.createTrip = (trip, savedRoutes, dt) => {
+    $scope.createTrip = (trip, dt) => {
         trip.date = dt.toString();
         postUpdatedTrip(trip);
     };
@@ -139,7 +157,52 @@ app.controller('TripEditCtrl', function ($location, $log, $rootScope, $routePara
         });
     };
 
-    //DATEPICKER
+    // TABS NAVIGATION FILTERING
+    $scope.filterRoutesClassic = () => {
+        $scope.filterOn = "-stars";
+        getAllRoutes();
+        $scope.routes = $scope.routes.filter((a) => {
+            if (4 <= a.stars) {
+                return a;
+            }
+        });
+        if ($scope.routes.length == 0) {
+            $scope.routes = [{ name: "None", type: "search again" }];
+        }
+
+    };
+
+    // TABS NAVIGATION FILTERING
+    $scope.filterRoutesType = (type, TR) => {
+        $scope.filterOn = "name";
+        $scope.showRoutes = true;
+        getAllRoutes();
+        if (TR) {
+            $scope.routes = $scope.routes.filter((route) => {
+                return route.type.toUpperCase().indexOf(TR.toUpperCase()) > -1;
+            });
+        } else {
+            getAllRoutes();
+            $scope.routes = $scope.routes.filter((route) => {
+                return route.type.indexOf(type) > -1;
+            });
+        }
+        if ($scope.routes.length == 0) {
+            $scope.routes = [{ name: "None", type: "search again", disabled: true }];
+        }
+    };
+
+    $scope.getAllRoutes = () => {
+        // ORDER BY
+        $scope.filterOn = "name";
+        getAllRoutes();
+    };
+
+    const getAllRoutes = () => {
+        $scope.routes = $scope.allRoutes;
+    };
+
+    // DATEPICKER
     $scope.clear = function () {
         $scope.dt = null;
     };
