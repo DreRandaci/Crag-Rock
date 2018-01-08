@@ -6,6 +6,7 @@ app.service("MapsService", function ($http, $rootScope, GOOGLEMAPS_CONFIG) {
         return $http.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat}, ${lng}&key=${GOOGLEMAPS_CONFIG}`);
     };
 
+    // FOR MAP STYLES THROUGHOUT 
     $rootScope.mapStyles = 
         [
             { elementType: 'geometry', stylers: [{ color: '#242f3e' }] },

@@ -24,7 +24,7 @@ app.controller('TripEditCtrl', function ($location, $log, $rootScope, $routePara
         TripsService.getSingleTrip(routeParams).then((trip) => {
             $scope.trip = trip.data;
 
-            //FOR DATEPICKER
+            // FOR DATEPICKER
             let tripDate = function () {
                 let date = $scope.trip.date;
                 $scope.dt = new Date(date);
@@ -111,7 +111,7 @@ app.controller('TripEditCtrl', function ($location, $log, $rootScope, $routePara
         });
     };
 
-    //save each climbing route
+    // SAVES EACH ROUTE CLICKED AND TOGGLES THE DISABLED CLASS
     $scope.saveToRouteList = (route) => {
         route.disabled = route.disabled ? false : true;
         if (route.disabled) {
@@ -157,7 +157,7 @@ app.controller('TripEditCtrl', function ($location, $log, $rootScope, $routePara
         });
     };
 
-
+    // TABS NAVIGATION FILTERING
     $scope.filterRoutesClassic = () => {
         $scope.filterOn = "-stars";
         getAllRoutes();
@@ -172,6 +172,7 @@ app.controller('TripEditCtrl', function ($location, $log, $rootScope, $routePara
 
     };
 
+    // TABS NAVIGATION FILTERING
     $scope.filterRoutesType = (type, TR) => {
         $scope.filterOn = "name";
         $scope.showRoutes = true;
@@ -201,7 +202,7 @@ app.controller('TripEditCtrl', function ($location, $log, $rootScope, $routePara
         $scope.routes = $scope.allRoutes;
     };
 
-    //DATEPICKER
+    // DATEPICKER
     $scope.clear = function () {
         $scope.dt = null;
     };

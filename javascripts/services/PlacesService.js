@@ -2,6 +2,7 @@
 
 app.service("PlacesService", function ($http, $q, FIREBASE_CONFIG, GOOGLEPLACES_CONFIG) {
 
+    // RETURNS A FORMATTED PLACE OBJECT TO SAVE TO FIREBASE
     const createPlaceObj = (place) => {
         return {
             "google_place_id": place.google_place_id,

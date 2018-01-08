@@ -100,6 +100,7 @@ app.controller('TripPlacesCtrl', function ($location, $rootScope, $routeParams, 
         });
     };
 
+    // CREATES THE GOOGLE PLACES OBJECTS
     const createPlacesObjectsArray = (results, icon, type) => {
         let coords = results.data.results.map((place, i) => {
             let places = {};
@@ -124,6 +125,7 @@ app.controller('TripPlacesCtrl', function ($location, $rootScope, $routeParams, 
     $scope.markersEvents = {
         click: function (marker, eventName, model) {
             $rootScope.infoWindowContent = { name: model.name, type: model.type };
+            // SAVES PLACES THROUGH THEIR CORRESPONDING INFO WINDOWS
             $rootScope.addPlaceToList = () => {
                 let newPlace = PlacesService.createPlaceObj(model);
                 PlacesService.savePlace(newPlace).then((results) => {
@@ -145,7 +147,7 @@ app.controller('TripPlacesCtrl', function ($location, $rootScope, $routeParams, 
         }
     };
 
-
+    // SAVE/REMOVE EACH PLACE TO AN ARRAY AND ADDS A CLASS OF 'DISABLED' 
     $scope.saveToPlaceList = (index, place) => {
         $scope.showSaveHeading = true;
         if (!place.disabled) {

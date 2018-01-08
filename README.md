@@ -35,6 +35,7 @@ Allows users to see climbing areas around them, search for crags, filter route t
 - - Angular Google Maps Wrapper
 - Bootstrap 3.3.7
 - CSS3
+- ECMA Script 6
 - Firebase Storage
 - Firebase Authentication
 - Flexbox
@@ -44,9 +45,9 @@ Allows users to see climbing areas around them, search for crags, filter route t
 - Google Places API
 - Grunt Task Runner
 - HTML5
-- ECMA Script 6
 - Lodash
 - Mountain Projects Data API
+- SASS
 
 ## Watch Demo
 <a href="https://youtu.be/-jmjOgrTwJ0
