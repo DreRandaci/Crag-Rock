@@ -4,12 +4,14 @@ app.controller("AuthCtrl", function ($location, $rootScope, $scope, AuthService,
 
     // CREATES OBJECT TO BUILD USER
     $rootScope.user = {};
+    $rootScope.user.authenticated = false;
 
     // BUILDS USER OBJECT
     const createUserObject = (email, name) => {
         $rootScope.user.full_name = name;
         $rootScope.user.email = email;
         $rootScope.user.MPChecked = $scope.MPChecked;
+        $rootScope.user.authenticated = true;
     };
 
     $scope.getChecked = () => {
@@ -27,6 +29,8 @@ app.controller("AuthCtrl", function ($location, $rootScope, $scope, AuthService,
             $rootScope.user.picture = profile.picture;
             $rootScope.navbar = true;
             $rootScope.userAutheticatedWithGoogle = true;
+            $rootScope.user.authenticated = true;
+            $rootScope.user.MPChecked = $scope.MPChecked;
             $scope.$apply(() => {
                 $location.url("/trip/create");
             });
